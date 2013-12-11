@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c81aaf66_b311b869",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T23:09:56Z",
+      "side": 1,
+      "message": "If we get web editing working... we are a wiki!",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c81aaf66_1303cc26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T23:09:56Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 25,
+        "startChar": 17,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8357bd3_d214245b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T23:09:56Z",
+      "side": 1,
+      "message": "this.yay++ ! :-)",
+      "range": {
+        "startLine": 24,
+        "startChar": 11,
+        "endLine": 25,
+        "endChar": 54
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c81aaf66_d314345b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T23:09:56Z",
+      "side": 1,
+      "message": "Maybe use HEAD instead of master?",
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c81aaf66_f317305d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T23:09:56Z",
+      "side": 1,
+      "message": "Yea this is a bug in the guice DynamicMap glue. :-(",
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8357bd3_920e9c49",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T23:09:56Z",
+      "side": 1,
+      "message": "loader.getBytes(Integer.MAX_VALUE) would work just as well. Possibly better as it would size the output array exactly and not have to grow it incrementally as the file was copied into a buffer.",
+      "range": {
+        "startLine": 153,
+        "startChar": 12,
+        "endLine": 154,
+        "endChar": 31
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8357bd3_b211a069",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T23:09:56Z",
+      "side": 1,
+      "message": "This assumes the server default encoding. Maybe instead assume UTF-8?",
+      "range": {
+        "startLine": 155,
+        "startChar": 31,
+        "endLine": 155,
+        "endChar": 45
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8357bd3_722fb8aa",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-12-11T23:09:56Z",
+      "side": 1,
+      "message": "Well, that is a small lie, this file was possibly last modified even older but its fine. :-)",
+      "range": {
+        "startLine": 155,
+        "startChar": 47,
+        "endLine": 155,
+        "endChar": 69
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
