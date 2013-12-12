@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c849cfa5_9bedeb36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-12T07:47:19Z",
+      "side": 1,
+      "message": "Support for customized Gerrit documentation\n\n(To make it clear that this is only for the Gerrit documentation, not documentation for projects that are hosted on Gerrit)",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 39
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c81aaf66_b311b869",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -49,6 +72,53 @@
     },
     {
       "key": {
+        "uuid": "88343708_41041230",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-12T07:47:19Z",
+      "side": 1,
+      "message": "+1 for this.  I have also thought it would be good to be able to present projects\u0027 documentation in Gerrit, similar to how Github does with README files.",
+      "parentUuid": "483ebfeb_3fdda783",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c849cfa5_bbf0a70a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-12T07:47:19Z",
+      "side": 1,
+      "message": "convenient",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c81aaf66_1303cc26",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -89,6 +159,23 @@
         "endLine": 25,
         "endChar": 54
       },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c849cfa5_fbfa2fe8",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-12T07:47:19Z",
+      "side": 1,
+      "message": "Ugh, do we really still need to support Maven?\n\nCan\u0027t we just kill it already?",
       "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -191,6 +278,75 @@
         "startChar": 47,
         "endLine": 155,
         "endChar": 69
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c849cfa5_5bec033a",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-12T07:47:19Z",
+      "side": 1,
+      "message": "with",
+      "range": {
+        "startLine": 1,
+        "startChar": 54,
+        "endLine": 1,
+        "endChar": 56
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88343708_01fb2aee",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-12T07:47:19Z",
+      "side": 1,
+      "message": "FAQs",
+      "range": {
+        "startLine": 12,
+        "startChar": 61,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88343708_e1f726fe",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-12-12T07:47:19Z",
+      "side": 1,
+      "message": "plugged into",
+      "range": {
+        "startLine": 13,
+        "startChar": 58,
+        "endLine": 14,
+        "endChar": 4
       },
       "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
