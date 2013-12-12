@@ -320,6 +320,24 @@
     },
     {
       "key": {
+        "uuid": "28434b82_fe118168",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-12T09:28:07Z",
+      "side": 1,
+      "message": "Ugh update Maven plugin archetype? You sure mean this git command:\n\n git rm -rf gerrit-maven*\n\nright? I never used it. All you need is these lines in root BUCK file:\n\n gerrit_plugin(\n  name \u003d \u0027javamelody\u0027,\n  srcs \u003d glob([\u0027src/main/java/**/*.java\u0027]),\n  resources \u003d glob([\u0027src/main/resources/**/*\u0027]),\n  manifest_entries \u003d [\n    \u0027Gerrit-PluginName: javamelody\u0027,\n    \u0027Gerrit-Module: com.googlesource.gerrit.plugins.javamelody.Module\u0027,\n    \u0027Gerrit-HttpModule: com.googlesource.gerrit.plugins.javamelody.HttpModule\u0027,\n  ],\n )\n\nWhy do you need any tool assistance for this? And if you do, then tools/gen_plugin_skeleton.py sure would do the job, if somebody would write it ;-)",
+      "parentUuid": "483ebfeb_fffa1fe8",
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c81aaf66_d314345b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/Module.java",
         "patchSetId": 1
