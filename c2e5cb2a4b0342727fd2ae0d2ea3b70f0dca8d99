@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "483ebfeb_1f3423f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-12T13:48:33Z",
+      "side": 1,
+      "message": "If now pushed this as a change for Gerrit core:\n  https://gerrit-review.googlesource.com/53010",
+      "parentUuid": "483ebfeb_9fedd336",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c849cfa5_bbf0a70a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
