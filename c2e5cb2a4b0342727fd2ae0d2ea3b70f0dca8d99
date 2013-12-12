@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "28434b82_7ee73157",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-12-12T08:02:06Z",
+      "side": 1,
+      "message": "+1 This is really cool.\n\nThis bring me to the idea, if we somehow could serve the documentation for plugin on gerrit-review without actually deploying the plugins? So this plugin includes about.md and conifg.md. Currently there is no way to see it on gerrit-review. I like the idea, adding new link to the project list, pointing to the index.md in root directory and linking from there to Documentation/*.md. Given that this plugin is deployed on gerrit-review, we are pretty done ;-)\n\nCombined with inline edit series [1] that sounds really cool to me (achieving ours goal of world domination with Gerrit ;-)\n\n[1] https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit+branch:master+topic:inline-2,n,z",
+      "parentUuid": "88343708_41041230",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c849cfa5_bbf0a70a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
