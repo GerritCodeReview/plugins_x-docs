@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "483ebfeb_3fdda783",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-12T06:33:43Z",
+      "side": 1,
+      "message": "Yes, actually tonight while I was asleep I had some bold ideas about this.\nWell I still want to reach world domination with Gerrit, but as a next\nstep I would be happy to just kill our corporate wiki server.\n\nThe story how I came to the idea of this plugin:\n- I was tired to point our users to our wiki which they couldn\u0027t find\n  on their own.\n- The first idea was to add a menu item that just links to the wiki.\n- I disliked adding this link because I was ashamed of the\n  documentation in our wiki since it is pretty much outdated and not\n  well structured. I didn\u0027t want to have a prominent link to it to\n  make people actually see it.\n- I really disliked the idea of reworking and improving the wiki\n  content to be able to add this link. Not because I didn\u0027t want to write\n  this documentation, but only because updating wiki content is a\n  PITA. The online editing is painfully slow and every once in a while\n  I loose my changes because something on save went wrong (e.g. my\n  session timed out). I don\u0027t have clear versioning there and nobody can\n  review my changes.\n- So it was clear to me that I want to develop this documentation\n  locally and to version it in a Gerrit project. Instead of having a\n  deploy step to the wiki I thought that it\u0027s much more convinient if\n  Gerrit could just serve the documentation directly from the project\n  which is easily possible when we use Markdown.\n\nI know that a lot of projects have the same issues with their\ndocumentation in the wiki. So I asked myself if we cannot provide the\nsame comfort for everyone. Why don\u0027t we allow each project to have\nsome Markdown documentation that is automatically served by Gerrit?\nOf course this goes beyond the actual purpose of Gerrit, but we would\nnot need to do much to support this:\n- We need an entry page to list all projects that have documentation\n  (obviously we don\u0027t want to have a menu entry for each), or we just\n  have another column in the project list.\n- We need some caching for this documentation.\n- We probably want to index it with Lucene to make it searchable.\n- We would want to have a preview for Markdown files that shows the\n  generated html during code review, eventually even a side-by-side\n  comparison.\n\nIs this just crazy or is it something we should seriously consider?\nI know some people here will not be too happy to have another service\nfor storong wiki content, but I would let it to the teams to decide\nwhich service they like most. Having the wiki content versioned\ntogether with the rest of the project definitely has some advantages,\ne.g. it reduces the chances that the content gets outdated.\n\nIf we make this pluggable we could later even support different\ncontent types and not only Markdown files.",
+      "parentUuid": "c81aaf66_b311b869",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c81aaf66_1303cc26",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
