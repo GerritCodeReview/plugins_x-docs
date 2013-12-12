@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "28434b82_bef0990a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-12T08:10:21Z",
+      "side": 1,
+      "message": "Yes, the online edit series is important for this.\n\nIf we agree to support this, we should maybe consider to implement this in Gerrit core. Having it in Gerrit core would make the URLs under which the project documentation is served look nicer since they would not need to contain \u0027/plugins/x-docs/\u0027.",
+      "parentUuid": "28434b82_7ee73157",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "c2e5cb2a4b0342727fd2ae0d2ea3b70f0dca8d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c849cfa5_bbf0a70a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
