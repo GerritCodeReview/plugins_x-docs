@@ -19,6 +19,7 @@ import com.google.inject.servlet.ServletModule;
 class HttpModule extends ServletModule {
   @Override
   protected void configureServlets() {
-    // TODO
+    serveRegex("^" + XDocServlet.PATH_PREFIX + "(.+)?$")
+        .with(XDocServlet.class);
   }
 }
