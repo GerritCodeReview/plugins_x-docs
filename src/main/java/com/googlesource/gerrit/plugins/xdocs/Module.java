@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.inject.AbstractModule;
 
 public class Module extends AbstractModule {
@@ -21,5 +23,8 @@ public class Module extends AbstractModule {
   @Override
   protected void configure() {
     install(new XDocLoader.Module());
+
+    DynamicSet.bind(binder(), ProjectWebLink.class)
+        .to(XDocProjectWebLink.class);
   }
 }
