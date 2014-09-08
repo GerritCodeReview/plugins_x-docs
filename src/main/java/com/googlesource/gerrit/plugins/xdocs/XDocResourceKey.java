@@ -25,7 +25,7 @@ public class XDocResourceKey {
   private final String resource;
   private final ObjectId revId;
 
-  XDocResourceKey(Project.NameKey project, String r, ObjectId revId) {
+  public XDocResourceKey(Project.NameKey project, String r, ObjectId revId) {
     this.project = project;
     this.resource = r;
     this.revId = revId;
