@@ -14,46 +14,41 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+import com.google.common.base.MoreObjects;
+import com.google.common.cache.LoadingCache;
+import com.google.common.hash.Hashing;
+import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.GetHead;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -65,26 +60,25 @@ public class XDocServlet extends HttpServlet {
 
   public  static final String PATH_PREFIX = "/project/";
 
-  private static final String DEFAULT_HOST = "review.example.com";
-
   private final Provider<ReviewDb> db;
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
   private final Provider<GetHead> getHead;
   private final GitRepositoryManager repoManager;
-  private final Provider<String> webUrl;
+  private final LoadingCache<String, Resource> docCache;
 
   @Inject
   XDocServlet(Provider<ReviewDb> db,
       ProjectControl.Factory projectControlFactory, ProjectCache projectCache,
       Provider<GetHead> getHead, GitRepositoryManager repoManager,
-      @CanonicalWebUrl Provider<String> webUrl, SshInfo sshInfo) {
+      @Named(XDocLoader.Module.X_DOC_RESOURCES)
+          LoadingCache<String, Resource> cache) {
     this.db = db;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.getHead = getHead;
     this.repoManager = repoManager;
-    this.webUrl = webUrl;
+    this.docCache = cache;
   }
 
   @Override
@@ -98,7 +92,7 @@ public class XDocServlet extends HttpServlet {
 
     ResourceKey key = ResourceKey.fromPath(req.getPathInfo());
     if (projectCache.get(key.project) == null) {
-      notFound(res);
+      Resource.NOT_FOUND.send(req, res);
       return;
     }
     if (key.file == null) {
@@ -106,7 +100,7 @@ public class XDocServlet extends HttpServlet {
       return;
     }
     if (!key.file.endsWith(".md")) {
-      notFound(res);
+      Resource.NOT_FOUND.send(req, res);
       return;
     }
 
@@ -121,7 +115,7 @@ public class XDocServlet extends HttpServlet {
             rev = Constants.R_HEADS + rev;
           }
           if (!projectControl.controlForRef(rev).isVisible()) {
-            notFound(res);
+            Resource.NOT_FOUND.send(req, res);
             return;
           }
         }
@@ -129,91 +123,63 @@ public class XDocServlet extends HttpServlet {
 
       Repository repo = repoManager.openRepository(key.project);
       try {
-        RevWalk rw = new RevWalk(repo);
-        try {
-          ObjectId revId = repo.resolve(rev);
-          if (revId == null) {
-            notFound(res);
-            return;
-          }
-          RevCommit commit = rw.parseCommit(repo.resolve(rev));
+        ObjectId revId =
+            repo.resolve(MoreObjects.firstNonNull(rev, Constants.HEAD));
+        if (revId == null) {
+          Resource.NOT_FOUND.send(req, res);
+          return;
+        }
 
-          if (ObjectId.isId(rev)
-              && !projectControl.canReadCommit(db.get(), rw, commit)) {
-            notFound(res);
-            return;
-          }
-
-          RevTree tree = commit.getTree();
-          TreeWalk tw = new TreeWalk(repo);
+        if (ObjectId.isId(rev)) {
+          RevWalk rw = new RevWalk(repo);
           try {
-            tw.addTree(tree);
-            tw.setRecursive(true);
-            tw.setFilter(PathFilter.create(key.file));
-            if (!tw.next()) {
-              notFound(res);
+            RevCommit commit = rw.parseCommit(repo.resolve(rev));
+            if (!projectControl.canReadCommit(db.get(), rw, commit)) {
+              Resource.NOT_FOUND.send(req, res);
               return;
             }
-            ObjectId objectId = tw.getObjectId(0);
-            ObjectLoader loader = repo.open(objectId);
-            byte[] md = loader.getBytes(Integer.MAX_VALUE);
-            sendMarkdownAsHtml(new String(md, UTF_8),
-                commit.getCommitTime(), res);
           } finally {
-            tw.release();
+            rw.release();
           }
-        } finally {
-          rw.release();
         }
+
+        String eTag = null;
+        String receivedETag = req.getHeader(HttpHeaders.IF_NONE_MATCH);
+        if (receivedETag != null) {
+          eTag = computeETag(key.project, revId, key.file);
+          if (eTag.equals(receivedETag)) {
+            res.sendError(SC_NOT_MODIFIED);
+            return;
+          }
+        }
+
+        Resource rsc = docCache.getUnchecked(
+            (new XDocResourceKey(key.project, key.file, revId)).asString());
+
+        if (rsc != Resource.NOT_FOUND) {
+          res.setHeader(
+              HttpHeaders.ETAG,
+              MoreObjects.firstNonNull(eTag,
+                  computeETag(key.project, revId, key.file)));
+        }
+        CacheHeaders.setCacheablePrivate(res, 7, TimeUnit.DAYS, false);
+        rsc.send(req, res);
+        return;
       } finally {
         repo.close();
       }
     } catch (RepositoryNotFoundException | NoSuchProjectException
         | ResourceNotFoundException | AuthException | RevisionSyntaxException e) {
-      notFound(res);
+      Resource.NOT_FOUND.send(req, res);
       return;
     }
   }
 
-  private void sendMarkdownAsHtml(String md, int lastModified, HttpServletResponse res)
-      throws IOException {
-    byte[] html = new MarkdownFormatter().suppressHtml()
-        .markdownToDocHtml(replaceMacros(md), UTF_8.name());
-    res.setDateHeader("Last-Modified", lastModified);
-    res.setContentType("text/html");
-    res.setCharacterEncoding(UTF_8.name());
-    res.setContentLength(html.length);
-    res.getOutputStream().write(html);
-  }
-
-  private String replaceMacros(String md) {
-    Map<String, String> macros = Maps.newHashMap();
-    String url = webUrl.get();
-    if (Strings.isNullOrEmpty(url)) {
-      url = "http://" + DEFAULT_HOST + "/";
-    }
-    macros.put("URL", url);
-
-    Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@").matcher(md);
-    StringBuffer sb = new StringBuffer();
-    while (m.find()) {
-      String key = m.group(2);
-      String val = macros.get(key);
-      if (m.group(1) != null) {
-        m.appendReplacement(sb, "@" + key + "@");
-      } else if (val != null) {
-        m.appendReplacement(sb, val);
-      } else {
-        m.appendReplacement(sb, "@" + key + "@");
-      }
-    }
-    m.appendTail(sb);
-    return sb.toString();
-  }
-
-  private static void notFound(HttpServletResponse res) throws IOException {
-    CacheHeaders.setNotCacheable(res);
-    res.sendError(HttpServletResponse.SC_NOT_FOUND);
+  private static String computeETag(Project.NameKey project, ObjectId revId,
+      String file) {
+    return Hashing.md5().newHasher().putUnencodedChars(project.get())
+        .putUnencodedChars(revId.getName()).putUnencodedChars(file).hash()
+        .toString();
   }
 
   private String getRedirectUrl(HttpServletRequest req, ResourceKey key) {

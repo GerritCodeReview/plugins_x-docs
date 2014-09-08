@@ -9,6 +9,7 @@ gerrit_plugin(
     'Gerrit-ApiType: plugin',
     'Gerrit-ApiVersion: 2.11-SNAPSHOT',
     'Gerrit-HttpModule: com.googlesource.gerrit.plugins.xdocs.HttpModule',
+    'Gerrit-Module: com.googlesource.gerrit.plugins.xdocs.Module',
   ],
 )
 
