@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_9484a451",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-08T14:18:20Z",
+      "side": 1,
+      "message": "This file shouldn\u0027t be included...",
+      "revId": "4065195777241ec4694c99585a9ba2fc8a41d324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
