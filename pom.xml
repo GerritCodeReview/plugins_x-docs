@@ -40,6 +40,7 @@ limitations under the License.
             <manifestEntries>
               <Gerrit-PluginName>xdocs</Gerrit-PluginName>
               <Gerrit-HttpModule>com.googlesource.gerrit.plugins.xdocs.HttpModule</Gerrit-HttpModule>
+              <Gerrit-Module>com.googlesource.gerrit.plugins.xdocs.Module</Gerrit-Module>
 
               <Implementation-Vendor>Gerrit Code Review</Implementation-Vendor>
               <Implementation-URL>http://code.google.com/p/gerrit/</Implementation-URL>
