@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 
 import com.google.common.base.CharMatcher;
@@ -25,8 +26,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.httpd.resources.Resource;
+import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.GetHead;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -39,13 +42,19 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import eu.medsea.mimeutil.MimeType;
+
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -66,19 +75,24 @@ public class XDocServlet extends HttpServlet {
   private final Provider<GetHead> getHead;
   private final GitRepositoryManager repoManager;
   private final LoadingCache<String, Resource> docCache;
+  private final FileTypeRegistry fileTypeRegistry;
 
   @Inject
-  XDocServlet(Provider<ReviewDb> db,
-      ProjectControl.Factory projectControlFactory, ProjectCache projectCache,
-      Provider<GetHead> getHead, GitRepositoryManager repoManager,
-      @Named(XDocLoader.Module.X_DOC_RESOURCES)
-          LoadingCache<String, Resource> cache) {
+  XDocServlet(
+      Provider<ReviewDb> db,
+      ProjectControl.Factory projectControlFactory,
+      ProjectCache projectCache,
+      Provider<GetHead> getHead,
+      GitRepositoryManager repoManager,
+      @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
+      FileTypeRegistry fileTypeRegistry) {
     this.db = db;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.getHead = getHead;
     this.repoManager = repoManager;
     this.docCache = cache;
+    this.fileTypeRegistry = fileTypeRegistry;
   }
 
   @Override
@@ -99,7 +113,10 @@ public class XDocServlet extends HttpServlet {
       res.sendRedirect(getRedirectUrl(req, key));
       return;
     }
-    if (!key.file.endsWith(".md")) {
+    MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
+    if (!key.file.endsWith(".md")
+        && !("image".equals(mimeType.getMediaType())
+            && fileTypeRegistry.isSafeInline(mimeType))) {
       Resource.NOT_FOUND.send(req, res);
       return;
     }
@@ -153,8 +170,15 @@ public class XDocServlet extends HttpServlet {
           }
         }
 
-        Resource rsc = docCache.getUnchecked(
-            (new XDocResourceKey(key.project, key.file, revId)).asString());
+        Resource rsc;
+        if (key.file.endsWith(".md")) {
+          rsc = docCache.getUnchecked(
+              (new XDocResourceKey(key.project, key.file, revId)).asString());
+        } else if ("image".equals(mimeType.getMediaType())) {
+          rsc = getImageResource(repo, revId, key.file);
+        } else {
+          rsc = Resource.NOT_FOUND;
+        }
 
         if (rsc != Resource.NOT_FOUND) {
           res.setHeader(
@@ -172,6 +196,42 @@ public class XDocServlet extends HttpServlet {
         | ResourceNotFoundException | AuthException | RevisionSyntaxException e) {
       Resource.NOT_FOUND.send(req, res);
       return;
+    }
+  }
+
+  private Resource getImageResource(Repository repo, ObjectId revId, String file) {
+    RevWalk rw = new RevWalk(repo);
+    try {
+      RevCommit commit = rw.parseCommit(revId);
+      RevTree tree = commit.getTree();
+      TreeWalk tw = new TreeWalk(repo);
+      try {
+        tw.addTree(tree);
+        tw.setRecursive(true);
+        tw.setFilter(PathFilter.create(file));
+        if (!tw.next()) {
+          return Resource.NOT_FOUND;
+        }
+        ObjectId objectId = tw.getObjectId(0);
+        ObjectLoader loader = repo.open(objectId);
+        byte[] content = loader.getBytes(Integer.MAX_VALUE);
+
+        MimeType mimeType = fileTypeRegistry.getMimeType(file, content);
+        if (!"image".equals(mimeType.getMediaType())
+            || !fileTypeRegistry.isSafeInline(mimeType)) {
+          return Resource.NOT_FOUND;
+        }
+        return new SmallResource(content)
+            .setContentType(mimeType.toString())
+            .setCharacterEncoding(UTF_8.name())
+            .setLastModified(commit.getCommitTime());
+      } finally {
+        tw.release();
+      }
+    } catch (IOException e) {
+      return Resource.NOT_FOUND;
+    } finally {
+      rw.release();
     }
   }
 
