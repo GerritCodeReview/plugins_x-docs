@@ -14,11 +14,24 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
+import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.GerritTopMenu;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+
+import java.util.List;
 
 public class Module extends AbstractModule {
+  private final String pluginName;
+
+  @Inject
+  Module(@PluginName String pluginName) {
+    this.pluginName = pluginName;
+  }
 
   @Override
   protected void configure() {
@@ -26,5 +39,18 @@ public class Module extends AbstractModule {
 
     DynamicSet.bind(binder(), ProjectWebLink.class)
         .to(XDocProjectWebLink.class);
+
+    DynamicSet.bind(binder(), TopMenu.class).toInstance(new TopMenu() {
+      @Override
+      public List<MenuEntry> getEntries() {
+        StringBuilder url = new StringBuilder();
+        url.append("/plugins/");
+        url.append(pluginName);
+        url.append(XDocServlet.PATH_PREFIX);
+        url.append("${projectName}/README.md");
+        return Lists.newArrayList(new MenuEntry(GerritTopMenu.PROJECTS,
+            Lists.newArrayList(new MenuItem("Readme", url.toString()))));
+      }
+    });
   }
 }
