@@ -20,3 +20,8 @@ project if available.
 
 *WARNING:* All HTML blocks as well as inline HTML tags are suppressed.
 Both will be accepted in the input but not be contained in the output.
+
+Images that are stored in the project can be included into the Markdown
+documentation, but they are only rendered if the image mimetype is
+configured as a
+[safe mimetype](../../../Documentation/config-gerrit.html#mimetype).
