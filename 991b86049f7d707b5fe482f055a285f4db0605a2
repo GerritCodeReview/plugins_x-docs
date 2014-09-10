@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_39baeb5a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocResourceKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T09:13:08Z",
+      "side": 1,
+      "message": "Actually this is not needed.\n\nDone.",
+      "parentUuid": "106cff13_b9dc3bf7",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "991b86049f7d707b5fe482f055a285f4db0605a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_57532ea0",
         "filename": "src/main/resources/static/readme.png",
         "patchSetId": 4
@@ -59,6 +83,24 @@
       "writtenOn": "2014-09-10T05:15:53Z",
       "side": 1,
       "message": "Can you share the source and the license of this icon?",
+      "revId": "991b86049f7d707b5fe482f055a285f4db0605a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_19bf2f4b",
+        "filename": "src/main/resources/static/readme.png",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T09:13:08Z",
+      "side": 1,
+      "message": "Ups, forgot to mention this in the commit message. I\u0027ve done it now.",
+      "parentUuid": "d065072b_57532ea0",
       "revId": "991b86049f7d707b5fe482f055a285f4db0605a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
