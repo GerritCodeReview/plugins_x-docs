@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_b9ad5b22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T09:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_b757228b",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "1e9bd658e3a3df6d051f58710041e1923120f686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_9754a687",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_59e24763",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T09:23:41Z",
+      "side": 1,
+      "message": "The servlet that serves the project documentation is able to provide the documentation from any ref or commit.\n\nI think as a first step it\u0027s enough to provide the menu entry for the documentation from master (or to whatever branch HEAD points to).\n\nAs a next step I would maybe add branch web links, so that you can navigate from the list of branches to the corresponding documentation. But I\u0027m not sure if we have support branch web links already. Maybe this needs to be added first.",
+      "parentUuid": "d065072b_9754a687",
+      "range": {
+        "startLine": 10,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "1e9bd658e3a3df6d051f58710041e1923120f686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_99b05fc7",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/Module.java",
         "patchSetId": 3
@@ -59,6 +107,24 @@
       "writtenOn": "2014-09-10T05:21:03Z",
       "side": 1,
       "message": "Nit: Unnecessary new line.",
+      "revId": "1e9bd658e3a3df6d051f58710041e1923120f686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_99d33f96",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T09:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_99b05fc7",
       "revId": "1e9bd658e3a3df6d051f58710041e1923120f686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
