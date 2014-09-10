@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_19ce0f44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T05:06:11Z",
+      "side": 1,
+      "message": "Sounds like a bug or missing feature in core. What we probably can do is split the plugin in two parts: xdocs-cache.jar and xdocs.jar and deploy xdocs-cache.jar to \u0027$gerrit_site\u0027/lib.",
+      "range": {
+        "startLine": 10,
+        "startChar": 41,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "e24396c4d703282a582ad5f3de3eb23bb2598fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_774e2afc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocResourceKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T05:06:11Z",
+      "side": 1,
+      "message": "Nit: unneeded new line.",
+      "revId": "e24396c4d703282a582ad5f3de3eb23bb2598fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_39c94b3c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T05:06:11Z",
+      "side": 1,
+      "message": "Nit: May be put md5 parts on its own line:\n\n  return Hashing.md5().newHasher()\n        .putUnencodedChars(project.get())\n        .putUnencodedChars(revId.getName())\n        .putUnencodedChars(file)\n        .hash().toString();",
+      "revId": "e24396c4d703282a582ad5f3de3eb23bb2598fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
