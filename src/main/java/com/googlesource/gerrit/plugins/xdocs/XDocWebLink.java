@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.xdocs;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.reviewdb.client.Project;
@@ -34,16 +35,16 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 @Singleton
-public class XDocProjectWebLink implements ProjectWebLink {
+public class XDocWebLink implements ProjectWebLink, BranchWebLink {
   private static final Logger log = LoggerFactory
-      .getLogger(XDocProjectWebLink.class);
+      .getLogger(XDocWebLink.class);
 
   private final String pluginName;
   private final GitRepositoryManager repoManager;
   private final LoadingCache<String, Resource> docCache;
 
   @Inject
-  XDocProjectWebLink(
+  XDocWebLink(
       @PluginName String pluginName,
       GitRepositoryManager repoManager,
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache) {
@@ -59,11 +60,16 @@ public class XDocProjectWebLink implements ProjectWebLink {
 
   @Override
   public String getProjectUrl(String projectName) {
+    return getBranchUrl(projectName, Constants.HEAD);
+  }
+
+  @Override
+  public String getBranchUrl(String projectName, String branchName) {
     Project.NameKey p = new Project.NameKey(projectName);
     try {
       Repository repo = repoManager.openRepository(p);
       try {
-        ObjectId revId = repo.resolve(Constants.HEAD);
+        ObjectId revId = repo.resolve(branchName);
         if (revId == null) {
           return null;
         }
@@ -75,6 +81,10 @@ public class XDocProjectWebLink implements ProjectWebLink {
           url.append(pluginName);
           url.append(XDocServlet.PATH_PREFIX);
           url.append(Url.encode(projectName));
+          if (branchName != null && !Constants.HEAD.equals(branchName)) {
+            url.append("/rev/");
+            url.append(Url.encode(branchName));
+          }
           url.append("/README.md");
           return url.toString();
         } else {

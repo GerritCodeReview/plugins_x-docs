@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.xdocs;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.GerritTopMenu;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
@@ -38,7 +39,9 @@ public class Module extends AbstractModule {
     install(new XDocLoader.Module());
 
     DynamicSet.bind(binder(), ProjectWebLink.class)
-        .to(XDocProjectWebLink.class);
+        .to(XDocWebLink.class);
+    DynamicSet.bind(binder(), BranchWebLink.class)
+        .to(XDocWebLink.class);
 
     DynamicSet.bind(binder(), TopMenu.class).toInstance(new TopMenu() {
       @Override
