@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_59f7e738",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T08:58:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_f9bd139d",
+      "revId": "0b6c99640783c1b606fb65b272dccd42ae421fff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3744b2dc",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2014-09-10T04:49:53Z",
       "side": 1,
       "message": "Can this really happen? If not why care?",
+      "range": {
+        "startLine": 281,
+        "startChar": 16,
+        "endLine": 281,
+        "endChar": 25
+      },
+      "revId": "0b6c99640783c1b606fb65b272dccd42ae421fff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d902d771",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T08:58:11Z",
+      "side": 1,
+      "message": "Right this should not happen...\n\nDone",
+      "parentUuid": "d065072b_3744b2dc",
       "range": {
         "startLine": 281,
         "startChar": 16,
