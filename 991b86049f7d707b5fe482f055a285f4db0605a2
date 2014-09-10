@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_d7057ea3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocProjectWebLink.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T05:15:53Z",
+      "side": 1,
+      "message": "This is really cool.",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 3
+      },
+      "revId": "991b86049f7d707b5fe482f055a285f4db0605a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_b9dc3bf7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocResourceKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T05:15:53Z",
+      "side": 1,
+      "message": "Why this is needed?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "991b86049f7d707b5fe482f055a285f4db0605a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_57532ea0",
+        "filename": "src/main/resources/static/readme.png",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T05:15:53Z",
+      "side": 1,
+      "message": "Can you share the source and the license of this icon?",
+      "revId": "991b86049f7d707b5fe482f055a285f4db0605a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
