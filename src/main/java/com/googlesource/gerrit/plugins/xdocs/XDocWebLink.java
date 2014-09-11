@@ -65,25 +65,34 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
 
   @Override
   public String getBranchUrl(String projectName, String branchName) {
+    return getPatchUrl(projectName, branchName, "README.md");
+  }
+
+  public String getPatchUrl(String projectName, String revision,
+      String fileName) {
+    if (!fileName.endsWith(".md")) {
+      return null;
+    }
+
     Project.NameKey p = new Project.NameKey(projectName);
     try {
       Repository repo = repoManager.openRepository(p);
       try {
-        ObjectId revId = repo.resolve(branchName);
+        ObjectId revId = repo.resolve(revision);
         if (revId == null) {
           return null;
         }
         Resource rsc = docCache.getUnchecked(
-           (new XDocResourceKey(p, "README.md", revId)).asString());
+           (new XDocResourceKey(p, fileName, revId)).asString());
         if (rsc != Resource.NOT_FOUND) {
           StringBuilder url = new StringBuilder();
           url.append("plugins/");
           url.append(pluginName);
           url.append(XDocServlet.PATH_PREFIX);
           url.append(Url.encode(projectName));
-          if (branchName != null && !Constants.HEAD.equals(branchName)) {
+          if (revision != null && !Constants.HEAD.equals(revision)) {
             url.append("/rev/");
-            url.append(Url.encode(branchName));
+            url.append(Url.encode(revision));
           }
           url.append("/README.md");
           return url.toString();
