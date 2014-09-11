@@ -112,4 +112,9 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
   public String getImageUrl() {
     return "plugins/" + pluginName + "/static/readme.png";
   }
+
+  @Override
+  public String getTarget() {
+    return Target.BLANK;
+  }
 }
