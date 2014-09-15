@@ -72,4 +72,4 @@ will be accepted in the input but not be contained in the output.
 Markdown files may include the following macros which are automatically
 replaced when the HTML pages are generated.
 
-* `\@URL@`: The web URL of the Gerrit server.</td>
+* `\@URL@`: The web URL of the Gerrit server.
