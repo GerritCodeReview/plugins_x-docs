@@ -22,6 +22,7 @@ import com.google.common.cache.Weigher;
 import com.google.common.collect.Maps;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.SmallResource;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
@@ -78,8 +79,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           ObjectId objectId = tw.getObjectId(0);
           ObjectLoader loader = repo.open(objectId);
           byte[] md = loader.getBytes(Integer.MAX_VALUE);
-          return getMarkdownAsHtmlResource(new String(md, UTF_8),
-              commit.getCommitTime());
+          return getMarkdownAsHtmlResource(key.getProject(),
+              new String(md, UTF_8), commit.getCommitTime());
         } finally {
           tw.release();
         }
@@ -91,23 +92,28 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
   }
 
-  private Resource getMarkdownAsHtmlResource(String md, int lastModified)
+  private Resource getMarkdownAsHtmlResource(Project.NameKey project,
+      String md, int lastModified)
       throws IOException {
     byte[] html = new MarkdownFormatter().suppressHtml()
-        .markdownToDocHtml(replaceMacros(md), UTF_8.name());
+        .markdownToDocHtml(replaceMacros(project, md), UTF_8.name());
     return new SmallResource(html)
         .setContentType("text/html")
         .setCharacterEncoding(UTF_8.name())
         .setLastModified(lastModified);
   }
 
-  private String replaceMacros(String md) {
+  private String replaceMacros(Project.NameKey project, String md) {
     Map<String, String> macros = Maps.newHashMap();
+
     String url = webUrl.get();
     if (Strings.isNullOrEmpty(url)) {
       url = "http://" + DEFAULT_HOST + "/";
     }
     macros.put("URL", url);
+
+    macros.put("PROJECT", project.get());
+    macros.put("PROJECT_URL", url + "#/admin/projects/" + project.get());
 
     Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@").matcher(md);
     StringBuffer sb = new StringBuffer();

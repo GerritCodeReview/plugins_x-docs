@@ -73,3 +73,5 @@ Markdown files may include the following macros which are automatically
 replaced when the HTML pages are generated.
 
 * `\@URL@`: The web URL of the Gerrit server.
+* `\@PROJECT@`: The name of the project from which the documentation is shown.
+* `\@PROJECT_URL@`: The web URL of the project from which the documentation is shown.
