@@ -250,7 +250,7 @@ public class XDocServlet extends HttpServlet {
         req.getRequestURL().length() - req.getRequestURI().length()));
     redirectUrl.append(req.getContextPath());
     redirectUrl.append(PATH_PREFIX);
-    redirectUrl.append(key.project);
+    redirectUrl.append(IdString.fromDecoded(key.project.get()).encoded());
     redirectUrl.append("/");
     if (key.revision != null) {
       redirectUrl.append("rev/");
@@ -299,7 +299,7 @@ public class XDocServlet extends HttpServlet {
         }
 
       } else {
-        project = CharMatcher.is('/').trimTrailingFrom(path);
+        project = IdString.fromUrl(CharMatcher.is('/').trimTrailingFrom(path)).get();
       }
 
       return new ResourceKey(project, file, revision);
