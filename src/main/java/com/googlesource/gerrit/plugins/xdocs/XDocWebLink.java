@@ -94,7 +94,8 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
             url.append("/rev/");
             url.append(Url.encode(revision));
           }
-          url.append("/README.md");
+          url.append("/");
+          url.append(Url.encode(fileName));
           return url.toString();
         } else {
           return null;
