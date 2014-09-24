@@ -22,6 +22,30 @@
       "revId": "50aa5e3e497392625d8913394b033a781d893eb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_3a6e01cc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-24T15:28:14Z",
+      "side": 0,
+      "message": "Yes, opening \"/plugins/xdocs/projects/myproject\" will redirect to \"/plugins/xdocs/projects/myproject/README.md\". But with this change the index file is now configurable per project, so for one project it can be \u0027index.md\u0027 and for another project it can be \u0027README.md\u0027. At this point where the menu item is defined I can\u0027t have different URLs for different projects. So just having the link point to \"/plugins/xdocs/projects/myproject\" solves this problem. For the one project it redirects to \"/plugins/xdocs/projects/myproject/index.md\" and for the other project it redirects to \"/plugins/xdocs/projects/myproject/README.md\". So this change here is somehow related to making the index file configurable. But of course I could first make this change here and have a follow-up change with the generalization of the index file name.",
+      "parentUuid": "b095f3be_bb78479a",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 47
+      },
+      "revId": "50aa5e3e497392625d8913394b033a781d893eb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

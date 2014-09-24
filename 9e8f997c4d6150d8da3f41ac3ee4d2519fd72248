@@ -22,6 +22,30 @@
       "revId": "9e8f997c4d6150d8da3f41ac3ee4d2519fd72248",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_5a6bb5ba",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-24T15:28:14Z",
+      "side": 1,
+      "message": "Yes, making this configurable will be part of a later change which adds support for other syntaxes and file extensions.",
+      "parentUuid": "90646fc9_7a8f9969",
+      "range": {
+        "startLine": 77,
+        "startChar": 27,
+        "endLine": 77,
+        "endChar": 32
+      },
+      "revId": "9e8f997c4d6150d8da3f41ac3ee4d2519fd72248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
