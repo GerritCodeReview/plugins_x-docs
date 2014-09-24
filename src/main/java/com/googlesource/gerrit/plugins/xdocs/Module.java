@@ -22,12 +22,12 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.GerritTopMenu;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.inject.Inject;
 
 import java.util.List;
 
-public class Module extends AbstractModule {
+public class Module extends FactoryModule {
   private final String pluginName;
 
   @Inject
@@ -38,6 +38,7 @@ public class Module extends AbstractModule {
   @Override
   protected void configure() {
     install(new XDocLoader.Module());
+    factory(XDocConfig.Factory.class);
 
     DynamicSet.bind(binder(), ProjectWebLink.class)
         .to(XDocWebLink.class);
@@ -53,7 +54,7 @@ public class Module extends AbstractModule {
         url.append("/plugins/");
         url.append(pluginName);
         url.append(XDocServlet.PATH_PREFIX);
-        url.append("${projectName}/README.md");
+        url.append("${projectName}");
         return Lists.newArrayList(new MenuEntry(GerritTopMenu.PROJECTS,
             Lists.newArrayList(new MenuItem("Readme", url.toString()))));
       }

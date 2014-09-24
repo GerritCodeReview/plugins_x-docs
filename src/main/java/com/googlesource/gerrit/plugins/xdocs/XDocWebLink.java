@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -42,15 +44,21 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
   private final String pluginName;
   private final GitRepositoryManager repoManager;
   private final LoadingCache<String, Resource> docCache;
+  private final XDocConfig.Factory cfgFactory;
+  private final ProjectCache projectCache;
 
   @Inject
   XDocWebLink(
       @PluginName String pluginName,
       GitRepositoryManager repoManager,
-      @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache) {
+      @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
+      XDocConfig.Factory cfgFactory,
+      ProjectCache projectCache) {
     this.pluginName = pluginName;
     this.repoManager = repoManager;
     this.docCache = cache;
+    this.cfgFactory = cfgFactory;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -65,7 +73,13 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
 
   @Override
   public String getBranchUrl(String projectName, String branchName) {
-    return getPatchUrl(projectName, branchName, "README.md");
+    ProjectState state = projectCache.get(new Project.NameKey(projectName));
+    if (state == null) {
+      // project not found -> no link
+      return null;
+    }
+    return getPatchUrl(projectName, branchName,
+        cfgFactory.create(state).getIndexFile());
   }
 
   public String getPatchUrl(String projectName, String revision,
