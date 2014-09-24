@@ -36,6 +36,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -76,6 +77,7 @@ public class XDocServlet extends HttpServlet {
   private final GitRepositoryManager repoManager;
   private final LoadingCache<String, Resource> docCache;
   private final FileTypeRegistry fileTypeRegistry;
+  private final XDocConfig.Factory cfgFactory;
 
   @Inject
   XDocServlet(
@@ -85,7 +87,8 @@ public class XDocServlet extends HttpServlet {
       Provider<GetHead> getHead,
       GitRepositoryManager repoManager,
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
-      FileTypeRegistry fileTypeRegistry) {
+      FileTypeRegistry fileTypeRegistry,
+      XDocConfig.Factory cfgFactory) {
     this.db = db;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
@@ -93,6 +96,7 @@ public class XDocServlet extends HttpServlet {
     this.repoManager = repoManager;
     this.docCache = cache;
     this.fileTypeRegistry = fileTypeRegistry;
+    this.cfgFactory = cfgFactory;
   }
 
   @Override
@@ -105,12 +109,14 @@ public class XDocServlet extends HttpServlet {
     }
 
     ResourceKey key = ResourceKey.fromPath(req.getPathInfo());
-    if (projectCache.get(key.project) == null) {
+    ProjectState state = projectCache.get(key.project);
+    if (state == null) {
       Resource.NOT_FOUND.send(req, res);
       return;
     }
+    XDocConfig cfg = cfgFactory.create(state);
     if (key.file == null) {
-      res.sendRedirect(getRedirectUrl(req, key));
+      res.sendRedirect(getRedirectUrl(req, key, cfg));
       return;
     }
     MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
@@ -244,7 +250,8 @@ public class XDocServlet extends HttpServlet {
         .hash().toString();
   }
 
-  private String getRedirectUrl(HttpServletRequest req, ResourceKey key) {
+  private String getRedirectUrl(HttpServletRequest req, ResourceKey key,
+      XDocConfig cfg) {
     StringBuilder redirectUrl = new StringBuilder();
     redirectUrl.append(req.getRequestURL().substring(0,
         req.getRequestURL().length() - req.getRequestURI().length()));
@@ -257,7 +264,7 @@ public class XDocServlet extends HttpServlet {
       redirectUrl.append(key.revision);
       redirectUrl.append("/");
     }
-    redirectUrl.append("README.md");
+    redirectUrl.append(IdString.fromDecoded(cfg.getIndexFile()).encoded());
     return redirectUrl.toString();
   }
 
