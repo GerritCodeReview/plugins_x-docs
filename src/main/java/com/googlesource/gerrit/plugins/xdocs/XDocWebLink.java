@@ -42,15 +42,18 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
   private final String pluginName;
   private final GitRepositoryManager repoManager;
   private final LoadingCache<String, Resource> docCache;
+  private final XDocConfig.Factory cfgFactory;
 
   @Inject
   XDocWebLink(
       @PluginName String pluginName,
       GitRepositoryManager repoManager,
-      @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache) {
+      @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
+      XDocConfig.Factory cfgFactory) {
     this.pluginName = pluginName;
     this.repoManager = repoManager;
     this.docCache = cache;
+    this.cfgFactory = cfgFactory;
   }
 
   @Override
@@ -65,7 +68,8 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
 
   @Override
   public String getBranchUrl(String projectName, String branchName) {
-    return getPatchUrl(projectName, branchName, "README.md");
+    return getPatchUrl(projectName, branchName,
+        cfgFactory.create(projectName).getIndexFile());
   }
 
   public String getPatchUrl(String projectName, String revision,

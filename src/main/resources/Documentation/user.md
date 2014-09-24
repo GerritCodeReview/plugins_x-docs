@@ -5,7 +5,8 @@ The @PLUGIN@ plugin serves [Markdown](http://daringfireball.net/projects/markdow
 project documentation as HTML pages.
 
 The entry point to the project documentation is a `README.md` file in
-the root directory of a project.
+the root directory of a project (if not [configured](config.html#webIndexFile)
+differently).
 
 If a project has a `README.md` file in its root directory then a link
 to the project documentation is displayed for it in the

@@ -28,8 +28,9 @@ public class XDocPatchWebLink extends XDocWebLink implements FileWebLink {
   XDocPatchWebLink(
       @PluginName String pluginName,
       GitRepositoryManager repoManager,
-      @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache) {
-    super(pluginName, repoManager, cache);
+      @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
+      XDocConfig.Factory cfgFactory) {
+    super(pluginName, repoManager, cache, cfgFactory);
   }
 
   @Override
