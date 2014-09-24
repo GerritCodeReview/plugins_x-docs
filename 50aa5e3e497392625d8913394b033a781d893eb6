@@ -46,6 +46,30 @@
       "revId": "50aa5e3e497392625d8913394b033a781d893eb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_7b8f9f69",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-24T15:44:26Z",
+      "side": 0,
+      "message": "Thanks. We can let it as is.",
+      "parentUuid": "90646fc9_3a6e01cc",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 47
+      },
+      "revId": "50aa5e3e497392625d8913394b033a781d893eb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
