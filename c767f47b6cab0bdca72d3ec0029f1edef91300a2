@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b095f3be_7b9a3f91",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-25T09:01:45Z",
+      "side": 1,
+      "message": "It returns null if no such project exists or a error occured.",
+      "parentUuid": "b095f3be_3ba0b7bf",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 59
+      },
+      "revId": "c767f47b6cab0bdca72d3ec0029f1edef91300a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_7a3319e1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocConfig.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-25T07:51:05Z",
       "side": 1,
       "message": "Why @Nullable?",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "c767f47b6cab0bdca72d3ec0029f1edef91300a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_9b170b37",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-25T09:01:45Z",
+      "side": 1,
+      "message": "This is null if you try to retrieve the XDocConfig by project name for a project that does not exist. As the coding is now, this should not happen. Anyway if it happens it\u0027s better to return an empty config rather than failing with some weird injection exception at runtime.",
+      "parentUuid": "90646fc9_7a3319e1",
       "range": {
         "startLine": 50,
         "startChar": 16,
