@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b095f3be_bb45a731",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocWebLink.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T11:21:19Z",
+      "side": 1,
+      "message": "Make link name configurable as well? When i changed README.md to index.md, then i would expect that the name to the link index and not readme. But we cannot do that, because this method is not award of project name. I thins this is bug in WebLink design. It should work like UiAction.Description. one method that return description with all attributed in it.",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 19
+      },
+      "revId": "0e180ff1ee89704336a96b22a4a11e0957a8756d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
