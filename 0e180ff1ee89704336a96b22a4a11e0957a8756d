@@ -70,6 +70,30 @@
       "revId": "0e180ff1ee89704336a96b22a4a11e0957a8756d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_bac05139",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocWebLink.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-25T11:56:32Z",
+      "side": 1,
+      "message": "Cool, haven\u0027t looked at those changes yet :)",
+      "parentUuid": "b095f3be_9be9cbd2",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 19
+      },
+      "revId": "0e180ff1ee89704336a96b22a4a11e0957a8756d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
