@@ -22,10 +22,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public class XDocPatchWebLink extends XDocWebLink implements FileWebLink {
+public class XDocFileWebLink extends XDocWebLink implements FileWebLink {
 
   @Inject
-  XDocPatchWebLink(
+  XDocFileWebLink(
       @PluginName String pluginName,
       GitRepositoryManager repoManager,
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,

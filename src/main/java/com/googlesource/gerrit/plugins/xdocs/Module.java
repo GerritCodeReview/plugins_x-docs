@@ -45,7 +45,7 @@ public class Module extends FactoryModule {
     DynamicSet.bind(binder(), BranchWebLink.class)
         .to(XDocWebLink.class);
     DynamicSet.bind(binder(), FileWebLink.class)
-        .to(XDocPatchWebLink.class);
+        .to(XDocFileWebLink.class);
 
     DynamicSet.bind(binder(), TopMenu.class).toInstance(new TopMenu() {
       @Override
