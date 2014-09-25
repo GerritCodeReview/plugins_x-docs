@@ -93,6 +93,53 @@
       "revId": "c767f47b6cab0bdca72d3ec0029f1edef91300a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_fa3f299d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T09:32:55Z",
+      "side": 1,
+      "message": "Shouldn\u0027t happen sounds not really sure.\n\nI put comment in servlet code where you bail out when project wan\u0027t found. May be just say this:\n\n  PreCondition.checkNotNull(project);\n\nand remove all this @Nullable and new Config() stuff? I mean what you are doing is unneeded @Nullable abuse. By annotating parameter or member with @Nullable you are telling that having null value here is correct and possible workflow/use case. But it cannot and must not happen at all here (and no only shouldn\u0027t). If we have bug in XDocServlet with project \u003d\u003d null not (or worng) handled then we should fix it there in the first place.",
+      "parentUuid": "b095f3be_9b170b37",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "c767f47b6cab0bdca72d3ec0029f1edef91300a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_fb264fa5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T09:32:55Z",
+      "side": 1,
+      "message": "That\u0027s the place where you bail out.",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 5
+      },
+      "revId": "c767f47b6cab0bdca72d3ec0029f1edef91300a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
