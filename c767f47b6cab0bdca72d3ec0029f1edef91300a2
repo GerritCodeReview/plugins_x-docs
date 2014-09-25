@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "90646fc9_7a4cf954",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-25T09:44:45Z",
+      "side": 1,
+      "message": "It\u0027s not about XDocServlet, but about XDocWebLink. Well, I guess I can move the loading of the project from the cache into XDocWebLink and handle the null case there.",
+      "parentUuid": "90646fc9_fa3f299d",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "c767f47b6cab0bdca72d3ec0029f1edef91300a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_fb264fa5",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
         "patchSetId": 2
@@ -136,6 +160,53 @@
         "startChar": 4,
         "endLine": 116,
         "endChar": 5
+      },
+      "revId": "c767f47b6cab0bdca72d3ec0029f1edef91300a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_1a55bdda",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-25T09:44:45Z",
+      "side": 1,
+      "message": "This is the place where I\u0027m sure it\u0027s not happening :)",
+      "parentUuid": "b095f3be_fb264fa5",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 5
+      },
+      "revId": "c767f47b6cab0bdca72d3ec0029f1edef91300a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_3b299773",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-25T09:44:45Z",
+      "side": 1,
+      "message": "Here is the place, where it should not happen that the project does not exist, but who knows...",
+      "range": {
+        "startLine": 72,
+        "startChar": 26,
+        "endLine": 72,
+        "endChar": 37
       },
       "revId": "c767f47b6cab0bdca72d3ec0029f1edef91300a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
