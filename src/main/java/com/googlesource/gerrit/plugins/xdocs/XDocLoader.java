@@ -20,17 +20,20 @@ import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
@@ -49,19 +52,33 @@ import java.util.regex.Pattern;
 public class XDocLoader extends CacheLoader<String, Resource> {
   private static final String DEFAULT_HOST = "review.example.com";
 
+  private static final String SECTION_FORMATTER = "formatter";
+  private static final String KEY_ALLOW_HTML = "allowHtml";
+
+  private enum Formatter {
+    MARKDOWN;
+  }
+
   private final GitRepositoryManager repoManager;
   private final Provider<String> webUrl;
+  private final String pluginName;
+  private final PluginConfigFactory cfgFactory;
 
   @Inject
   XDocLoader(GitRepositoryManager repoManager,
-      @CanonicalWebUrl Provider<String> webUrl) {
+      @CanonicalWebUrl Provider<String> webUrl,
+      @PluginName String pluginName,
+      PluginConfigFactory cfgFactory) {
     this.repoManager = repoManager;
     this.webUrl = webUrl;
+    this.pluginName = pluginName;
+    this.cfgFactory = cfgFactory;
   }
 
   @Override
   public Resource load(String strKey) throws Exception {
     XDocResourceKey key = XDocResourceKey.fromString(strKey);
+    Config cfg = cfgFactory.getGlobalPluginConfig(pluginName);
     Repository repo = repoManager.openRepository(key.getProject());
     try {
       RevWalk rw = new RevWalk(repo);
@@ -79,7 +96,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           ObjectId objectId = tw.getObjectId(0);
           ObjectLoader loader = repo.open(objectId);
           byte[] md = loader.getBytes(Integer.MAX_VALUE);
-          return getMarkdownAsHtmlResource(key.getProject(),
+          return getMarkdownAsHtmlResource(cfg, key.getProject(),
               new String(md, UTF_8), commit.getCommitTime());
         } finally {
           tw.release();
@@ -92,11 +109,15 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
   }
 
-  private Resource getMarkdownAsHtmlResource(Project.NameKey project,
-      String md, int lastModified)
+  private Resource getMarkdownAsHtmlResource(Config cfg,
+      Project.NameKey project, String md, int lastModified)
       throws IOException {
-    byte[] html = new MarkdownFormatter().suppressHtml()
-        .markdownToDocHtml(replaceMacros(project, md), UTF_8.name());
+    MarkdownFormatter f = new MarkdownFormatter();
+    if (!cfg.getBoolean(SECTION_FORMATTER, Formatter.MARKDOWN.name(),
+        KEY_ALLOW_HTML, false)) {
+      f.suppressHtml();
+    }
+    byte[] html = f.markdownToDocHtml(replaceMacros(project, md), UTF_8.name());
     return new SmallResource(html)
         .setContentType("text/html")
         .setCharacterEncoding(UTF_8.name())

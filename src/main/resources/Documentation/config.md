@@ -1,7 +1,11 @@
 Configuration
 =============
 
-The configuration of the @PLUGIN@ plugin is done on project level in
+<a id="projectConfig">
+Project-Specific Configuration
+------------------------------
+
+The project-specific configuration of the @PLUGIN@ plugin is done in
 the `@PLUGIN@.config` file in the `refs/meta/config` branch of the
 project.
 
@@ -18,3 +22,34 @@ web.indexFile
 	The documentation links in web UI will link to this file.
 
 	Default: `README.md`
+
+<a id="globalConfig">
+Global Configuration
+--------------------
+
+The global configuration of the @PLUGIN@ plugin is done in the
+`$site_path/etc/@PLUGIN@.config` file.
+
+```
+  [formatter "MARKDOWN"]
+    allowHtml = false
+```
+
+<a id="formatterAllowHtml">
+formatter.<formatter>.allowHtml
+:	Whether inline HTML blocks and inline HTML tags are allowed for
+    this formatter.
+
+	If `false` inline HTML blocks as well as inline HTML tags are
+	suppressed. Both will be accepted in the input but not be contained
+	in the output.
+
+	When this option is changed the `xdocs-x_doc_resources` cache must
+	be flushed.
+
+	**WARNING:** Allowing HTML for user-provided input is a security
+	risk, e.g. code for XSS attacks may be contained in the HTML.
+
+	Supported for the following formatters: `MARKDOWN`
+
+	Default: `false`

@@ -67,8 +67,9 @@ configured on the Gerrit server as a
   ![Screenshot](images/screenshot.png)
 ```
 
-Inline HTML blocks as well as inline HTML tags are suppressed. Both
-will be accepted in the input but not be contained in the output.
+By default inline HTML blocks as well as inline HTML tags are
+[suppressed](config.html#formatterAllowHtml). If suppressed both will
+be accepted in the input but not be contained in the output.
 
 Markdown files may include the following macros which are automatically
 replaced when the HTML pages are generated.
