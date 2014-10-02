@@ -1,6 +1,7 @@
 [alias]
-  xdocs = //:xdocs
-  plugin = //:xdocs
+  xdocs = //:x-docs
+  x-docs = //:x-docs
+  plugin = //:x-docs
 
 [java]
   src_roots = java, resources
