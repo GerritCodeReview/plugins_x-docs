@@ -94,6 +94,30 @@
       "revId": "10956b370a11e682db8a42462c672f2a37b0940c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_b46bc08b",
+        "filename": "BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-02T19:58:50Z",
+      "side": 1,
+      "message": "Thanks :)",
+      "parentUuid": "307ae4aa_348010ce",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "10956b370a11e682db8a42462c672f2a37b0940c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
