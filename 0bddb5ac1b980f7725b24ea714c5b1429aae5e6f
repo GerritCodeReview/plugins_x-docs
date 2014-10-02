@@ -70,6 +70,30 @@
       "revId": "0bddb5ac1b980f7725b24ea714c5b1429aae5e6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_f3f6306f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T21:01:14Z",
+      "side": 1,
+      "message": "| This would be cleaner.\n\nBefore we can do that, we should merged all pending changes, i think.\n\nWe should ask this question on repo-discuss, as it was the case with hashtags we would get dozen suggestion just to keep xdocs ;-) My alternative suggestion would be: \"wiki\"?",
+      "parentUuid": "307ae4aa_f4485827",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 11
+      },
+      "revId": "0bddb5ac1b980f7725b24ea714c5b1429aae5e6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
