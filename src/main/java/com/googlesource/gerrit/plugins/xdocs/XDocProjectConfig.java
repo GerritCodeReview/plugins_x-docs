@@ -23,9 +23,9 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Config;
 
-public class XDocConfig {
+public class XDocProjectConfig {
   interface Factory {
-    XDocConfig create(ProjectState project);
+    XDocProjectConfig create(ProjectState project);
   }
 
   private static final String SECTION_WEB = "web";
@@ -35,7 +35,7 @@ public class XDocConfig {
   private final Config cfg;
 
   @Inject
-  XDocConfig(@PluginName String pluginName, PluginConfigFactory cfgFactory,
+  XDocProjectConfig(@PluginName String pluginName, PluginConfigFactory cfgFactory,
       @Assisted ProjectState project) {
     this.cfg = cfgFactory.getProjectPluginConfigWithInheritance(project, pluginName);
   }

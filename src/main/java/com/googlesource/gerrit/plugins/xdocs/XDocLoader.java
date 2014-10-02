@@ -33,7 +33,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.Config;
+import com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.Formatter;
+
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
@@ -51,13 +52,6 @@ import java.util.regex.Pattern;
 @Singleton
 public class XDocLoader extends CacheLoader<String, Resource> {
   private static final String DEFAULT_HOST = "review.example.com";
-
-  private static final String SECTION_FORMATTER = "formatter";
-  private static final String KEY_ALLOW_HTML = "allowHtml";
-
-  private enum Formatter {
-    MARKDOWN;
-  }
 
   private final GitRepositoryManager repoManager;
   private final Provider<String> webUrl;
@@ -78,7 +72,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
   @Override
   public Resource load(String strKey) throws Exception {
     XDocResourceKey key = XDocResourceKey.fromString(strKey);
-    Config cfg = cfgFactory.getGlobalPluginConfig(pluginName);
+    XDocGlobalConfig cfg = new XDocGlobalConfig(cfgFactory.getGlobalPluginConfig(pluginName));
     Repository repo = repoManager.openRepository(key.getProject());
     try {
       RevWalk rw = new RevWalk(repo);
@@ -109,12 +103,11 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
   }
 
-  private Resource getMarkdownAsHtmlResource(Config cfg,
+  private Resource getMarkdownAsHtmlResource(XDocGlobalConfig cfg,
       Project.NameKey project, String md, int lastModified)
       throws IOException {
     MarkdownFormatter f = new MarkdownFormatter();
-    if (!cfg.getBoolean(SECTION_FORMATTER, Formatter.MARKDOWN.name(),
-        KEY_ALLOW_HTML, false)) {
+    if (!cfg.isHtmlAllowed(Formatter.MARKDOWN)) {
       f.suppressHtml();
     }
     byte[] html = f.markdownToDocHtml(replaceMacros(project, md), UTF_8.name());

@@ -77,7 +77,7 @@ public class XDocServlet extends HttpServlet {
   private final GitRepositoryManager repoManager;
   private final LoadingCache<String, Resource> docCache;
   private final FileTypeRegistry fileTypeRegistry;
-  private final XDocConfig.Factory cfgFactory;
+  private final XDocProjectConfig.Factory cfgFactory;
 
   @Inject
   XDocServlet(
@@ -88,7 +88,7 @@ public class XDocServlet extends HttpServlet {
       GitRepositoryManager repoManager,
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
       FileTypeRegistry fileTypeRegistry,
-      XDocConfig.Factory cfgFactory) {
+      XDocProjectConfig.Factory cfgFactory) {
     this.db = db;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
@@ -114,7 +114,7 @@ public class XDocServlet extends HttpServlet {
       Resource.NOT_FOUND.send(req, res);
       return;
     }
-    XDocConfig cfg = cfgFactory.create(state);
+    XDocProjectConfig cfg = cfgFactory.create(state);
     if (key.file == null) {
       res.sendRedirect(getRedirectUrl(req, key, cfg));
       return;
@@ -251,7 +251,7 @@ public class XDocServlet extends HttpServlet {
   }
 
   private String getRedirectUrl(HttpServletRequest req, ResourceKey key,
-      XDocConfig cfg) {
+      XDocProjectConfig cfg) {
     StringBuilder redirectUrl = new StringBuilder();
     redirectUrl.append(req.getRequestURL().substring(0,
         req.getRequestURL().length() - req.getRequestURI().length()));
