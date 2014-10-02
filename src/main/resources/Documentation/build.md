@@ -44,8 +44,8 @@ The output is created in
 ```
 
 
-Clone or link this plugin to the plugins directory of Gerrit's source
-tree, and issue the command:
+Clone or link this plugin to the plugins/@PLUGIN@ directory of Gerrit's
+source tree, and issue the command:
 
 ```
   buck build plugins/@PLUGIN@
