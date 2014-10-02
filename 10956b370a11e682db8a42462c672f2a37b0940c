@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d12ce3_5252942d",
+        "filename": "BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-02T09:46:55Z",
+      "side": 1,
+      "message": "This fails when building the plugin in-tree.\n\n $ buck build plugins/x-docs\n Using buckd.\n [-] PROCESSING BUCK FILES...FINISHED 0.1s\n [+] BUILDING...0.0s\n BUILD FAILED: No rule found when resolving target //plugins/x-docs:x-docs in build file //plugins/x-docs/BUCK",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "10956b370a11e682db8a42462c672f2a37b0940c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
