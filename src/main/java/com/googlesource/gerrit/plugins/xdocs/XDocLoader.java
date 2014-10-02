@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.xdocs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
@@ -136,6 +137,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     switch (formatter) {
       case MARKDOWN:
         return formatMarkdownAsHtml(cfg, raw);
+      case PLAIN_TEXT:
+        return formatTxtAsHtml(raw);
       default:
         throw new IllegalStateException("Unsupported formatter: "
             + formatter.name());
@@ -149,6 +152,11 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       f.suppressHtml();
     }
     return f.markdownToDocHtml(md, UTF_8.name());
+  }
+
+  private byte[] formatTxtAsHtml(String txt) {
+    String html = "<pre>" + escapeHtml(txt) + "</pre>";
+    return html.getBytes(UTF_8);
   }
 
   private Resource getAsHtmlResource(byte[] html, int lastModified) {

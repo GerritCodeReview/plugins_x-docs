@@ -36,7 +36,15 @@ configuration.
 ```
   [formatter "MARKDOWN"]
     mimeType = text/x-markdown
+  [formatter "PLAIN_TEXT"]
+    mimeType = text/plain
 ```
+
+Supported formatters:
+
+* `MARKDOWN`
+* `PLAIN_TEXT`
+
 
 <a id="formatterMimeType">
 formatter.<formatter>.mimeType
