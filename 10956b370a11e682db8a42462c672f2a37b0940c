@@ -46,6 +46,30 @@
       "revId": "10956b370a11e682db8a42462c672f2a37b0940c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_f17b88ae",
+        "filename": "BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-02T12:37:00Z",
+      "side": 1,
+      "message": "OK.  But it also fails when running ./tools/eclipse/project.py in the gerrit root.",
+      "parentUuid": "1077a0c2_738f800b",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "10956b370a11e682db8a42462c672f2a37b0940c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
