@@ -21,12 +21,16 @@ import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+
+import eu.medsea.mimeutil.MimeType;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -46,6 +50,8 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
   private final LoadingCache<String, Resource> docCache;
   private final XDocProjectConfig.Factory cfgFactory;
   private final ProjectCache projectCache;
+  private final FileTypeRegistry fileTypeRegistry;
+  private final PluginConfigFactory pluginCfgFactory;
 
   @Inject
   XDocWebLink(
@@ -53,12 +59,16 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
       GitRepositoryManager repoManager,
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
       XDocProjectConfig.Factory cfgFactory,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      FileTypeRegistry fileTypeRegistry,
+      PluginConfigFactory pluginCfgFactory) {
     this.pluginName = pluginName;
     this.repoManager = repoManager;
     this.docCache = cache;
     this.cfgFactory = cfgFactory;
     this.projectCache = projectCache;
+    this.fileTypeRegistry = fileTypeRegistry;
+    this.pluginCfgFactory = pluginCfgFactory;
   }
 
   @Override
@@ -84,7 +94,10 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
 
   public String getPatchUrl(String projectName, String revision,
       String fileName) {
-    if (!fileName.endsWith(".md")) {
+    XDocGlobalConfig pluginCfg =
+        new XDocGlobalConfig(pluginCfgFactory.getGlobalPluginConfig(pluginName));
+    MimeType mimeType = fileTypeRegistry.getMimeType(fileName, null);
+    if (!pluginCfg.getMimeTypes().keySet().contains(mimeType)) {
       return null;
     }
 

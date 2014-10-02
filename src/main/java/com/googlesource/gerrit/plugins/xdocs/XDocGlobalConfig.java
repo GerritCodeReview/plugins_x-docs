@@ -14,11 +14,17 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
+import eu.medsea.mimeutil.MimeType;
+
 import org.eclipse.jgit.lib.Config;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class XDocGlobalConfig {
   private static final String SECTION_FORMATTER = "formatter";
   private static final String KEY_ALLOW_HTML = "allowHtml";
+  private static final String KEY_MIME_TYPE = "mimeType";
 
   enum Formatter {
     MARKDOWN;
@@ -33,5 +39,21 @@ public class XDocGlobalConfig {
   boolean isHtmlAllowed(Formatter formatter) {
     return cfg.getBoolean(SECTION_FORMATTER, formatter.name(),
         KEY_ALLOW_HTML, false);
+  }
+
+  Map<MimeType, Formatter> getMimeTypes() {
+    Map<MimeType, Formatter> mimeTypes = new HashMap<>();
+    for (Formatter f : Formatter.values()) {
+      for (String mimeType :
+          cfg.getStringList(SECTION_FORMATTER, f.name(), KEY_MIME_TYPE)) {
+        mimeTypes.put(new MimeType(mimeType), f);
+      }
+    }
+    return mimeTypes;
+  }
+
+  static void initialize(Config cfg) {
+    cfg.setString(SECTION_FORMATTER, Formatter.MARKDOWN.name(), KEY_MIME_TYPE,
+        "text/x-markdown");
   }
 }
