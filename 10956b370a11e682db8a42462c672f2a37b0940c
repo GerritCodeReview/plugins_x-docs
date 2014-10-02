@@ -22,6 +22,30 @@
       "revId": "10956b370a11e682db8a42462c672f2a37b0940c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_738f800b",
+        "filename": "BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T11:23:43Z",
+      "side": 1,
+      "message": "That\u0027s because the target is called: xdocs and not x-docs.\n\n [alias]\n   xdocs \u003d //:xdocs\n   plugin \u003d //:xdocs\n\nSee [1].\n\n [1] https://gerrit.googlesource.com/plugins/x-docs/+/master/.buckconfig",
+      "parentUuid": "f0d12ce3_5252942d",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "10956b370a11e682db8a42462c672f2a37b0940c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
