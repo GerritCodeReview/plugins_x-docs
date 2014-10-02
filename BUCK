@@ -1,7 +1,7 @@
 include_defs('//bucklets/gerrit_plugin.bucklet')
 
 gerrit_plugin(
-  name = 'xdocs',
+  name = 'x-docs',
   srcs = glob(['src/main/java/**/*.java']),
   resources = glob(['src/main/resources/**/*']),
   manifest_entries = [
@@ -16,6 +16,6 @@ gerrit_plugin(
 # this is required for bucklets/tools/eclipse/project.py to work
 java_library(
   name = 'classpath',
-  deps = [':xdocs__plugin'],
+  deps = [':x-docs__plugin'],
 )
 
