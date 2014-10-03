@@ -19,16 +19,16 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.webui.WebLink;
 import com.google.gerrit.httpd.resources.Resource;
-import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public class XDocFileWebLink extends XDocWebLink implements WebLink<FileResource> {
+public class XDocProjectWebLink extends XDocWebLink implements WebLink<ProjectResource> {
 
   @Inject
-  XDocFileWebLink(
+  XDocProjectWebLink(
       @PluginName String pluginName,
       GitRepositoryManager repoManager,
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
@@ -38,22 +38,9 @@ public class XDocFileWebLink extends XDocWebLink implements WebLink<FileResource
   }
 
   @Override
-  public String getLinkName() {
-    return "preview";
+  public WebLinkInfo getWebLinkInfoFor(ProjectResource resource) {
+    return new WebLinkInfo(getLinkName(), getImageUrl(),
+        getProjectUrl(resource.getName()), getTarget());
   }
 
-  private String getFileUrl(String projectName, String revision,
-      String fileName) {
-    return super.getPatchUrl(projectName, revision, fileName);
-  }
-
-  @Override
-  public WebLinkInfo getWebLinkInfoFor(FileResource resource) {
-    return new WebLinkInfo(getLinkName(),
-        getImageUrl(),
-        getFileUrl(resource.getRevision().getChange().getProject().get(),
-            resource.getRevision().getPatchSet().getRefName(),
-            resource.getPatchKey().getFileName()),
-        getTarget());
-    }
 }

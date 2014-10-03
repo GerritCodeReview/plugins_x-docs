@@ -17,13 +17,15 @@ package com.googlesource.gerrit.plugins.xdocs;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.webui.BranchWebLink;
-import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.GerritTopMenu;
-import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.WebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
+import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.project.BranchResource;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
+import com.google.inject.TypeLiteral;
 
 import java.util.List;
 
@@ -40,11 +42,14 @@ public class Module extends FactoryModule {
     install(new XDocLoader.Module());
     factory(XDocConfig.Factory.class);
 
-    DynamicSet.bind(binder(), ProjectWebLink.class)
-        .to(XDocWebLink.class);
-    DynamicSet.bind(binder(), BranchWebLink.class)
-        .to(XDocWebLink.class);
-    DynamicSet.bind(binder(), FileWebLink.class)
+    DynamicSet.bind(binder(),
+        new TypeLiteral<WebLink<ProjectResource>>() {})
+        .to(XDocProjectWebLink.class);
+    DynamicSet.bind(binder(),
+        new TypeLiteral<WebLink<BranchResource>>() {})
+        .to(XDocBranchWebLink.class);
+    DynamicSet.bind(binder(),
+        new TypeLiteral<WebLink<FileResource>>() {})
         .to(XDocFileWebLink.class);
 
     DynamicSet.bind(binder(), TopMenu.class).toInstance(new TopMenu() {

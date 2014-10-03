@@ -17,8 +17,7 @@ package com.googlesource.gerrit.plugins.xdocs;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.extensions.webui.BranchWebLink;
-import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.WebLink.Target;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -37,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 @Singleton
-public class XDocWebLink implements ProjectWebLink, BranchWebLink {
+public class XDocWebLink {
   private static final Logger log = LoggerFactory
       .getLogger(XDocWebLink.class);
 
@@ -61,18 +60,23 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
     this.projectCache = projectCache;
   }
 
-  @Override
-  public String getLinkName() {
+  protected String getLinkName() {
     return "readme";
   }
 
-  @Override
-  public String getProjectUrl(String projectName) {
+  protected String getImageUrl() {
+    return "plugins/" + pluginName + "/static/readme.png";
+  }
+
+  protected static String getTarget() {
+    return Target.BLANK;
+  }
+
+  protected String getProjectUrl(String projectName) {
     return getBranchUrl(projectName, Constants.HEAD);
   }
 
-  @Override
-  public String getBranchUrl(String projectName, String branchName) {
+  protected String getBranchUrl(String projectName, String branchName) {
     ProjectState state = projectCache.get(new Project.NameKey(projectName));
     if (state == null) {
       // project not found -> no link
@@ -82,7 +86,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
         cfgFactory.create(state).getIndexFile());
   }
 
-  public String getPatchUrl(String projectName, String revision,
+  protected String getPatchUrl(String projectName, String revision,
       String fileName) {
     if (!fileName.endsWith(".md")) {
       return null;
@@ -121,15 +125,5 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
       log.error("Failed to check for project documentation", e);
       return null;
     }
-  }
-
-  @Override
-  public String getImageUrl() {
-    return "plugins/" + pluginName + "/static/readme.png";
-  }
-
-  @Override
-  public String getTarget() {
-    return Target.BLANK;
   }
 }
