@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_7339c07a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocProjectWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-03T05:46:02Z",
+      "side": 1,
+      "message": "Nit: For constructor annotated with @Inject annotation we tend to break one each parameter.",
+      "revId": "723795d1945476eb58653b09dc5ac5657f1b3d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_74ebe88a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocProjectWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-03T05:46:02Z",
+      "side": 1,
+      "message": "Nit: unnecessary new line.",
+      "revId": "723795d1945476eb58653b09dc5ac5657f1b3d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
