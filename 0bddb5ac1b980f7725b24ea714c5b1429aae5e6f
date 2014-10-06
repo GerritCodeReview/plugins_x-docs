@@ -94,6 +94,30 @@
       "revId": "0bddb5ac1b980f7725b24ea714c5b1429aae5e6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_f352b0a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-06T08:21:40Z",
+      "side": 1,
+      "message": "Yes, let\u0027s do the rename a little later. Makes sense to discuss the new name on the list. \"wiki\" sounds good, but to make it a wiki plugin there is still quite some work left to do :)",
+      "parentUuid": "1077a0c2_f3f6306f",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 11
+      },
+      "revId": "0bddb5ac1b980f7725b24ea714c5b1429aae5e6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
