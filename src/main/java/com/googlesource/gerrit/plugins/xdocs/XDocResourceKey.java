@@ -18,17 +18,15 @@ import com.google.common.base.Objects;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.reviewdb.client.Project;
 
-import com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.Formatter;
-
 import org.eclipse.jgit.lib.ObjectId;
 
 public class XDocResourceKey {
-  private final Formatter formatter;
+  private final String formatter;
   private final Project.NameKey project;
   private final String resource;
   private final ObjectId revId;
 
-  XDocResourceKey(Formatter formatter, Project.NameKey project, String r,
+  XDocResourceKey(String formatter, Project.NameKey project, String r,
       ObjectId revId) {
     this.formatter = formatter;
     this.project = project;
@@ -36,7 +34,7 @@ public class XDocResourceKey {
     this.revId = revId;
   }
 
-  public Formatter getFormatter() {
+  public String getFormatter() {
     return formatter;
   }
 
@@ -69,7 +67,7 @@ public class XDocResourceKey {
 
   public String asString() {
     StringBuilder b = new StringBuilder();
-    b.append(formatter.name());
+    b.append(IdString.fromDecoded(formatter).encoded());
     b.append("/");
     b.append(IdString.fromDecoded(project.get()).encoded());
     b.append("/");
@@ -81,12 +79,12 @@ public class XDocResourceKey {
 
   public static XDocResourceKey fromString(String str) {
     String[] s = str.split("/");
-    Formatter formatter = null;
+    String formatter = null;
     String project = null;
     String file = null;
     String revision = null;
     if (s.length > 0) {
-      formatter = Formatter.valueOf(s[0]);
+      formatter = IdString.fromUrl(s[0]).get();
     }
     if (s.length > 1) {
       project = IdString.fromUrl(s[1]).get();

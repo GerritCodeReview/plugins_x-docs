@@ -21,8 +21,6 @@ import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.FileTypeRegistry;
-import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -30,9 +28,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.Formatter;
-
-import eu.medsea.mimeutil.MimeType;
+import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
+import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -52,8 +49,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
   private final LoadingCache<String, Resource> docCache;
   private final XDocProjectConfig.Factory cfgFactory;
   private final ProjectCache projectCache;
-  private final FileTypeRegistry fileTypeRegistry;
-  private final PluginConfigFactory pluginCfgFactory;
+  private final Formatters formatters;
 
   @Inject
   XDocWebLink(
@@ -62,15 +58,13 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
       XDocProjectConfig.Factory cfgFactory,
       ProjectCache projectCache,
-      FileTypeRegistry fileTypeRegistry,
-      PluginConfigFactory pluginCfgFactory) {
+      Formatters formatters) {
     this.pluginName = pluginName;
     this.repoManager = repoManager;
     this.docCache = cache;
     this.cfgFactory = cfgFactory;
     this.projectCache = projectCache;
-    this.fileTypeRegistry = fileTypeRegistry;
-    this.pluginCfgFactory = pluginCfgFactory;
+    this.formatters = formatters;
   }
 
   @Override
@@ -96,10 +90,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
 
   public String getPatchUrl(String projectName, String revision,
       String fileName) {
-    XDocGlobalConfig pluginCfg =
-        new XDocGlobalConfig(pluginCfgFactory.getGlobalPluginConfig(pluginName));
-    MimeType mimeType = fileTypeRegistry.getMimeType(fileName, null);
-    Formatter formatter = pluginCfg.getMimeTypes().get(mimeType);
+    FormatterProvider formatter = formatters.get(fileName);
     if (formatter == null) {
       return null;
     }
@@ -113,7 +104,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
           return null;
         }
         Resource rsc = docCache.getUnchecked(
-           (new XDocResourceKey(formatter, p, fileName, revId)).asString());
+           (new XDocResourceKey(formatter.getName(), p, fileName, revId)).asString());
         if (rsc != Resource.NOT_FOUND) {
           StringBuilder url = new StringBuilder();
           url.append("plugins/");

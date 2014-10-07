@@ -18,12 +18,12 @@ import com.google.common.cache.LoadingCache;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.httpd.resources.Resource;
-import com.google.gerrit.server.FileTypeRegistry;
-import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+
+import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 
 public class XDocFileWebLink extends XDocWebLink implements FileWebLink {
 
@@ -34,10 +34,8 @@ public class XDocFileWebLink extends XDocWebLink implements FileWebLink {
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
       XDocProjectConfig.Factory cfgFactory,
       ProjectCache projectCache,
-      FileTypeRegistry fileTypeRegistry,
-      PluginConfigFactory pluginCfgFactory) {
-    super(pluginName, repoManager, cache, cfgFactory, projectCache,
-        fileTypeRegistry, pluginCfgFactory);
+      Formatters formatters) {
+    super(pluginName, repoManager, cache, cfgFactory, projectCache, formatters);
   }
 
   @Override

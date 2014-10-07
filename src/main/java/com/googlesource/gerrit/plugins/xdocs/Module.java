@@ -15,7 +15,9 @@
 package com.googlesource.gerrit.plugins.xdocs;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
@@ -24,6 +26,10 @@ import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.inject.Inject;
+
+import com.googlesource.gerrit.plugins.xdocs.formatter.Formatter;
+import com.googlesource.gerrit.plugins.xdocs.formatter.MarkdownFormatter;
+import com.googlesource.gerrit.plugins.xdocs.formatter.PlainTextFormatter;
 
 import java.util.List;
 
@@ -39,6 +45,14 @@ public class Module extends FactoryModule {
   protected void configure() {
     install(new XDocLoader.Module());
     factory(XDocProjectConfig.Factory.class);
+
+    DynamicMap.mapOf(binder(), Formatter.class);
+    bind(Formatter.class)
+        .annotatedWith(Exports.named(MarkdownFormatter.NAME))
+        .to(MarkdownFormatter.class);
+    bind(Formatter.class)
+        .annotatedWith(Exports.named(PlainTextFormatter.NAME))
+        .to(PlainTextFormatter.class);
 
     DynamicSet.bind(binder(), ProjectWebLink.class)
         .to(XDocWebLink.class);

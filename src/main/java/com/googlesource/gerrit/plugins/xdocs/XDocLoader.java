@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.xdocs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
@@ -28,13 +27,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfigFactory;
-import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.Formatter;
+import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
+import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -45,7 +44,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,22 +56,31 @@ public class XDocLoader extends CacheLoader<String, Resource> {
   private final Provider<String> webUrl;
   private final String pluginName;
   private final PluginConfigFactory cfgFactory;
+  private final Formatters formatters;
 
   @Inject
   XDocLoader(GitRepositoryManager repoManager,
       @CanonicalWebUrl Provider<String> webUrl,
       @PluginName String pluginName,
-      PluginConfigFactory cfgFactory) {
+      PluginConfigFactory cfgFactory,
+      Formatters formatters) {
     this.repoManager = repoManager;
     this.webUrl = webUrl;
     this.pluginName = pluginName;
     this.cfgFactory = cfgFactory;
+    this.formatters = formatters;
   }
 
   @Override
   public Resource load(String strKey) throws Exception {
     XDocResourceKey key = XDocResourceKey.fromString(strKey);
-    XDocGlobalConfig cfg = new XDocGlobalConfig(cfgFactory.getGlobalPluginConfig(pluginName));
+    XDocGlobalConfig cfg =
+        new XDocGlobalConfig(cfgFactory.getGlobalPluginConfig(pluginName));
+    FormatterProvider formatter = formatters.getByName(key.getFormatter());
+    if (formatter == null) {
+      return Resource.NOT_FOUND;
+    }
+    ConfigSection formatterCfg = cfg.getFormatterConfig(formatter.getName());
     Repository repo = repoManager.openRepository(key.getProject());
     try {
       RevWalk rw = new RevWalk(repo);
@@ -91,8 +98,9 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           ObjectId objectId = tw.getObjectId(0);
           ObjectLoader loader = repo.open(objectId);
           byte[] raw = loader.getBytes(Integer.MAX_VALUE);
-          byte[] html = formatAsHtml(cfg, key.getFormatter(),
-              replaceMacros(key.getProject(), new String(raw, UTF_8)));
+          String html =
+              formatter.get().format(formatterCfg,
+                  replaceMacros(key.getProject(), raw));
           return getAsHtmlResource(html, commit.getCommitTime());
         } finally {
           tw.release();
@@ -105,7 +113,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
   }
 
-  private String replaceMacros(Project.NameKey project, String raw) {
+  private String replaceMacros(Project.NameKey project, byte[] raw) {
     Map<String, String> macros = Maps.newHashMap();
 
     String url = webUrl.get();
@@ -117,7 +125,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     macros.put("PROJECT", project.get());
     macros.put("PROJECT_URL", url + "#/admin/projects/" + project.get());
 
-    Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@").matcher(raw);
+    Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@")
+        .matcher(new String(raw, UTF_8));
     StringBuffer sb = new StringBuffer();
     while (m.find()) {
       String key = m.group(2);
@@ -132,35 +141,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     return sb.toString();
   }
 
-  private byte[] formatAsHtml(XDocGlobalConfig cfg, Formatter formatter,
-      String raw) throws IOException {
-    switch (formatter) {
-      case MARKDOWN:
-        return formatMarkdownAsHtml(cfg, raw);
-      case PLAIN_TEXT:
-        return formatTxtAsHtml(raw);
-      default:
-        throw new IllegalStateException("Unsupported formatter: "
-            + formatter.name());
-    }
-  }
-
-  private byte[] formatMarkdownAsHtml(XDocGlobalConfig cfg, String md)
-      throws IOException {
-    MarkdownFormatter f = new MarkdownFormatter();
-    if (!cfg.isHtmlAllowed(Formatter.MARKDOWN)) {
-      f.suppressHtml();
-    }
-    return f.markdownToDocHtml(md, UTF_8.name());
-  }
-
-  private byte[] formatTxtAsHtml(String txt) {
-    String html = "<pre>" + escapeHtml(txt) + "</pre>";
-    return html.getBytes(UTF_8);
-  }
-
-  private Resource getAsHtmlResource(byte[] html, int lastModified) {
-    return new SmallResource(html)
+  private Resource getAsHtmlResource(String html, int lastModified) {
+    return new SmallResource(html.getBytes(UTF_8))
         .setContentType("text/html")
         .setCharacterEncoding(UTF_8.name())
         .setLastModified(lastModified);
