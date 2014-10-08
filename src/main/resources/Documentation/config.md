@@ -42,6 +42,7 @@ configuration.
 
 Supported formatters:
 
+* `ASCIIDOCTOR`
 * `MARKDOWN`
 * `PLAIN_TEXT`
 

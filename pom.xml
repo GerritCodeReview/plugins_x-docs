@@ -66,6 +66,24 @@ limitations under the License.
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+          <createDependencyReducedPom>false</createDependencyReducedPom>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -75,6 +93,11 @@ limitations under the License.
       <artifactId>gerrit-${Gerrit-ApiType}-api</artifactId>
       <version>${Gerrit-ApiVersion}</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.asciidoctor</groupId>
+      <artifactId>asciidoctorj</artifactId>
+      <version>1.5.1</version>
     </dependency>
   </dependencies>
 

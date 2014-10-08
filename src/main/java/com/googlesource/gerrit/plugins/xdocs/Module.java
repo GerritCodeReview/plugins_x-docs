@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.inject.Inject;
 
+import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidoctorFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.MarkdownFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.PlainTextFormatter;
@@ -47,6 +48,9 @@ public class Module extends FactoryModule {
     factory(XDocProjectConfig.Factory.class);
 
     DynamicMap.mapOf(binder(), Formatter.class);
+    bind(Formatter.class)
+        .annotatedWith(Exports.named(AsciidoctorFormatter.NAME))
+        .to(AsciidoctorFormatter.class);
     bind(Formatter.class)
         .annotatedWith(Exports.named(MarkdownFormatter.NAME))
         .to(MarkdownFormatter.class);
