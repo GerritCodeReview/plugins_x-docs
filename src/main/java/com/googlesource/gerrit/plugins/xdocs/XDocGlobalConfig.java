@@ -27,7 +27,7 @@ public class XDocGlobalConfig {
   private static final String KEY_MIME_TYPE = "mimeType";
 
   enum Formatter {
-    MARKDOWN;
+    MARKDOWN, PLAIN_TEXT;
   }
 
   private final Config cfg;
@@ -55,5 +55,7 @@ public class XDocGlobalConfig {
   static void initialize(Config cfg) {
     cfg.setString(SECTION_FORMATTER, Formatter.MARKDOWN.name(), KEY_MIME_TYPE,
         "text/x-markdown");
+    cfg.setString(SECTION_FORMATTER, Formatter.PLAIN_TEXT.name(), KEY_MIME_TYPE,
+        "text/plain");
   }
 }
