@@ -89,9 +89,10 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           }
           ObjectId objectId = tw.getObjectId(0);
           ObjectLoader loader = repo.open(objectId);
-          byte[] md = loader.getBytes(Integer.MAX_VALUE);
-          return getMarkdownAsHtmlResource(cfg, key.getProject(),
-              new String(md, UTF_8), commit.getCommitTime());
+          byte[] raw = loader.getBytes(Integer.MAX_VALUE);
+          byte[] html = formatAsHtml(cfg, key.getFormatter(),
+              replaceMacros(key.getProject(), new String(raw, UTF_8)));
+          return getAsHtmlResource(html, commit.getCommitTime());
         } finally {
           tw.release();
         }
@@ -103,21 +104,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
   }
 
-  private Resource getMarkdownAsHtmlResource(XDocGlobalConfig cfg,
-      Project.NameKey project, String md, int lastModified)
-      throws IOException {
-    MarkdownFormatter f = new MarkdownFormatter();
-    if (!cfg.isHtmlAllowed(Formatter.MARKDOWN)) {
-      f.suppressHtml();
-    }
-    byte[] html = f.markdownToDocHtml(replaceMacros(project, md), UTF_8.name());
-    return new SmallResource(html)
-        .setContentType("text/html")
-        .setCharacterEncoding(UTF_8.name())
-        .setLastModified(lastModified);
-  }
-
-  private String replaceMacros(Project.NameKey project, String md) {
+  private String replaceMacros(Project.NameKey project, String raw) {
     Map<String, String> macros = Maps.newHashMap();
 
     String url = webUrl.get();
@@ -129,7 +116,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     macros.put("PROJECT", project.get());
     macros.put("PROJECT_URL", url + "#/admin/projects/" + project.get());
 
-    Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@").matcher(md);
+    Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@").matcher(raw);
     StringBuffer sb = new StringBuffer();
     while (m.find()) {
       String key = m.group(2);
@@ -142,6 +129,33 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
     m.appendTail(sb);
     return sb.toString();
+  }
+
+  private byte[] formatAsHtml(XDocGlobalConfig cfg, Formatter formatter,
+      String raw) throws IOException {
+    switch (formatter) {
+      case MARKDOWN:
+        return formatMarkdownAsHtml(cfg, raw);
+      default:
+        throw new IllegalStateException("Unsupported formatter: "
+            + formatter.name());
+    }
+  }
+
+  private byte[] formatMarkdownAsHtml(XDocGlobalConfig cfg, String md)
+      throws IOException {
+    MarkdownFormatter f = new MarkdownFormatter();
+    if (!cfg.isHtmlAllowed(Formatter.MARKDOWN)) {
+      f.suppressHtml();
+    }
+    return f.markdownToDocHtml(md, UTF_8.name());
+  }
+
+  private Resource getAsHtmlResource(byte[] html, int lastModified) {
+    return new SmallResource(html)
+        .setContentType("text/html")
+        .setCharacterEncoding(UTF_8.name())
+        .setLastModified(lastModified);
   }
 
   public static class Module extends CacheModule {

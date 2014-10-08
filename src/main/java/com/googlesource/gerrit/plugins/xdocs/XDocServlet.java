@@ -191,9 +191,10 @@ public class XDocServlet extends HttpServlet {
         }
 
         Resource rsc;
-        if (mimeTypes.get(mimeType) != null) {
+        Formatter formatter = mimeTypes.get(mimeType);
+        if (formatter != null) {
           rsc = docCache.getUnchecked(
-              (new XDocResourceKey(key.project, key.file, revId)).asString());
+              (new XDocResourceKey(formatter, key.project, key.file, revId)).asString());
         } else if ("image".equals(mimeType.getMediaType())) {
           rsc = getImageResource(repo, revId, key.file);
         } else {

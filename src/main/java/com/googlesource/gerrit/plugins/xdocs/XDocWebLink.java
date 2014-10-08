@@ -30,6 +30,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.Formatter;
+
 import eu.medsea.mimeutil.MimeType;
 
 import org.eclipse.jgit.lib.Constants;
@@ -97,7 +99,8 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
     XDocGlobalConfig pluginCfg =
         new XDocGlobalConfig(pluginCfgFactory.getGlobalPluginConfig(pluginName));
     MimeType mimeType = fileTypeRegistry.getMimeType(fileName, null);
-    if (!pluginCfg.getMimeTypes().keySet().contains(mimeType)) {
+    Formatter formatter = pluginCfg.getMimeTypes().get(mimeType);
+    if (formatter == null) {
       return null;
     }
 
@@ -110,7 +113,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
           return null;
         }
         Resource rsc = docCache.getUnchecked(
-           (new XDocResourceKey(p, fileName, revId)).asString());
+           (new XDocResourceKey(formatter, p, fileName, revId)).asString());
         if (rsc != Resource.NOT_FOUND) {
           StringBuilder url = new StringBuilder();
           url.append("plugins/");
