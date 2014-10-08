@@ -22,6 +22,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.cache.LoadingCache;
 import com.google.common.hash.Hashing;
 import com.google.common.net.HttpHeaders;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -30,6 +31,7 @@ import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.GetHead;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -42,6 +44,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+
+import com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.Formatter;
 
 import eu.medsea.mimeutil.MimeType;
 
@@ -58,6 +62,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServlet;
@@ -78,6 +83,8 @@ public class XDocServlet extends HttpServlet {
   private final LoadingCache<String, Resource> docCache;
   private final FileTypeRegistry fileTypeRegistry;
   private final XDocProjectConfig.Factory cfgFactory;
+  private final String pluginName;
+  private final PluginConfigFactory pluginCfgFactory;
 
   @Inject
   XDocServlet(
@@ -88,7 +95,9 @@ public class XDocServlet extends HttpServlet {
       GitRepositoryManager repoManager,
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
       FileTypeRegistry fileTypeRegistry,
-      XDocProjectConfig.Factory cfgFactory) {
+      XDocProjectConfig.Factory cfgFactory,
+      @PluginName String pluginName,
+      PluginConfigFactory pluginCfgFactory) {
     this.db = db;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
@@ -97,6 +106,8 @@ public class XDocServlet extends HttpServlet {
     this.docCache = cache;
     this.fileTypeRegistry = fileTypeRegistry;
     this.cfgFactory = cfgFactory;
+    this.pluginName = pluginName;
+    this.pluginCfgFactory = pluginCfgFactory;
   }
 
   @Override
@@ -119,8 +130,11 @@ public class XDocServlet extends HttpServlet {
       res.sendRedirect(getRedirectUrl(req, key, cfg));
       return;
     }
+    XDocGlobalConfig pluginCfg =
+        new XDocGlobalConfig(pluginCfgFactory.getGlobalPluginConfig(pluginName));
     MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
-    if (!key.file.endsWith(".md")
+    Map<MimeType, Formatter> mimeTypes = pluginCfg.getMimeTypes();
+    if (!mimeTypes.keySet().contains(mimeType)
         && !("image".equals(mimeType.getMediaType())
             && fileTypeRegistry.isSafeInline(mimeType))) {
       Resource.NOT_FOUND.send(req, res);
@@ -177,7 +191,7 @@ public class XDocServlet extends HttpServlet {
         }
 
         Resource rsc;
-        if (key.file.endsWith(".md")) {
+        if (mimeTypes.get(mimeType) != null) {
           rsc = docCache.getUnchecked(
               (new XDocResourceKey(key.project, key.file, revId)).asString());
         } else if ("image".equals(mimeType.getMediaType())) {

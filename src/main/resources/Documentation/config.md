@@ -30,10 +30,19 @@ Global Configuration
 The global configuration of the @PLUGIN@ plugin is done in the
 `$site_path/etc/@PLUGIN@.config` file.
 
+The plugin contains an init step that creates the initial plugin
+configuration.
+
 ```
   [formatter "MARKDOWN"]
-    allowHtml = false
+    mimeType = text/x-markdown
 ```
+
+<a id="formatterMimeType">
+formatter.<formatter>.mimeType
+:	The mime type of files that you be rendered by this formatter.
+
+	Multiple mime types may be specified for a formatter.
 
 <a id="formatterAllowHtml">
 formatter.<formatter>.allowHtml
