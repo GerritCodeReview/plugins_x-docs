@@ -12,6 +12,9 @@ gerrit_plugin(
     'Gerrit-Module: com.googlesource.gerrit.plugins.xdocs.Module',
     'Gerrit-InitStep: com.googlesource.gerrit.plugins.xdocs.XDocInit',
   ],
+  deps = [
+    '//lib/asciidoctor:asciidoc_lib',
+  ],
 )
 
 # this is required for bucklets/tools/eclipse/project.py to work

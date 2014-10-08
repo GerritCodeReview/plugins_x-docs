@@ -41,6 +41,15 @@ The plugin includes several formatters for rendering documentation.
     <th>Homepage</th>
   </tr>
   <tr>
+    <td><tt>AsciidocFormatter</tt></td>
+    <td><tt>ASCIIDOC</tt></td>
+    <td>Formatter for documentation that is written in
+      <a href="http://www.methods.co.nz/asciidoc/userguide.html">Aciidoc</a>
+    </td>
+    <td><a href="../../../Documentation/licenses.html#CC-BY3_0">CC-BY3.0</a></td>
+    <td><a href="http://asciidoctor.org/docs/asciidoctorj/">http://asciidoctor.org/docs/asciidoctorj/</a></td>
+  </tr>
+  <tr>
     <td><tt>MarkdownFormatter</tt></td>
     <td><tt>MARKDOWN</tt></td>
     <td>Formatter for documentation that is written in
