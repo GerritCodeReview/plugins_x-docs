@@ -12,6 +12,10 @@ gerrit_plugin(
     'Gerrit-Module: com.googlesource.gerrit.plugins.xdocs.Module',
     'Gerrit-InitStep: com.googlesource.gerrit.plugins.xdocs.XDocInit',
   ],
+  deps = [
+    '//lib/asciidoctor:asciidoctor',
+    '//lib/asciidoctor:jruby',
+  ],
 )
 
 # this is required for bucklets/tools/eclipse/project.py to work
