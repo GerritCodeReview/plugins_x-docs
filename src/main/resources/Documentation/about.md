@@ -41,6 +41,21 @@ The plugin includes several formatters for rendering documentation.
     <th>Homepage</th>
   </tr>
   <tr>
+    <td><tt>AsciidocFormatter</tt></td>
+    <td><tt>ASCIIDOC</tt></td>
+    <td>Formatter for documentation that is written in
+      <a href="http://www.methods.co.nz/asciidoc/userguide.html">Aciidoc</a>
+    </td>
+    <td>
+      asciidoctorj: <a href="../../../Documentation/licenses.html#Apache2_0">Apache2.0</a><br/>
+      jruby: <a href="licenses.html#EPL1_0">Eclipse Public License 1.0</a>
+    </td>
+    <td>
+      <a href="http://asciidoctor.org/docs/asciidoctorj/">http://asciidoctor.org/docs/asciidoctorj/</a></br>
+      <a href="https://github.com/jruby/jruby">https://github.com/jruby/jruby</a></br>
+    </td>
+  </tr>
+  <tr>
     <td><tt>MarkdownFormatter</tt></td>
     <td><tt>MARKDOWN</tt></td>
     <td>Formatter for documentation that is written in
