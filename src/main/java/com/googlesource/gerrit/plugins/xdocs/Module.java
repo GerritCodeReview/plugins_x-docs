@@ -38,7 +38,7 @@ public class Module extends FactoryModule {
   @Override
   protected void configure() {
     install(new XDocLoader.Module());
-    factory(XDocConfig.Factory.class);
+    factory(XDocProjectConfig.Factory.class);
 
     DynamicSet.bind(binder(), ProjectWebLink.class)
         .to(XDocWebLink.class);

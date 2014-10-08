@@ -44,7 +44,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
   private final String pluginName;
   private final GitRepositoryManager repoManager;
   private final LoadingCache<String, Resource> docCache;
-  private final XDocConfig.Factory cfgFactory;
+  private final XDocProjectConfig.Factory cfgFactory;
   private final ProjectCache projectCache;
 
   @Inject
@@ -52,7 +52,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
       @PluginName String pluginName,
       GitRepositoryManager repoManager,
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
-      XDocConfig.Factory cfgFactory,
+      XDocProjectConfig.Factory cfgFactory,
       ProjectCache projectCache) {
     this.pluginName = pluginName;
     this.repoManager = repoManager;

@@ -30,7 +30,7 @@ public class XDocFileWebLink extends XDocWebLink implements FileWebLink {
       @PluginName String pluginName,
       GitRepositoryManager repoManager,
       @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
-      XDocConfig.Factory cfgFactory,
+      XDocProjectConfig.Factory cfgFactory,
       ProjectCache projectCache) {
     super(pluginName, repoManager, cache, cfgFactory, projectCache);
   }
