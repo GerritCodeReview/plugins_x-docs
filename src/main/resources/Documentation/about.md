@@ -25,3 +25,35 @@ Images that are stored in the project can be included into the Markdown
 documentation, but they are only rendered if the image mimetype is
 configured as a
 [safe mimetype](../../../Documentation/config-gerrit.html#mimetype).
+
+<a id="formatters">
+Formatters
+----------
+
+The plugin includes several formatters for rendering documentation.
+
+<table>
+  <tr>
+    <th>Formatter</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>License</th>
+    <th>Homepage</th>
+  </tr>
+  <tr>
+    <td><tt>MarkdownFormatter</tt></td>
+    <td><tt>MARKDOWN</tt></td>
+    <td>Formatter for documentation that is written in
+      <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+    </td>
+    <td><a href="../../../Documentation/licenses.html#Apache2_0">Apache2.0</a></td>
+    <td><a href="https://github.com/sirthias/pegdown">https://github.com/sirthias/pegdown</a></td>
+  </tr>
+  <tr>
+    <td><tt>PlainTextFormatter</tt></td>
+    <td><tt>PLAIN_TEXT</tt></td>
+    <td>Formatter for documentation that is written in plain text.</td>
+    <td><a href="../../../Documentation/licenses.html#Apache2_0">Apache2.0</a></td>
+    <td><a href="http://commons.apache.org">http://commons.apache.org</a></td>
+  </tr>
+</table>
