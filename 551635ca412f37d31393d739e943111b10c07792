@@ -16,6 +16,24 @@
       "revId": "551635ca412f37d31393d739e943111b10c07792",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_f48a9875",
+        "filename": "lib/asciidoctorj/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-08T16:00:11Z",
+      "side": 1,
+      "message": "Thanks for the hint, I will check on this.\n\nAt the moment this is not working when I build with Maven. It\u0027s missing the Asciidoctor class at runtime since it is not packaged in the plugin jar... I believe when I tested this I was running in the debugger and there it was able to find the class.",
+      "parentUuid": "307ae4aa_1474f4f8",
+      "revId": "551635ca412f37d31393d739e943111b10c07792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
