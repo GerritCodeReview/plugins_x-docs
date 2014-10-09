@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
+import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidocFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.MarkdownFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.PlainTextFormatter;
 
@@ -23,6 +24,7 @@ public class XDocGlobalConfig {
   private static final String SECTION_FORMATTER = "formatter";
 
   public static final String KEY_ALLOW_HTML = "allowHtml";
+  public static final String KEY_EXT = "ext";
   public static final String KEY_MIME_TYPE = "mimeType";
 
   private final Config cfg;
@@ -36,6 +38,7 @@ public class XDocGlobalConfig {
   }
 
   static void initialize(Config cfg) {
+    cfg.setString(SECTION_FORMATTER, AsciidocFormatter.NAME, KEY_EXT, "adoc");
     cfg.setString(SECTION_FORMATTER, MarkdownFormatter.NAME, KEY_MIME_TYPE,
         "text/x-markdown");
     cfg.setString(SECTION_FORMATTER, PlainTextFormatter.NAME, KEY_MIME_TYPE,
