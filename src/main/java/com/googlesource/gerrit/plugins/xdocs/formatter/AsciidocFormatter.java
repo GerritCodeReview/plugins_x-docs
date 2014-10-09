@@ -26,7 +26,7 @@ public class AsciidocFormatter implements Formatter {
 
   @Override
   public String format(ConfigSection cfg, String raw) throws IOException {
-    return Asciidoctor.Factory.create()
+    return Asciidoctor.Factory.create(AsciidocFormatter.class.getClassLoader())
         .convert(raw, new HashMap<String, Object>());
   }
 }

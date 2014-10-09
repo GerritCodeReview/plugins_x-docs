@@ -1,0 +1,21 @@
+include_defs('//bucklets/maven_jar.bucklet')
+
+REPO = MAVEN_CENTRAL
+
+maven_jar(
+  name = 'asciidoctor',
+  id = 'org.asciidoctor:asciidoctorj:1.5.1',
+  sha1 = 'f31c95e557ee185c935fd3764e83b01c81a3b41f',
+  license = 'Apache2.0',
+  attach_source = False,
+  repository = REPO,
+)
+
+maven_jar(
+  name = 'jruby',
+  id = 'org.jruby:jruby-complete:1.7.16',
+  sha1 = '8ef6c848cc5491c5f22ddad4532c68fe778421f6',
+  license = 'jruby',
+  attach_source = False,
+  repository = REPO,
+)
