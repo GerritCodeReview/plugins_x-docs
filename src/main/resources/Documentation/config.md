@@ -34,6 +34,8 @@ The plugin contains an init step that creates the initial plugin
 configuration.
 
 ```
+  [formatter "ASCIIDOC"]
+    ext = adoc
   [formatter "MARKDOWN"]
     mimeType = text/x-markdown
   [formatter "PLAIN_TEXT"]
@@ -46,6 +48,11 @@ Supported formatters:
 * `MARKDOWN`
 * `PLAIN_TEXT`
 
+<a id="ext">
+formatter.<formatter>.ext
+:	Extension of files that you be rendered by this formatter.
+
+	Multiple extensions may be specified for a formatter.
 
 <a id="formatterMimeType">
 formatter.<formatter>.mimeType
