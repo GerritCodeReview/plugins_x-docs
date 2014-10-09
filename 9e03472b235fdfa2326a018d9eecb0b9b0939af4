@@ -22,6 +22,30 @@
       "revId": "9e03472b235fdfa2326a018d9eecb0b9b0939af4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_76a52ebc",
+        "filename": "BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-09T14:56:16Z",
+      "side": 1,
+      "message": "Have you tried to change deps with exported_deps?\n\n  java_library(\n    name \u003d \u0027asciidoc_lib\u0027,\n    exported_deps \u003d [\n      \u0027:asciidoctor\u0027,\n      \u0027:jruby\u0027,\n    ],\n    visibility \u003d [\u0027PUBLIC\u0027],\n  )",
+      "parentUuid": "307ae4aa_b72e62ab",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 4
+      },
+      "revId": "9e03472b235fdfa2326a018d9eecb0b9b0939af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
