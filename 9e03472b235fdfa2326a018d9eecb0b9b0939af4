@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307ae4aa_b72e62ab",
+        "filename": "BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-09T14:09:44Z",
+      "side": 1,
+      "message": "If I write it like this, it works. But if I define\n\n  java_library(\n    name \u003d \u0027asciidoc_lib\u0027,\n    deps \u003d [\n      \u0027:asciidoctor\u0027,\n      \u0027:jruby\u0027,\n    ],\n    visibility \u003d [\u0027PUBLIC\u0027],\n  )\n\nin \u0027lib/asciidoctor/BUCK\u0027 and have the dependency here as\n\n  deps \u003d [\n    \u0027//lib/asciidoctor:asciidoctor_lib\u0027,\n  ],\n\nit doesn\u0027t work anymore because then the classes from asciidoctor and jruby are not packaged into the plugin jar and I\u0027m getting exceptions at runtime. Can anyone say what I\u0027m doing wrong here?",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 4
+      },
+      "revId": "9e03472b235fdfa2326a018d9eecb0b9b0939af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
