@@ -22,6 +22,30 @@
       "revId": "7d37cc5c034deb8118d8c3af889a7db4080e5941",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_3232d013",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-10T14:09:14Z",
+      "side": 1,
+      "message": "I anyway need to rework on the predecessors, so I can fix this here as well.\n\nDone.",
+      "parentUuid": "70ab7c9e_beefb914",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 11
+      },
+      "revId": "7d37cc5c034deb8118d8c3af889a7db4080e5941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
