@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "10cb2096_53e0a428",
+        "filename": "BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T09:52:27Z",
+      "side": 1,
+      "message": "| Is it possible to specify a relative path such as \u0027./lib/asciidoctor:asciidoc_lib\u0027 to make it work in both cases\n\nNo. Only absolute paths work.\n\nThere are three different approaches to solve your problem:\n\n* 1. widen the visibility of \u0027//lib/asciidoctor:asciidoc_lib\u0027, so that it can be included from plugins. Justification: Plugin may ant to include it. So let them be easily build able from the gerrit tree.\n\n* 2. conditional path differentiation in different build modes. The idea here is to provide build mode type to be able to differentiate and conditionally include different paths of dependencies in different build modes. To be able to do that we need one change that was rejected (No review within one month) [a]. With change in core you would be able to conditionally pick right asciidoc dependency for specific build mode [b]. Here is the example from another abandoned change how it is supposed to be used: [c].\n\n* 3. an ugly hack is to create a symbolic link in x-docs project and short cut the link \"//plugins/x-docs/lib\" to point to lib directory, so that the artifact \u0027//plugins/x-docs/lib/asciidoctor:asciidoc_lib\u0027 can be resolved in both build modes.\n\n [a] https://gerrit-review.googlesource.com/58727\n\n [b] In gerrit tree you would use:\n\n*  \u0027//plugins/x-docs/lib/asciidoctor:asciidoc_lib\u0027, while in standalone mode you would use\n* \u0027//lib/asciidoctor:asciidoc_lib\u0027\n\n [c] https://gerrit-review.googlesource.com/#/c/58731/2/BUCK@3",
+      "parentUuid": "10cb2096_73e3a037",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "9ccd4d781975f24555c66c1968c08c3ee41b4854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_32ed3021",
         "filename": "lib/asciidoctor/BUCK",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-10T09:03:00Z",
       "side": 1,
       "message": "\u0027local_license\u0027 is not defined when I build the plugin standalone and the build fails. If it is build in the Gerrit tree it works...",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "9ccd4d781975f24555c66c1968c08c3ee41b4854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_33ed2821",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T09:52:27Z",
+      "side": 1,
+      "message": "That\u0027s because maven_jar.bucklet [1] needs to be extended to reflect this change in Gerrit core [2].\n\n* [1] https://gerrit.googlesource.com/bucklets/+/master/maven_jar.bucklet\n* [2] https://gerrit-review.googlesource.com/59954",
+      "parentUuid": "f0e5ac1c_32ed3021",
       "range": {
         "startLine": 28,
         "startChar": 2,
