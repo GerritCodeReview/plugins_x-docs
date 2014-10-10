@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_73e3a037",
+        "filename": "BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-10T09:03:00Z",
+      "side": 1,
+      "message": "This dependency only works for the Buck standalone build. If I try to build the plugin in the Gerrit tree it resolves to the \u0027//lib/asciidoctor:asciidoc_lib\u0027 in the Gerrit root, but not to the one contained in the plugin :(\n\u0027//lib/asciidoctor:asciidoc_lib\u0027 in Gerrit tree is not visible and teh plugin build fails. To make it work in Gerrit tree I need to change this dependency to \u0027//plugins/x-docs/lib/asciidoctor:asciidoc_lib\u0027. Is it possible to specify a relative path such as \u0027./lib/asciidoctor:asciidoc_lib\u0027 to make it work in both cases?",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "9ccd4d781975f24555c66c1968c08c3ee41b4854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_32ed3021",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-10T09:03:00Z",
+      "side": 1,
+      "message": "\u0027local_license\u0027 is not defined when I build the plugin standalone and the build fails. If it is build in the Gerrit tree it works...",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "9ccd4d781975f24555c66c1968c08c3ee41b4854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
