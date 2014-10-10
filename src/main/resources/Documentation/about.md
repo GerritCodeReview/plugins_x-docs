@@ -18,6 +18,15 @@ a revision is specified in the URL as
 If the file name is omitted the plugin serves the `README.md` from the
 project if available.
 
+By setting the URL parameter `raw` the document will be returned as raw
+unformatted text.
+
+```
+  /@PLUGIN@/project/external%2Fopenssl/rev/stable-1.3/docs%2Ffaq.md?raw
+```
+
+The `raw` parameter cannot be used for binary files.
+
 *WARNING:* All HTML blocks as well as inline HTML tags are suppressed.
 Both will be accepted in the input but not be contained in the output.
 

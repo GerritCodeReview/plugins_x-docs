@@ -125,13 +125,19 @@ public class XDocServlet extends HttpServlet {
       res.sendRedirect(getRedirectUrl(req, key, cfg));
       return;
     }
+
     MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
-    FormatterProvider formatter = formatters.get(state, key.file);
-    if (formatter == null
-        && !("image".equals(mimeType.getMediaType())
-            && fileTypeRegistry.isSafeInline(mimeType))) {
-      Resource.NOT_FOUND.send(req, res);
-      return;
+    FormatterProvider formatter;
+    if (req.getParameter("raw") != null) {
+      formatter = formatters.getRawFormatter();
+    } else {
+      formatter = formatters.get(state, key.file);
+      if (formatter == null
+          && !("image".equals(mimeType.getMediaType())
+              && fileTypeRegistry.isSafeInline(mimeType))) {
+        Resource.NOT_FOUND.send(req, res);
+        return;
+      }
     }
 
     try {
