@@ -16,17 +16,23 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_EXT;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_MIME_TYPE;
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.SECTION_FORMATTER;
 
 import org.apache.commons.io.FilenameUtils;
+import org.eclipse.jgit.lib.Config;
 
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 import com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig;
 
 import eu.medsea.mimeutil.MimeType;
@@ -39,35 +45,45 @@ public class Formatters {
   private final PluginConfigFactory pluginCfgFactory;
   private final FileTypeRegistry fileTypeRegistry;
   private final DynamicMap<Formatter> formatters;
+  private final ProjectCache projectCache;
 
   @Inject
   Formatters(
       @PluginName String pluginName,
       PluginConfigFactory pluginCfgFactory,
       FileTypeRegistry fileTypeRegistry,
-      DynamicMap<Formatter> formatters) {
+      DynamicMap<Formatter> formatters,
+      ProjectCache projectCache) {
     this.pluginName = pluginName;
     this.pluginCfgFactory = pluginCfgFactory;
     this.fileTypeRegistry = fileTypeRegistry;
     this.formatters = formatters;
+    this.projectCache = projectCache;
   }
 
-  public FormatterProvider get(String fileName) {
-    XDocGlobalConfig pluginCfg =
-        new XDocGlobalConfig(pluginCfgFactory.getGlobalPluginConfig(pluginName));
+  public FormatterProvider get(String projectName, String fileName) {
+    ProjectState project = projectCache.get(new Project.NameKey(projectName));
+    if (project == null) {
+      return null;
+    }
+    return get(project, fileName);
+  }
+
+  public FormatterProvider get(ProjectState project, String fileName) {
     MimeType mimeType = fileTypeRegistry.getMimeType(fileName, null);
     String extension = FilenameUtils.getExtension(fileName);
     for (String pluginName : formatters.plugins()) {
       for (Entry<String, Provider<Formatter>> e :
           formatters.byPlugin(pluginName).entrySet()) {
+        ConfigSection formatterCfg = getFormatterConfig(e.getKey(), project);
         for (String configuredMimeType :
-          pluginCfg.getFormatterConfig(e.getKey()).getStringList(KEY_MIME_TYPE)) {
+          formatterCfg.getStringList(KEY_MIME_TYPE)) {
           if (mimeType.equals(new MimeType(configuredMimeType))) {
             return new FormatterProvider(e.getKey(), e.getValue());
           }
         }
         for (String ext :
-          pluginCfg.getFormatterConfig(e.getKey()).getStringList(KEY_EXT)) {
+          formatterCfg.getStringList(KEY_EXT)) {
           if (extension.equals(ext)) {
             return new FormatterProvider(e.getKey(), e.getValue());
           }
@@ -75,6 +91,20 @@ public class Formatters {
       }
     }
     return null;
+  }
+
+  private ConfigSection getFormatterConfig(String formatterName,
+      ProjectState project) {
+    for (ProjectState p : project.tree()) {
+      Config cfg = pluginCfgFactory.getProjectPluginConfig(p, pluginName);
+      if (cfg.getSubsections(SECTION_FORMATTER).contains(formatterName)) {
+        return new XDocGlobalConfig(cfg).getFormatterConfig(formatterName);
+      }
+    }
+
+    return new XDocGlobalConfig(
+        pluginCfgFactory.getGlobalPluginConfig(pluginName))
+        .getFormatterConfig(formatterName);
   }
 
   public FormatterProvider getByName(String formatterName) {

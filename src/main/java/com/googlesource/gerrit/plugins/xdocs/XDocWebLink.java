@@ -90,7 +90,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
 
   public String getPatchUrl(String projectName, String revision,
       String fileName) {
-    FormatterProvider formatter = formatters.get(fileName);
+    FormatterProvider formatter = formatters.get(projectName, fileName);
     if (formatter == null) {
       return null;
     }
