@@ -43,6 +43,8 @@ import java.util.Map.Entry;
 
 @Singleton
 public class Formatters {
+  public static final String RAW_FORMATTER = "RAW";
+
   private final String pluginName;
   private final PluginConfigFactory pluginCfgFactory;
   private final FileTypeRegistry fileTypeRegistry;
@@ -129,6 +131,11 @@ public class Formatters {
   }
 
   public FormatterProvider getByName(String formatterName) {
+    if (formatterName.equals(RAW_FORMATTER)) {
+      return new FormatterProvider(RAW_FORMATTER,
+          getByName(PlainTextFormatter.NAME).formatter);
+    }
+
     for (String pluginName : formatters.plugins()) {
       for (Entry<String, Provider<Formatter>> e :
           formatters.byPlugin(pluginName).entrySet()) {
@@ -138,6 +145,10 @@ public class Formatters {
       }
     }
     return null;
+  }
+
+  public FormatterProvider getRawFormatter() {
+    return getByName(RAW_FORMATTER);
   }
 
   public static class FormatterProvider {

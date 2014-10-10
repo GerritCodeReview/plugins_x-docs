@@ -35,6 +35,7 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
 
+import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
@@ -97,10 +98,14 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           }
           ObjectId objectId = tw.getObjectId(0);
           ObjectLoader loader = repo.open(objectId);
-          byte[] raw = loader.getBytes(Integer.MAX_VALUE);
+          byte[] bytes = loader.getBytes(Integer.MAX_VALUE);
+          if (formatter.getName().equals(Formatters.RAW_FORMATTER)
+              && RawText.isBinary(bytes)) {
+            return Resources.METHOD_NOT_ALLOWED;
+          }
           String html =
               formatter.get().format(formatterCfg,
-                  replaceMacros(key.getProject(), raw));
+                  replaceMacros(key.getProject(), bytes));
           return getAsHtmlResource(html, commit.getCommitTime());
         } finally {
           tw.release();
