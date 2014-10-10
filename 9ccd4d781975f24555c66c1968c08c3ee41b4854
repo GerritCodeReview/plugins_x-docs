@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "10cb2096_93f4fce9",
+        "filename": "BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-10T10:44:33Z",
+      "side": 1,
+      "message": "Wow, you really have already prepared a solution for everything! :) \n\nI\u0027ve now implemented solution 2. For this I have revived those your changes and merged them.",
+      "parentUuid": "10cb2096_53e0a428",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "9ccd4d781975f24555c66c1968c08c3ee41b4854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_32ed3021",
         "filename": "lib/asciidoctor/BUCK",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "That\u0027s because maven_jar.bucklet [1] needs to be extended to reflect this change in Gerrit core [2].\n\n* [1] https://gerrit.googlesource.com/bucklets/+/master/maven_jar.bucklet\n* [2] https://gerrit-review.googlesource.com/59954",
       "parentUuid": "f0e5ac1c_32ed3021",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "9ccd4d781975f24555c66c1968c08c3ee41b4854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_92f4dce9",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-10T10:44:33Z",
+      "side": 1,
+      "message": "Cool, I\u0027ve done this change in the bucklets project [1] and with it it is working now :)\n\n[1] https://gerrit-review.googlesource.com/60711",
+      "parentUuid": "10cb2096_33ed2821",
       "range": {
         "startLine": 28,
         "startChar": 2,
