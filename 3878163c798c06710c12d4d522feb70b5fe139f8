@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f00e8cb4_aaef6f14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-10T13:36:43Z",
+      "side": 1,
+      "message": "nit: asciidoctor is not the same as asciidoc :)",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "3878163c798c06710c12d4d522feb70b5fe139f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00e8cb4_cafaa3d8",
+        "filename": "lib/asciidoctor/LICENSE-jruby",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-10T13:36:43Z",
+      "side": 1,
+      "message": "whitespace\n\nalso in other parts of the file.\n\nDo we have to keep it exactly as-is from wherever it\u0027s imported?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 3
+      },
+      "revId": "3878163c798c06710c12d4d522feb70b5fe139f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00e8cb4_8af4abe9",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-10T13:36:43Z",
+      "side": 1,
+      "message": "Might be worth mentioning that it actually uses asciidoctor, which does not support all of the features of asciidoc.",
+      "revId": "3878163c798c06710c12d4d522feb70b5fe139f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
