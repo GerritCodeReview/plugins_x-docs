@@ -23,8 +23,8 @@ web.indexFile
 
 	Default: `README.md`
 
-The global formatter configuration can be overwritten per project.
-Configuring any parameter for a formatter overwrites the complete
+The global formatter configuration can be overridden per project.
+Configuring any parameter for a formatter overrides the complete
 global formatter configuration.
 
 <a id="ext">
@@ -33,7 +33,7 @@ formatter.<formatter>.ext
 
 	Multiple extensions may be specified for a formatter.
 
-	Overwrites the [globally configured file extensions](#formatterExt)
+	Overrides the [globally configured file extensions](#formatterExt)
 	for this formatter.
 
 <a id="mimeType">
@@ -42,7 +42,7 @@ formatter.<formatter>.mimeType
 
 	Multiple mime types may be specified for a formatter.
 
-	Overwrites the [globally configured mime types](#formatterMimeType)
+	Overrides the [globally configured mime types](#formatterMimeType)
 	for this formatter.
 
 <a id="globalConfig">
@@ -76,7 +76,7 @@ formatter.<formatter>.ext
 
 	Multiple extensions may be specified for a formatter.
 
-	Can be overwritten on [project-level](#ext).
+	Can be overridden on [project-level](#ext).
 
 <a id="formatterMimeType">
 formatter.<formatter>.mimeType
@@ -84,7 +84,7 @@ formatter.<formatter>.mimeType
 
 	Multiple mime types may be specified for a formatter.
 
-	Can be overwritten on [project-level](#mimeType).
+	Can be overridden on [project-level](#mimeType).
 
 <a id="formatterAllowHtml">
 formatter.<formatter>.allowHtml
@@ -101,8 +101,19 @@ formatter.<formatter>.allowHtml
 	**WARNING:** Allowing HTML for user-provided input is a security
 	risk, e.g. code for XSS attacks may be contained in the HTML.
 
-	*CANNOT* be overwritten on project-level.
+	*CANNOT* be overridden on project-level.
 
 	Supported for the following formatters: `MARKDOWN`
 
 	Default: `false`
+
+<a id="formatterEnabled">
+formatter.<formatter>.enabled
+:	Whether this formatter is enabled.
+
+	When a formatter is disabled the `xdocs-x_doc_resources` cache must
+	be flushed.
+
+	*CANNOT* be overridden on project-level.
+
+	Default: `true`
