@@ -26,6 +26,7 @@ public class XDocGlobalConfig {
   public static final String KEY_ENABLED = "enabled";
   public static final String KEY_EXT = "ext";
   public static final String KEY_MIME_TYPE = "mimeType";
+  public static final String KEY_PREFIX = "prefix";
 
   private final Config cfg;
 
