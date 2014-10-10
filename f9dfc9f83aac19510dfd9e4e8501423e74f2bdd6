@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "10cb2096_530e6453",
+        "filename": "BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-10T12:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10cb2096_d32154ca",
+      "revId": "f9dfc9f83aac19510dfd9e4e8501423e74f2bdd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_12010c27",
         "filename": "lib/asciidoctor/BUCK",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2014-10-10T11:45:34Z",
       "side": 1,
       "message": "Not needed, this is the default.",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "f9dfc9f83aac19510dfd9e4e8501423e74f2bdd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_922bbca8",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-10T12:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0e5ac1c_12010c27",
       "range": {
         "startLine": 3,
         "startChar": 1,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "f0e5ac1c_72117873",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-10T12:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0e5ac1c_f21c4892",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "f9dfc9f83aac19510dfd9e4e8501423e74f2bdd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10cb2096_932bdca8",
         "filename": "lib/asciidoctor/BUCK",
         "patchSetId": 5
@@ -76,6 +142,30 @@
       "writtenOn": "2014-10-10T11:45:34Z",
       "side": 1,
       "message": "The same",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "f9dfc9f83aac19510dfd9e4e8501423e74f2bdd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_520e7453",
+        "filename": "lib/asciidoctor/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-10T12:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10cb2096_932bdca8",
       "range": {
         "startLine": 30,
         "startChar": 2,
