@@ -106,3 +106,14 @@ formatter.<formatter>.allowHtml
 	Supported for the following formatters: `MARKDOWN`
 
 	Default: `false`
+
+<a id="formatterEnabled">
+formatter.<formatter>.enabled
+:	Whether this formatter is enabled.
+
+	When a formatter is disabled the `xdocs-x_doc_resources` cache must
+	be flushed.
+
+	*CANNOT* be overridden on project-level.
+
+	Default: `true`

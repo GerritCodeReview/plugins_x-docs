@@ -23,6 +23,7 @@ import org.eclipse.jgit.lib.Config;
 public class XDocGlobalConfig {
   public static final String SECTION_FORMATTER = "formatter";
   public static final String KEY_ALLOW_HTML = "allowHtml";
+  public static final String KEY_ENABLED = "enabled";
   public static final String KEY_EXT = "ext";
   public static final String KEY_MIME_TYPE = "mimeType";
 
