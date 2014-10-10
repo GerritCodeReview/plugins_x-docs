@@ -96,6 +96,29 @@
     },
     {
       "key": {
+        "uuid": "10cb2096_9342bc66",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/Module.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T14:11:13Z",
+      "side": 1,
+      "message": "Future improvement/optimization could be to make it pluggable (plugin in plugin :). And provide number of different plugin packaged versions: all-in-one and only markdown version + pluggable optional formatter-modules that can be added in addition to gerrit_site/lib directory and this would just work. We did something similar with scripting plugins and javamelody-plugin, where we provide number of artifacts from Buck driven build, e. g. when you want database introspection you need another (optional) library: [1].\n\nThis would allow to add many number of different formatter with many dpendencies. Consumer of the plugin would only use what the really need and use.\n\n [1] https://gerrit.googlesource.com/plugins/javamelody/+/master/BUCK",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 37
+      },
+      "revId": "3878163c798c06710c12d4d522feb70b5fe139f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f00e8cb4_8af4abe9",
         "filename": "src/main/resources/Documentation/about.md",
         "patchSetId": 6
