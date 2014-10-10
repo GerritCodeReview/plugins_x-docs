@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ENABLED;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_EXT;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_MIME_TYPE;
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_PREFIX;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.SECTION_FORMATTER;
 
 import org.apache.commons.io.FilenameUtils;
@@ -83,6 +84,19 @@ public class Formatters {
           continue;
         }
         ConfigSection formatterCfg = getFormatterConfig(e.getKey(), project);
+        String[] prefixes = formatterCfg.getStringList(KEY_PREFIX);
+        if (prefixes.length > 0) {
+          boolean match = false;
+          for (String prefix : prefixes) {
+            if (fileName.startsWith(prefix)) {
+              match = true;
+              break;
+            }
+          }
+          if (!match) {
+            continue;
+          }
+        }
         for (String configuredMimeType :
           formatterCfg.getStringList(KEY_MIME_TYPE)) {
           if (mimeType.equals(new MimeType(configuredMimeType))) {
