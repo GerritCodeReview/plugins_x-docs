@@ -23,6 +23,28 @@ web.indexFile
 
 	Default: `README.md`
 
+The global formatter configuration can be overwritten per project.
+Configuring any parameter for a formatter overwrites the complete
+global formatter configuration.
+
+<a id="ext">
+formatter.<formatter>.ext
+:	Extension of files that should be rendered by this formatter.
+
+	Multiple extensions may be specified for a formatter.
+
+	Overwrites the [globally configured file extensions](#formatterExt)
+	for this formatter.
+
+<a id="mimeType">
+formatter.<formatter>.mimeType
+:	The mime type of files that should be rendered by this formatter.
+
+	Multiple mime types may be specified for a formatter.
+
+	Overwrites the [globally configured mime types](#formatterMimeType)
+	for this formatter.
+
 <a id="globalConfig">
 Global Configuration
 --------------------
@@ -48,17 +70,21 @@ Supported formatters:
 * `MARKDOWN`
 * `PLAIN_TEXT`
 
-<a id="ext">
+<a id="formatterExt">
 formatter.<formatter>.ext
-:	Extension of files that you be rendered by this formatter.
+:	Extension of files that should be rendered by this formatter.
 
 	Multiple extensions may be specified for a formatter.
 
+	Can be overwritten on [project-level](#ext).
+
 <a id="formatterMimeType">
 formatter.<formatter>.mimeType
-:	The mime type of files that you be rendered by this formatter.
+:	The mime type of files that should be rendered by this formatter.
 
 	Multiple mime types may be specified for a formatter.
+
+	Can be overwritten on [project-level](#mimeType).
 
 <a id="formatterAllowHtml">
 formatter.<formatter>.allowHtml
@@ -74,6 +100,8 @@ formatter.<formatter>.allowHtml
 
 	**WARNING:** Allowing HTML for user-provided input is a security
 	risk, e.g. code for XSS attacks may be contained in the HTML.
+
+	*CANNOT* be overwritten on project-level.
 
 	Supported for the following formatters: `MARKDOWN`
 

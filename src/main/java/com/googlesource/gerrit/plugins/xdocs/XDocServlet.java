@@ -126,7 +126,7 @@ public class XDocServlet extends HttpServlet {
       return;
     }
     MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
-    FormatterProvider formatter = formatters.get(key.file);
+    FormatterProvider formatter = formatters.get(state, key.file);
     if (formatter == null
         && !("image".equals(mimeType.getMediaType())
             && fileTypeRegistry.isSafeInline(mimeType))) {
