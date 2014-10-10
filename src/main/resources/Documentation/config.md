@@ -45,6 +45,15 @@ formatter.<formatter>.mimeType
 	Overrides the [globally configured mime types](#formatterMimeType)
 	for this formatter.
 
+<a id="prefix">
+formatter.<formatter>.prefix
+:	The prefix that a file must match to be handled by this formatter.
+
+	Multiple prefixes may be specified for a formatter.
+
+	Overrides the [globally configured prefixes](#formatterPrefix)
+	for this formatter.
+
 <a id="globalConfig">
 Global Configuration
 --------------------
@@ -85,6 +94,14 @@ formatter.<formatter>.mimeType
 	Multiple mime types may be specified for a formatter.
 
 	Can be overridden on [project-level](#mimeType).
+
+<a id="formatterPrefix">
+formatter.<formatter>.prefix
+:	The prefix that a file must match to be handled by this formatter.
+
+	Multiple prefixes may be specified for a formatter.
+
+	Can be overridden on [project-level](#prefix).
 
 <a id="formatterAllowHtml">
 formatter.<formatter>.allowHtml
