@@ -10,3 +10,12 @@ maven_jar(
   repository = REPO,
   license = 'Apache2.0',
 )
+
+maven_jar(
+  name = 'gwtui-api',
+  id = 'com.google.gerrit:gerrit-plugin-gwtui:' + VER,
+  sha1 = '1ee99a7a4f3433f4eb3d5f9b98a895e56800a92c',
+  attach_source = False,
+  repository = REPO,
+  license = 'Apache2.0',
+)
