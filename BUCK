@@ -1,12 +1,25 @@
 include_defs('//bucklets/gerrit_plugin.bucklet')
 
+MODULE = 'com.googlesource.gerrit.plugins.xdocs.XDocs'
+
 ASCIIDOCTOR = '//lib/asciidoctor:asciidoc_lib' if __standalone_mode__ \
   else '//plugins/x-docs/lib/asciidoctor:asciidoc_lib'
+
+if __standalone_mode__:
+  PROV_DEPS = ['//lib/gerrit:gwtexpui']
+else:
+  PROV_DEPS = [
+    '//gerrit-gwtexpui:Clippy',
+    '//gerrit-gwtexpui:GlobalKey',
+    '//gerrit-gwtexpui:SafeHtml',
+    '//gerrit-gwtexpui:UserAgent',
+  ]
 
 gerrit_plugin(
   name = 'x-docs',
   srcs = glob(['src/main/java/**/*.java']),
-  resources = glob(['src/main/resources/**/*']),
+  resources = glob(['src/main/**/*']),
+  gwt_module = MODULE,
   manifest_entries = [
     'Gerrit-PluginName: xdocs',
     'Gerrit-ApiType: plugin',
@@ -16,6 +29,7 @@ gerrit_plugin(
     'Gerrit-InitStep: com.googlesource.gerrit.plugins.xdocs.XDocInit',
   ],
   deps = [ASCIIDOCTOR],
+  provided_deps = PROV_DEPS,
 )
 
 # this is required for bucklets/tools/eclipse/project.py to work
