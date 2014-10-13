@@ -25,7 +25,8 @@ public class AsciidoctorFormatter implements Formatter {
   public final static String NAME = "ASCIIDOCTOR";
 
   @Override
-  public String format(ConfigSection cfg, String raw) throws IOException {
+  public String format(String projectName, ConfigSection cfg, String raw)
+      throws IOException {
     return Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
         .convert(raw, new HashMap<String, Object>());
   }

@@ -26,10 +26,13 @@ public interface Formatter {
   /**
    * Formats the given raw text as html.
    *
+   * @param projectName the name of the project that contains the file to be
+   *        formatted
    * @param cfg the configuration for this formatter
    * @param raw the raw text
    * @return the given text formatted as html
    * @throws IOException thrown if the formatting fails
    */
-  public String format(ConfigSection cfg, String raw) throws IOException;
+  public String format(String projectName, ConfigSection cfg, String raw)
+      throws IOException;
 }
