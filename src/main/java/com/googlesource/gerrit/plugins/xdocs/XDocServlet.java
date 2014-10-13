@@ -19,7 +19,6 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
-import com.google.common.cache.LoadingCache;
 import com.google.common.hash.Hashing;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -41,7 +40,6 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
@@ -78,7 +76,7 @@ public class XDocServlet extends HttpServlet {
   private final ProjectCache projectCache;
   private final Provider<GetHead> getHead;
   private final GitRepositoryManager repoManager;
-  private final LoadingCache<String, Resource> docCache;
+  private final XDocCache docCache;
   private final FileTypeRegistry fileTypeRegistry;
   private final XDocProjectConfig.Factory cfgFactory;
   private final Formatters formatters;
@@ -90,7 +88,7 @@ public class XDocServlet extends HttpServlet {
       ProjectCache projectCache,
       Provider<GetHead> getHead,
       GitRepositoryManager repoManager,
-      @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
+      XDocCache cache,
       FileTypeRegistry fileTypeRegistry,
       XDocProjectConfig.Factory cfgFactory,
       Formatters formatters) {
@@ -191,8 +189,7 @@ public class XDocServlet extends HttpServlet {
 
         Resource rsc;
         if (formatter != null) {
-          rsc = docCache.getUnchecked(
-              (new XDocResourceKey(formatter.getName(), key.project, key.file, revId)).asString());
+          rsc = docCache.get(formatter, key.project, key.file, revId);
         } else if ("image".equals(mimeType.getMediaType())) {
           rsc = getImageResource(repo, revId, key.file);
         } else {

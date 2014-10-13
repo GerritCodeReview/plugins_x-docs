@@ -14,7 +14,6 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
-import com.google.common.cache.LoadingCache;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.webui.BranchWebLink;
@@ -26,7 +25,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
@@ -46,7 +44,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
 
   private final String pluginName;
   private final GitRepositoryManager repoManager;
-  private final LoadingCache<String, Resource> docCache;
+  private final XDocCache docCache;
   private final XDocProjectConfig.Factory cfgFactory;
   private final ProjectCache projectCache;
   private final Formatters formatters;
@@ -55,7 +53,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
   XDocWebLink(
       @PluginName String pluginName,
       GitRepositoryManager repoManager,
-      @Named(XDocLoader.Module.X_DOC_RESOURCES) LoadingCache<String, Resource> cache,
+      XDocCache cache,
       XDocProjectConfig.Factory cfgFactory,
       ProjectCache projectCache,
       Formatters formatters) {
@@ -103,8 +101,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
         if (revId == null) {
           return null;
         }
-        Resource rsc = docCache.getUnchecked(
-           (new XDocResourceKey(formatter.getName(), p, fileName, revId)).asString());
+        Resource rsc = docCache.get(formatter, p, fileName, revId);
         if (rsc != Resource.NOT_FOUND) {
           StringBuilder url = new StringBuilder();
           url.append("plugins/");
