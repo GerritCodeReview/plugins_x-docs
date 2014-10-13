@@ -25,13 +25,15 @@ public class XDocResourceKey {
   private final Project.NameKey project;
   private final String resource;
   private final ObjectId revId;
+  private final ObjectId metaConfigRevId;
 
   XDocResourceKey(String formatter, Project.NameKey project, String r,
-      ObjectId revId) {
+      ObjectId revId, ObjectId metaConfigRevId) {
     this.formatter = formatter;
     this.project = project;
     this.resource = r;
     this.revId = revId;
+    this.metaConfigRevId = metaConfigRevId;
   }
 
   public String getFormatter() {
@@ -74,6 +76,8 @@ public class XDocResourceKey {
     b.append(resource != null ? IdString.fromDecoded(resource).encoded() : "");
     b.append("/");
     b.append(revId != null ? revId.name() : "");
+    b.append("/");
+    b.append(metaConfigRevId != null ? metaConfigRevId.name() : "");
     return b.toString();
   }
 
@@ -83,6 +87,7 @@ public class XDocResourceKey {
     String project = null;
     String file = null;
     String revision = null;
+    String metaConfigRevision = null;
     if (s.length > 0) {
       formatter = IdString.fromUrl(s[0]).get();
     }
@@ -95,7 +100,10 @@ public class XDocResourceKey {
     if (s.length > 3) {
       revision = s[3];
     }
+    if (s.length > 4) {
+      metaConfigRevision = s[4];
+    }
     return new XDocResourceKey(formatter, new Project.NameKey(project), file,
-        ObjectId.fromString(revision));
+        ObjectId.fromString(revision), ObjectId.fromString(metaConfigRevision));
   }
 }
