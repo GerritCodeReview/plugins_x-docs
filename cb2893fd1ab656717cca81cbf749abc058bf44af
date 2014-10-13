@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_33b768fc",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-13T09:45:21Z",
+      "side": 1,
+      "message": "You are missing:\n\n\u003cscope\u003eprovided\u003c/scope\u003e\n\nOtherwise through shaded Maven plugin you will end up packaging this twice: in your plugin in addition to Gerrit core.",
+      "range": {
+        "startLine": 116,
+        "startChar": 5,
+        "endLine": 120,
+        "endChar": 17
+      },
+      "revId": "cb2893fd1ab656717cca81cbf749abc058bf44af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
