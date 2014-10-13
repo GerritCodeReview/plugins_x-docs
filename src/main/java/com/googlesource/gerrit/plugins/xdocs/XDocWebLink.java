@@ -74,20 +74,21 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
   @Override
   public WebLinkInfo getBranchWebLink(String projectName, String branchName) {
     return new WebLinkInfo(README, getImageUrl(),
-        getBranchUrl(projectName, branchName), WebLinkTarget.BLANK);
+        getBranchUrl(projectName, branchName), WebLinkTarget.SELF);
   }
 
   @Override
   public WebLinkInfo getProjectWeblink(String projectName) {
     return new WebLinkInfo(README, getImageUrl(),
-        getBranchUrl(projectName, Constants.HEAD), WebLinkTarget.BLANK);
+        getBranchUrl(projectName, Constants.HEAD), WebLinkTarget.SELF);
   }
 
   @Override
   public WebLinkInfo getFileWebLink(String projectName, String revision,
       String fileName) {
     return new WebLinkInfo(PREVIEW, getImageUrl(),
-        getFileUrl(projectName, revision, fileName), WebLinkTarget.BLANK);
+        getFileUrl(projectName, revision, fileName, false),
+        WebLinkTarget.BLANK);
   }
 
   private String getBranchUrl(String projectName, String branchName) {
@@ -97,11 +98,11 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
       return null;
     }
     return getFileUrl(projectName, branchName,
-        cfgFactory.create(state).getIndexFile());
+        cfgFactory.create(state).getIndexFile(), true);
   }
 
   public String getFileUrl(String projectName, String revision,
-      String fileName) {
+      String fileName, boolean framed) {
     FormatterProvider formatter = formatters.get(projectName, fileName);
     if (formatter == null) {
       return null;
@@ -118,7 +119,11 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
         Resource rsc = docCache.get(formatter, p, fileName, revId);
         if (rsc != Resource.NOT_FOUND) {
           StringBuilder url = new StringBuilder();
-          url.append("plugins/");
+          if (framed) {
+            url.append("#/x/");
+          } else {
+            url.append("plugins/");
+          }
           url.append(pluginName);
           url.append(XDocServlet.PATH_PREFIX);
           url.append(Url.encode(projectName));
