@@ -12,20 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.xdocs;
+package com.googlesource.gerrit.plugins.xdocs.client;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.webui.GwtPlugin;
-import com.google.gerrit.extensions.webui.WebUiPlugin;
-import com.google.inject.servlet.ServletModule;
+import com.google.gerrit.plugin.client.Plugin;
+import com.google.gerrit.plugin.client.PluginEntryPoint;
 
-class HttpModule extends ServletModule {
+public class XDocsPlugin extends PluginEntryPoint {
+
   @Override
-  protected void configureServlets() {
-    serveRegex("^" + XDocServlet.PATH_PREFIX + "(.+)?$")
-        .with(XDocServlet.class);
-
-    DynamicSet.bind(binder(), WebUiPlugin.class)
-        .toInstance(new GwtPlugin("xdocs"));
+  public void onPluginLoad() {
+    Plugin.get().screenRegex("project/(.*)/rev/(.*)/(.*)",
+        new XDocScreen.Factory());
+    Plugin.get().screenRegex("project/(.*)/(.*)",
+        new XDocScreen.HeadFactory());
   }
 }
