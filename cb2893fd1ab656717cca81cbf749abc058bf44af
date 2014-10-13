@@ -22,6 +22,30 @@
       "revId": "cb2893fd1ab656717cca81cbf749abc058bf44af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_328e503a",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-13T20:29:55Z",
+      "side": 1,
+      "message": "Good catch!\n\nDone",
+      "parentUuid": "10cb2096_33b768fc",
+      "range": {
+        "startLine": 116,
+        "startChar": 5,
+        "endLine": 120,
+        "endChar": 17
+      },
+      "revId": "cb2893fd1ab656717cca81cbf749abc058bf44af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
