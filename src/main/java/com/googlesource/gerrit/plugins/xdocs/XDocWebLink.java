@@ -84,12 +84,12 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
       // project not found -> no link
       return null;
     }
-    return getPatchUrl(projectName, branchName,
-        cfgFactory.create(state).getIndexFile());
+    return getFileUrl(projectName, branchName,
+        cfgFactory.create(state).getIndexFile(), true);
   }
 
-  public String getPatchUrl(String projectName, String revision,
-      String fileName) {
+  public String getFileUrl(String projectName, String revision,
+      String fileName, boolean framed) {
     FormatterProvider formatter = formatters.get(projectName, fileName);
     if (formatter == null) {
       return null;
@@ -107,7 +107,11 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
            (new XDocResourceKey(formatter.getName(), p, fileName, revId)).asString());
         if (rsc != Resource.NOT_FOUND) {
           StringBuilder url = new StringBuilder();
-          url.append("plugins/");
+          if (framed) {
+            url.append("#/x/");
+          } else {
+            url.append("plugins/");
+          }
           url.append(pluginName);
           url.append(XDocServlet.PATH_PREFIX);
           url.append(Url.encode(projectName));
@@ -137,6 +141,6 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
 
   @Override
   public String getTarget() {
-    return Target.BLANK;
+    return Target.SELF;
   }
 }

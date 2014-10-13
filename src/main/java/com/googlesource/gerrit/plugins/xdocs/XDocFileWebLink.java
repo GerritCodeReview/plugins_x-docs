@@ -46,6 +46,11 @@ public class XDocFileWebLink extends XDocWebLink implements FileWebLink {
   @Override
   public String getFileUrl(String projectName, String revision,
       String fileName) {
-    return super.getPatchUrl(projectName, revision, fileName);
+    return super.getFileUrl(projectName, revision, fileName, false);
+  }
+
+  @Override
+  public String getTarget() {
+    return Target.BLANK;
   }
 }
