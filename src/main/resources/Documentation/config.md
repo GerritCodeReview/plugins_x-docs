@@ -54,6 +54,17 @@ formatter.<formatter>.prefix
 	Overrides the [globally configured prefixes](#formatterPrefix)
 	for this formatter.
 
+<a id="includeToc">
+formatter.<formatter>.includeToc
+:	Whether a Table Of Contents should be included into each document.
+
+	Overrides the [global configuration of `includeToc`](#formatterIncludeToc)
+	for this formatter.
+
+	Supported for the following formatters: `ASCIIDOCTOR`
+
+	Default: `true`
+
 <a id="projectCss">
 Project-Specific CSS
 --------------------
@@ -151,7 +162,7 @@ formatter.<formatter>.enabled
 formatter.<formatter>.includeToc
 :	Whether a Table Of Contents should be included into each document.
 
-	*CANNOT* be overridden on project-level.
+	Can be overridden on [project-level](#includeToc).
 
 	Supported for the following formatters: `ASCIIDOCTOR`
 
