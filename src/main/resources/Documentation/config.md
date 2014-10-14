@@ -68,6 +68,20 @@ formatter.<formatter>.includeToc
 
 	Default: `true`
 
+<a id="appendCss">
+formatter.<formatter>.appendCss
+:	Whether the project-specific CSS should be appended to the default CSS.
+
+	If `false` the default CSS is completely replaced by the
+	project-specific CSS.
+
+	Overrides the [global configuration of `appendCss`](#formatterAppendCss)
+	for this formatter.
+
+	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+
+	Default: `true` (project-specific CSS is appended to the default CSS)
+
 <a id="projectCss">
 Project-Specific CSS
 --------------------
@@ -170,3 +184,16 @@ formatter.<formatter>.includeToc
 	Supported for the following formatters: `ASCIIDOCTOR`
 
 	Default: `true`
+
+<a id="formatterAppendCss">
+formatter.<formatter>.appendCss
+:	Whether project-specific CSS should be appended to the default CSS.
+
+	If `false` the default CSS is completely replaced by the
+	project-specific CSS.
+
+	Can be overridden on [project-level](#appendCss).
+
+	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+
+	Default: `true` (project-specific CSS is appended to the default CSS)
