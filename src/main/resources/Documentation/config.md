@@ -61,6 +61,7 @@ Project-Specific CSS
 For some formatters a custom CSS file for the rendering can be
 provided in the `refs/meta/config` branch of the project:
 
+* `ASCIIDOCTOR`: `xdoc/asciidoctor.css`
 * `MARKDOWN`: `xdoc/markdown.css`
 
 Custom CSS files are *NOT* inherited from parent projects.
