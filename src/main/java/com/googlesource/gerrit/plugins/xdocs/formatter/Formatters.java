@@ -116,7 +116,16 @@ public class Formatters {
     return null;
   }
 
-  private ConfigSection getFormatterConfig(String formatterName,
+  public ConfigSection getFormatterConfig(String formatterName,
+      String projectName) {
+    ProjectState project = projectCache.get(new Project.NameKey(projectName));
+    if (project == null) {
+      return null;
+    }
+    return getFormatterConfig(formatterName, project);
+  }
+
+  public ConfigSection getFormatterConfig(String formatterName,
       ProjectState project) {
     for (ProjectState p : project.tree()) {
       Config cfg = pluginCfgFactory.getProjectPluginConfig(p, pluginName);
