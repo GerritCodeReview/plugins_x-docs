@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f0e5ac1c_52ed54c8",
+        "filename": "BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-14T12:38:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0e5ac1c_72f058a4",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "46ce5b786bcca5aed6558bcd2d7310c847fc12a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_92fa9c85",
         "filename": "lib/gerrit/BUCK",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-14T11:51:15Z",
       "side": 1,
       "message": "But we currently using gwtexpui from Google storage bucket and not from Maven Central.",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 22
+      },
+      "revId": "46ce5b786bcca5aed6558bcd2d7310c847fc12a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_f3d45001",
+        "filename": "lib/gerrit/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-14T12:38:12Z",
+      "side": 1,
+      "message": "Yes, because it is not yet available on Maven Central. We still need to figure out how to publish it there.",
+      "parentUuid": "f0e5ac1c_92fa9c85",
       "range": {
         "startLine": 26,
         "startChar": 2,
