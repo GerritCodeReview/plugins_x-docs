@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.inject.Inject;
@@ -48,24 +49,27 @@ public class AsciidoctorFormatter implements Formatter {
   private static final String DOCTYPE = "article";
   private static final String ERUBY = "erb";
 
-  private static final String css;
+  private static final String defaultCss;
 
   static {
     AtomicBoolean file = new AtomicBoolean();
     String src;
     try {
-      src = readCss(file);
+      src = readDefaultCss(file);
     } catch (IOException err) {
       src = "";
     }
-    css = file.get() ? null : src;
+    defaultCss = file.get() ? null : src;
   }
 
   private final File baseDir;
+  private final FormatterUtil util;
 
   @Inject
-  public AsciidoctorFormatter(@PluginData File baseDir) {
+  public AsciidoctorFormatter(@PluginData File baseDir,
+      FormatterUtil formatterUtil) {
     this.baseDir = baseDir;
+    this.util = formatterUtil;
   }
 
   @Override
@@ -81,7 +85,10 @@ public class AsciidoctorFormatter implements Formatter {
       try (FileInputStream input = new FileInputStream(tmpFile)) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);
-        return insertCss(out.toString(UTF_8.name()));
+        return util.insertCss(
+            out.toString(UTF_8.name()),
+            MoreObjects.firstNonNull(
+                util.getCss(projectName, "asciidoctor"), readDefaultCSS()));
       }
     } finally {
       if (!tmpFile.delete()) {
@@ -118,33 +125,18 @@ public class AsciidoctorFormatter implements Formatter {
         .get();
   }
 
-  private String insertCss(String html) {
-    int p = html.lastIndexOf("</head>");
-    if (p > 0) {
-      StringBuilder b = new StringBuilder();
-      b.append(html.substring(0, p));
-      b.append("<style type=\"text/css\">\n");
-      b.append(readCSS());
-      b.append("</style>\n");
-      b.append(html.substring(p));
-      return b.toString();
-    } else {
-      return html;
-    }
-  }
-
-  private static String readCSS() {
-    if (css != null) {
-      return css;
+  private static String readDefaultCSS() {
+    if (defaultCss != null) {
+      return defaultCss;
     }
     try {
-      return readCss(new AtomicBoolean());
+      return readDefaultCss(new AtomicBoolean());
     } catch (IOException err) {
       return "";
     }
   }
 
-  private static String readCss(AtomicBoolean file)
+  private static String readDefaultCss(AtomicBoolean file)
       throws IOException {
     String name = "asciidoctor.css";
     URL url = AsciidoctorFormatter.class.getResource(name);
