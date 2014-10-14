@@ -145,3 +145,13 @@ formatter.<formatter>.enabled
 	*CANNOT* be overridden on project-level.
 
 	Default: `true`
+
+<a id="formatterIncludeToc">
+formatter.<formatter>.includeToc
+:	Whether a Table Of Contents should be included into each document.
+
+	*CANNOT* be overridden on project-level.
+
+	Supported for the following formatters: `ASCIIDOCTOR`
+
+	Default: `true`
