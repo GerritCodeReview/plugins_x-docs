@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0e5ac1c_92fa9c85",
+        "filename": "lib/gerrit/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-14T11:51:15Z",
+      "side": 1,
+      "message": "But we currently using gwtexpui from Google storage bucket and not from Maven Central.",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 22
+      },
+      "revId": "46ce5b786bcca5aed6558bcd2d7310c847fc12a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
