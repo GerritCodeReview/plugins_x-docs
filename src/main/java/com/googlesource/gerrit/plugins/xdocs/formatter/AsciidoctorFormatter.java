@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INCLUDE_TOC;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.annotations.PluginData;
@@ -51,14 +52,17 @@ public class AsciidoctorFormatter implements Formatter {
   private static final String ERUBY = "erb";
 
   private final File baseDir;
-  private final String css;
+  private final String defaultCss;
   private final Properties attributes;
+  private final FormatterUtil util;
 
   @Inject
-  public AsciidoctorFormatter(@PluginData File baseDir) throws IOException {
+  public AsciidoctorFormatter(@PluginData File baseDir,
+      FormatterUtil formatterUtil) throws IOException {
     this.baseDir = baseDir;
-    this.css = readCss();
+    this.defaultCss = readCss();
     this.attributes = readAttributes();
+    this.util = formatterUtil;
   }
 
   @Override
@@ -74,7 +78,10 @@ public class AsciidoctorFormatter implements Formatter {
       try (FileInputStream input = new FileInputStream(tmpFile)) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);
-        return insertCss(out.toString(UTF_8.name()));
+        return util.insertCss(
+            out.toString(UTF_8.name()),
+            MoreObjects.firstNonNull(
+                util.getCss(projectName, "asciidoctor"), defaultCss));
       }
     } finally {
       if (!tmpFile.delete()) {
@@ -105,21 +112,6 @@ public class AsciidoctorFormatter implements Formatter {
     ab.attribute("last-update-label!");
     ab.attribute("revnumber", revision);
     return ab.get();
-  }
-
-  private String insertCss(String html) {
-    int p = html.lastIndexOf("</head>");
-    if (p > 0) {
-      StringBuilder b = new StringBuilder();
-      b.append(html.substring(0, p));
-      b.append("<style type=\"text/css\">\n");
-      b.append(css);
-      b.append("</style>\n");
-      b.append(html.substring(p));
-      return b.toString();
-    } else {
-      return html;
-    }
   }
 
   private static String readCss() throws IOException {
