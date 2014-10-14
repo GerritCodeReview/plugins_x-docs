@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_APPEND_CSS;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INCLUDE_TOC;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -93,22 +94,26 @@ public class AsciidoctorFormatter implements Formatter {
   @Override
   public String format(String projectName, String revision,
       ConfigSection globalCfg, String raw) throws IOException {
+    ConfigSection projectCfg =
+        formatters.getFormatterConfig(globalCfg.getSubsection(), projectName);
     // asciidoctor ignores all attributes if no output file is specified,
     // this is why we must specified an output file and then read its content
     File tmpFile =
         new File(baseDir, "tmp/asciidoctor-" + TimeUtil.nowTs().getNanos() + ".tmp");
     try {
       Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
-          .render(raw, createOptions(
-              formatters.getFormatterConfig(globalCfg.getSubsection(), projectName),
-              revision, tmpFile));
+          .render(raw, createOptions(projectCfg, revision, tmpFile));
       try (FileInputStream input = new FileInputStream(tmpFile)) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);
-        return util.insertCss(
-            out.toString(UTF_8.name()),
-            MoreObjects.firstNonNull(
-                util.getCss(projectName, "asciidoctor"), defaultCss));
+        String html = out.toString(UTF_8.name());
+        String projectCss = util.getCss(projectName, "asciidoctor");
+        if (projectCfg.getBoolean(KEY_APPEND_CSS, true)) {
+          return util.insertCss(html, defaultCss, projectCss);
+        } else {
+          return util.insertCss(html,
+              MoreObjects.firstNonNull(projectCss, defaultCss));
+        }
       }
     } finally {
       if (!tmpFile.delete()) {
