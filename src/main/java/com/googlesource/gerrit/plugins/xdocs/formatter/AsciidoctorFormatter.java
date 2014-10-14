@@ -64,24 +64,28 @@ public class AsciidoctorFormatter implements Formatter {
 
   private final File baseDir;
   private final FormatterUtil util;
+  private final Formatters formatters;
 
   @Inject
   public AsciidoctorFormatter(@PluginData File baseDir,
-      FormatterUtil formatterUtil) {
+      FormatterUtil formatterUtil, Formatters formatters) {
     this.baseDir = baseDir;
     this.util = formatterUtil;
+    this.formatters = formatters;
   }
 
   @Override
-  public String format(String projectName, String revision, ConfigSection cfg,
-      String raw) throws IOException {
+  public String format(String projectName, String revision,
+      ConfigSection globalCfg, String raw) throws IOException {
     // asciidoctor ignores all attributes if no output file is specified,
     // this is why we must specified an output file and then read its content
     File tmpFile =
         new File(baseDir, "tmp/asciidoctor-" + System.currentTimeMillis() + ".tmp");
     try {
       Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
-          .render(raw, createOptions(cfg, revision, tmpFile));
+          .render(raw, createOptions(
+              formatters.getFormatterConfig(globalCfg.getSubsection(), projectName),
+              revision, tmpFile));
       try (FileInputStream input = new FileInputStream(tmpFile)) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);

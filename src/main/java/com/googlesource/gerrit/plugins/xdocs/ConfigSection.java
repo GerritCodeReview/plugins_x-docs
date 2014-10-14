@@ -35,6 +35,10 @@ public class ConfigSection {
     this.subsection = subsection;
   }
 
+  public String getSubsection() {
+    return subsection;
+  }
+
   public String getString(String name) {
     return cfg.getString(section, subsection, name);
   }
