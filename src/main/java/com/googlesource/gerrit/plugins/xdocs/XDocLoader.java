@@ -104,7 +104,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
             return Resources.METHOD_NOT_ALLOWED;
           }
           String html =
-              formatter.get().format(key.getProject().get(), formatterCfg,
+              formatter.get().format(key.getProject().get(),
+                  key.getRevId().name(), formatterCfg,
                   replaceMacros(key.getProject(), bytes));
           return getAsHtmlResource(html, commit.getCommitTime());
         } finally {
