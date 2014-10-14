@@ -64,7 +64,7 @@ public class FormatterUtil {
    * Inserts the given CSS into the given HTML.
    *
    * @param html the HTML
-   * @param css the CSS
+   * @param css the CSS, may be <code>null</code>
    * @return the HTML that includes the CSS
    */
   public String insertCss(String html, String css) {
@@ -72,13 +72,36 @@ public class FormatterUtil {
       return html;
     }
 
+    return insertCss(html, css, null);
+  }
+
+  /**
+   * Inserts the given CSS's into the given HTML.
+   *
+   * @param html the HTML
+   * @param css1 first CSS, may be <code>null</code>
+   * @param css2 second CSS, may be <code>null</code>
+   * @return the HTML that includes the CSS
+   */
+  public String insertCss(String html, String css1, String css2) {
+    if (html == null || (css1 == null && css2 == null)) {
+      return html;
+    }
+
     int p = html.lastIndexOf("</head>");
     if (p > 0) {
       StringBuilder b = new StringBuilder();
       b.append(html.substring(0, p));
-      b.append("<style type=\"text/css\">\n");
-      b.append(css);
-      b.append("</style>\n");
+      if (css1 != null) {
+        b.append("<style type=\"text/css\">\n");
+        b.append(css1);
+        b.append("</style>\n");
+      }
+      if (css2 != null) {
+        b.append("<style type=\"text/css\">\n");
+        b.append(css2);
+        b.append("</style>\n");
+      }
       b.append(html.substring(p));
       return b.toString();
     } else {

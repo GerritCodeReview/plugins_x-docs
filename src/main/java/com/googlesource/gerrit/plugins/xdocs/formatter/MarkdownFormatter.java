@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ALLOW_HTML;
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_APPEND_CSS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.inject.Inject;
@@ -27,22 +28,32 @@ public class MarkdownFormatter implements Formatter {
   public final static String NAME = "MARKDOWN";
 
   private final FormatterUtil util;
+  private final Formatters formatters;
 
   @Inject
-  MarkdownFormatter(FormatterUtil formatterUtil) {
+  MarkdownFormatter(FormatterUtil formatterUtil, Formatters formatters) {
     this.util = formatterUtil;
+    this.formatters = formatters;
   }
 
   @Override
-  public String format(String projectName, String revision, ConfigSection cfg,
-      String raw) throws UnsupportedEncodingException {
+  public String format(String projectName, String revision,
+      ConfigSection globalCfg, String raw) throws UnsupportedEncodingException {
+    ConfigSection projectCfg =
+        formatters.getFormatterConfig(globalCfg.getSubsection(), projectName);
     com.google.gerrit.server.documentation.MarkdownFormatter f =
         new com.google.gerrit.server.documentation.MarkdownFormatter();
-    if (!cfg.getBoolean(KEY_ALLOW_HTML, false)) {
+    if (!globalCfg.getBoolean(KEY_ALLOW_HTML, false)) {
       f.suppressHtml();
     }
-    f.setCss(util.getCss(projectName, "markdown"));
-    byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
-    return new String(b, UTF_8);
+    String projectCss = util.getCss(projectName, "markdown");
+    if (projectCfg.getBoolean(KEY_APPEND_CSS, true)) {
+      byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
+      return util.insertCss(new String(b, UTF_8), projectCss);
+    } else {
+      f.setCss(projectCss);
+      byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
+      return new String(b, UTF_8);
+    }
   }
 }
