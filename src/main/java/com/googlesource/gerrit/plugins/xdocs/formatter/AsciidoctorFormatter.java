@@ -55,14 +55,16 @@ public class AsciidoctorFormatter implements Formatter {
   private final String defaultCss;
   private final Properties attributes;
   private final FormatterUtil util;
+  private final Formatters formatters;
 
   @Inject
   public AsciidoctorFormatter(@PluginData File baseDir,
-      FormatterUtil formatterUtil) throws IOException {
+      FormatterUtil formatterUtil, Formatters formatters) throws IOException {
     this.baseDir = baseDir;
     this.defaultCss = readCss();
     this.attributes = readAttributes();
     this.util = formatterUtil;
+    this.formatters = formatters;
   }
 
   private String readCss() throws IOException {
@@ -89,15 +91,17 @@ public class AsciidoctorFormatter implements Formatter {
   }
 
   @Override
-  public String format(String projectName, String revision, ConfigSection cfg,
-      String raw) throws IOException {
+  public String format(String projectName, String revision,
+      ConfigSection globalCfg, String raw) throws IOException {
     // asciidoctor ignores all attributes if no output file is specified,
     // this is why we must specified an output file and then read its content
     File tmpFile =
         new File(baseDir, "tmp/asciidoctor-" + TimeUtil.nowTs().getNanos() + ".tmp");
     try {
       Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
-          .render(raw, createOptions(cfg, revision, tmpFile));
+          .render(raw, createOptions(
+              formatters.getFormatterConfig(globalCfg.getSubsection(), projectName),
+              revision, tmpFile));
       try (FileInputStream input = new FileInputStream(tmpFile)) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);
