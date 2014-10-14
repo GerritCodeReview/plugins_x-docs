@@ -16,39 +16,21 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ALLOW_HTML;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
-import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
-
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class MarkdownFormatter implements Formatter {
   public final static String NAME = "MARKDOWN";
 
-  private final GitRepositoryManager repoManager;
-  private final String pluginName;
+  private final FormatterUtil util;
 
   @Inject
-  MarkdownFormatter(@PluginName String pluginName,
-      GitRepositoryManager repoManager) {
-    this.pluginName = pluginName;
-    this.repoManager = repoManager;
+  MarkdownFormatter(FormatterUtil formatterUtil) {
+    this.util = formatterUtil;
   }
 
   @Override
@@ -62,43 +44,8 @@ public class MarkdownFormatter implements Formatter {
     // if there is no project-specific CSS and f.setCss(null) is invoked
     // com.google.gerrit.server.documentation.MarkdownFormatter applies the
     // default CSS
-    f.setCss(getCss(projectName));
+    f.setCss(util.getCss(projectName, "markdown"));
     byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
     return new String(b, UTF_8);
-  }
-
-  private String getCss(String projectName) {
-    try {
-      Repository repo =
-          repoManager.openRepository(new Project.NameKey(projectName));
-      try {
-        RevWalk rw = new RevWalk(repo);
-        try {
-          RevCommit commit = rw.parseCommit(repo.resolve(RefNames.REFS_CONFIG));
-          RevTree tree = commit.getTree();
-          TreeWalk tw = new TreeWalk(repo);
-          try {
-            tw.addTree(tree);
-            tw.setRecursive(true);
-            tw.setFilter(PathFilter.create(pluginName + "/markdown.css"));
-            if (!tw.next()) {
-              return null;
-            }
-            ObjectId objectId = tw.getObjectId(0);
-            ObjectLoader loader = repo.open(objectId);
-            byte[] raw = loader.getBytes(Integer.MAX_VALUE);
-            return escapeHtml(new String(raw, UTF_8));
-          } finally {
-            tw.release();
-          }
-        } finally {
-          rw.release();
-        }
-      } finally {
-        repo.close();
-      }
-    } catch (IOException e) {
-      return null;
-    }
   }
 }
