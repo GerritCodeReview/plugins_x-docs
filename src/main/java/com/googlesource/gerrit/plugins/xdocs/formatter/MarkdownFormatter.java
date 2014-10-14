@@ -52,8 +52,8 @@ public class MarkdownFormatter implements Formatter {
   }
 
   @Override
-  public String format(String projectName, ConfigSection cfg, String raw)
-      throws UnsupportedEncodingException {
+  public String format(String projectName, String revision, ConfigSection cfg,
+      String raw) throws UnsupportedEncodingException {
     com.google.gerrit.server.documentation.MarkdownFormatter f =
         new com.google.gerrit.server.documentation.MarkdownFormatter();
     if (!cfg.getBoolean(KEY_ALLOW_HTML, false)) {

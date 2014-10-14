@@ -38,6 +38,7 @@ import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvi
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -103,10 +104,16 @@ public class XDocLoader extends CacheLoader<String, Resource> {
               && RawText.isBinary(bytes)) {
             return Resources.METHOD_NOT_ALLOWED;
           }
-          String html =
-              formatter.get().format(key.getProject().get(), formatterCfg,
-                  replaceMacros(key.getProject(), bytes));
-          return getAsHtmlResource(html, commit.getCommitTime());
+          ObjectReader reader = repo.newObjectReader();
+          try {
+            String html =
+                formatter.get().format(key.getProject().get(),
+                    reader.abbreviate(key.getRevId()).name(), formatterCfg,
+                    replaceMacros(key.getProject(), bytes));
+            return getAsHtmlResource(html, commit.getCommitTime());
+          } finally {
+            reader.release();
+          }
         } finally {
           tw.release();
         }
