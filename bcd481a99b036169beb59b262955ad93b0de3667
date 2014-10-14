@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_f3a2108e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-14T21:29:06Z",
+      "side": 1,
+      "message": "Confusing? raw formatter, RawText helper class and raw var name? Rename var say to bytes?",
+      "range": {
+        "startLine": 103,
+        "startChar": 17,
+        "endLine": 103,
+        "endChar": 38
+      },
+      "revId": "bcd481a99b036169beb59b262955ad93b0de3667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_d3a7149c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-14T21:29:06Z",
+      "side": 1,
+      "message": "Would be conflict or bad request more appropriate?",
+      "range": {
+        "startLine": 104,
+        "startChar": 19,
+        "endLine": 104,
+        "endChar": 37
+      },
+      "revId": "bcd481a99b036169beb59b262955ad93b0de3667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
