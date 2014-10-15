@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.xdocs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
@@ -35,8 +36,9 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.RawText;
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -47,6 +49,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -111,7 +114,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
             String html =
                 formatter.get().format(key.getProject().get(),
                     abbrRevId, formatterCfg,
-                    replaceMacros(key.getProject(), abbrRevId, bytes));
+                    replaceMacros(repo, key.getProject(), key.getRevId(),
+                        abbrRevId, bytes));
             return getAsHtmlResource(html, commit.getCommitTime());
           } finally {
             reader.release();
@@ -127,8 +131,9 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
   }
 
-  private String replaceMacros(Project.NameKey project, String abbrRevId,
-      byte[] raw) {
+  private String replaceMacros(Repository repo, Project.NameKey project,
+      ObjectId revId, String abbrRevId, byte[] raw) throws GitAPIException,
+      IOException {
     Map<String, String> macros = Maps.newHashMap();
 
     String url = webUrl.get();
@@ -140,6 +145,9 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     macros.put("PROJECT", project.get());
     macros.put("PROJECT_URL", url + "#/admin/projects/" + project.get());
     macros.put("REVISION", abbrRevId);
+    macros.put("GIT_DESCRIPTION", MoreObjects.firstNonNull(
+        (new Git(repo)).describe().setTarget(revId).call(), abbrRevId));
+
 
     Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@")
         .matcher(new String(raw, UTF_8));
