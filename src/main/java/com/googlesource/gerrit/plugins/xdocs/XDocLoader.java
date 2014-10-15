@@ -106,7 +106,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           String html =
               formatter.get().format(key.getProject().get(),
                   key.getRevId().name(), formatterCfg,
-                  replaceMacros(key.getProject(), bytes));
+                  replaceMacros(key.getProject(), key.getRevId(), bytes));
           return getAsHtmlResource(html, commit.getCommitTime());
         } finally {
           tw.release();
@@ -119,7 +119,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
   }
 
-  private String replaceMacros(Project.NameKey project, byte[] raw) {
+  private String replaceMacros(Project.NameKey project, ObjectId revId,
+      byte[] raw) {
     Map<String, String> macros = Maps.newHashMap();
 
     String url = webUrl.get();
@@ -130,6 +131,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
 
     macros.put("PROJECT", project.get());
     macros.put("PROJECT_URL", url + "#/admin/projects/" + project.get());
+    macros.put("REVISION", revId.getName());
 
     Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@")
         .matcher(new String(raw, UTF_8));

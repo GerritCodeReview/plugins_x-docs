@@ -80,6 +80,7 @@ automatically replaced when the HTML pages are generated.
 * `\@URL@`: The web URL of the Gerrit server.
 * `\@PROJECT@`: The name of the project from which the documentation is shown.
 * `\@PROJECT_URL@`: The web URL of the project from which the documentation is shown.
+* `\@REVISION@`: The ID of the revision from which the documentation is shown.
 
 The plugin provides several [formatters](about.html#formatters) for
 different project documentation syntaxes. The formatters can be
