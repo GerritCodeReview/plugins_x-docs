@@ -36,6 +36,7 @@ import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
 
 import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -106,10 +107,11 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           }
           ObjectReader reader = repo.newObjectReader();
           try {
+            String abbrRevId = reader.abbreviate(key.getRevId()).name();
             String html =
                 formatter.get().format(key.getProject().get(),
-                    reader.abbreviate(key.getRevId()).name(), formatterCfg,
-                    replaceMacros(key.getProject(), bytes));
+                    abbrRevId, formatterCfg,
+                    replaceMacros(key.getProject(), abbrRevId, bytes));
             return getAsHtmlResource(html, commit.getCommitTime());
           } finally {
             reader.release();
@@ -125,7 +127,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
   }
 
-  private String replaceMacros(Project.NameKey project, byte[] raw) {
+  private String replaceMacros(Project.NameKey project, String abbrRevId,
+      byte[] raw) {
     Map<String, String> macros = Maps.newHashMap();
 
     String url = webUrl.get();
@@ -136,6 +139,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
 
     macros.put("PROJECT", project.get());
     macros.put("PROJECT_URL", url + "#/admin/projects/" + project.get());
+    macros.put("REVISION", abbrRevId);
 
     Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@")
         .matcher(new String(raw, UTF_8));
