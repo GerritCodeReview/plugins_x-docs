@@ -1,6 +1,6 @@
-This plugin serves Markdown project documentation as HTML pages.
+This plugin serves project documentation as HTML pages.
 
-If projects contain documentation as Markdown files, the plugin
+If projects contain documentation, e.g. as Markdown files, the plugin
 automatically serves the generated HTML under
 `/@PLUGIN@/project/<project-name>/<file-name>`. The project name and
 the file name must be URL encoded.
@@ -15,8 +15,8 @@ a revision is specified in the URL as
 
 `rev` can be any ref or commit that is visible to the calling user.
 
-If the file name is omitted the plugin serves the `README.md` from the
-project if available.
+If the file name is omitted, by default the plugin serves the
+`README.md` from the project if available.
 
 By setting the URL parameter `raw` the document will be returned as raw
 unformatted text.
@@ -27,10 +27,12 @@ unformatted text.
 
 The `raw` parameter cannot be used for binary files.
 
-*WARNING:* All HTML blocks as well as inline HTML tags are suppressed.
-Both will be accepted in the input but not be contained in the output.
+*WARNING:* By default inline HTML blocks as well as inline HTML tags
+may be [suppressed](config.html#formatterAllowHtml) by formatters. If
+suppressed both will be accepted in the input but not be contained in
+the output.
 
-Images that are stored in the project can be included into the Markdown
+Images that are stored in the project can be included into the project
 documentation, but they are only rendered if the image mimetype is
 configured as a
 [safe mimetype](../../../Documentation/config-gerrit.html#mimetype).
