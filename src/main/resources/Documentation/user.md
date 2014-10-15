@@ -78,3 +78,6 @@ replaced when the HTML pages are generated.
 * `\@PROJECT@`: The name of the project from which the documentation is shown.
 * `\@PROJECT_URL@`: The web URL of the project from which the documentation is shown.
 * `\@REVISION@`: The abbreviated ID of the revision from which the documentation is shown.
+* `\@GIT_DESCRIPTION@`: The output of `git describe` on the revision
+  from which the documentation is shown, or the abbreviated ID of the
+  revision if no names are found.
