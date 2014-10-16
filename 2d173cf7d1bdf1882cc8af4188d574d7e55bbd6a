@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0e9742d_a0211acb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T09:49:07Z",
+      "side": 1,
+      "message": "static to cache it? Can\u0027t you make the class as Singleton instead and move the static block below in constructor?",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 16
+      },
+      "revId": "2d173cf7d1bdf1882cc8af4188d574d7e55bbd6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e9742d_c01c1e93",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T09:49:07Z",
+      "side": 1,
+      "message": "Use TimeUtil?",
+      "range": {
+        "startLine": 76,
+        "startChar": 47,
+        "endLine": 76,
+        "endChar": 73
+      },
+      "revId": "2d173cf7d1bdf1882cc8af4188d574d7e55bbd6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_931bdc16",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T09:49:07Z",
+      "side": 1,
+      "message": "May be extract this to a property file making it easier to extend??",
+      "range": {
+        "startLine": 107,
+        "startChar": 9,
+        "endLine": 114,
+        "endChar": 37
+      },
+      "revId": "2d173cf7d1bdf1882cc8af4188d574d7e55bbd6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_730160a1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T09:49:07Z",
+      "side": 1,
+      "message": "abbreviate?",
+      "range": {
+        "startLine": 116,
+        "startChar": 32,
+        "endLine": 116,
+        "endChar": 40
+      },
+      "revId": "2d173cf7d1bdf1882cc8af4188d574d7e55bbd6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
