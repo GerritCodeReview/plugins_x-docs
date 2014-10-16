@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_13f10c75",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T09:05:06Z",
+      "side": 1,
+      "message": "Abbreviate to 9 chars or provide another macro for GIT_DESCR_ABBREVIATED?",
+      "range": {
+        "startLine": 140,
+        "startChar": 60,
+        "endLine": 140,
+        "endChar": 75
+      },
+      "revId": "b05884dc606032c651246b094c2e4bc28dfb7081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
