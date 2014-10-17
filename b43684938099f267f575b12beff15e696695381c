@@ -46,6 +46,30 @@
       "revId": "b43684938099f267f575b12beff15e696695381c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30c4a4d1_a451222a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T19:18:30Z",
+      "side": 1,
+      "message": "I see. Different approach (i think something like this was alreay implemented?): To be able to povide alternative default CSS file? So that the site admin can easily replace the default one without messing around with plugn content, say by providing the location of it in global or plugin specific (but not project specific) config file, e. g.\n\n  wiki.cssFile \u003d foo.css\n\nThis (or something different) can be done later.",
+      "parentUuid": "30c4a4d1_040e3652",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "b43684938099f267f575b12beff15e696695381c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
