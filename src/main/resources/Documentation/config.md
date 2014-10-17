@@ -21,11 +21,14 @@ web.indexFile
 
 	The documentation links in web UI will link to this file.
 
+	Inherited from the parent project if not specified.
+
 	Default: `README.md`
 
 The global formatter configuration can be overridden per project.
-Configuring any parameter for a formatter overrides the complete
-global formatter configuration.
+Child projects inherit the formatter configuration from the parent
+projects. Configuring any parameter for a formatter overrides the
+complete inherited/global formatter configuration.
 
 <a id="ext">
 formatter.<formatter>.ext
