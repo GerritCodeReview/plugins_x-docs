@@ -22,6 +22,30 @@
       "revId": "c476442b3b990b243788a8ba61c491a8a57855ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_a543de6d",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T15:23:17Z",
+      "side": 1,
+      "message": "Done as an own change as a predecessor change to this change:\n\n  https://gerrit-review.googlesource.com/60882",
+      "parentUuid": "10cb2096_f333309b",
+      "range": {
+        "startLine": 165,
+        "startChar": 1,
+        "endLine": 165,
+        "endChar": 51
+      },
+      "revId": "c476442b3b990b243788a8ba61c491a8a57855ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
