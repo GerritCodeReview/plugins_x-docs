@@ -22,6 +22,30 @@
       "revId": "b43684938099f267f575b12beff15e696695381c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30c4a4d1_040e3652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T14:14:40Z",
+      "side": 1,
+      "message": "\u003e Why?\n\nBecause support for inheritable CSS is not easy :(\n\nA document is generated only once and then it is cached. The cached document contains the CSS. This means we must make sure that the document is reloaded whenever the CSS changes. As explained above for one project this is achieved by including the revision of the ref/meta/config branch into the cache key. This means if the CSS in the project is changed we have a new cache key and the document is reloaded with the new CSS. However if the CSS in any parent project is changed this has no effect on the cache key and hence we would still serve the documents with the old CSS from the cache.\n\nIn order to support inheritable CSS we would need to include the refs/meta/config revision of each parent project into the cache key or find some way to automatically flush all documents from the cache that are affected by a CSS update in a project. For keeping this change simple CSS is not inheritable for now. We may add support for it later if we find a good way to do it.",
+      "parentUuid": "10cb2096_b316d8ec",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "b43684938099f267f575b12beff15e696695381c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
