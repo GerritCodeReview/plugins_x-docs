@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30c4a4d1_a41c8291",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T14:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f00e8cb4_2aea5fb2",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "1a09d84501ca89611f63e9d0dd635e974b75065f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e9742d_2007ca3e",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocsCache.java",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2014-10-16T09:10:35Z",
       "side": 1,
       "message": "Non-consistent naming convention: all classes in this plugin are called XDocFoo. So either rename this class to XDocCache, or rename all other classes classes.",
+      "revId": "1a09d84501ca89611f63e9d0dd635e974b75065f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30c4a4d1_64044a38",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocsCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T14:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e9742d_2007ca3e",
       "revId": "1a09d84501ca89611f63e9d0dd635e974b75065f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
