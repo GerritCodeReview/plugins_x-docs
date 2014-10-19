@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "503af8a9_0de3d137",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/MarkdownFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:09:52Z",
+      "side": 1,
+      "message": "Nit: Some conventions say that ctors annotated with @Inject have always one parameter per line.",
+      "range": {
+        "startLine": 34,
+        "startChar": 47,
+        "endLine": 34,
+        "endChar": 70
+      },
+      "revId": "f481e31c4534cebe59cc9377db9225f29a246eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_2de08d28",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:09:52Z",
+      "side": 1,
+      "message": "All formatter specific configurations are not inheritable?",
+      "revId": "f481e31c4534cebe59cc9377db9225f29a246eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
