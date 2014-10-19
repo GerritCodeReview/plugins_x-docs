@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "503af8a9_eddda572",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:05:51Z",
+      "side": 1,
+      "message": "Yes, a Warning/TODO would be good.",
+      "parentUuid": "50c758d5_e53dd6e7",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 34
+      },
+      "revId": "73a398fbe64e1350a38f6fc9b5c1c5456a163ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e9742d_a0fabad6",
         "filename": "src/main/resources/Documentation/user.md",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "It does, but inline HTML blocks are not suppressed for Asciidoc :(",
       "parentUuid": "b0e9742d_a0fabad6",
+      "range": {
+        "startLine": 73,
+        "startChar": 15,
+        "endLine": 73,
+        "endChar": 23
+      },
+      "revId": "73a398fbe64e1350a38f6fc9b5c1c5456a163ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_455dca34",
+        "filename": "src/main/resources/Documentation/user.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:05:51Z",
+      "side": 1,
+      "message": "Mention this?",
+      "parentUuid": "30c4a4d1_043596fa",
       "range": {
         "startLine": 73,
         "startChar": 15,
