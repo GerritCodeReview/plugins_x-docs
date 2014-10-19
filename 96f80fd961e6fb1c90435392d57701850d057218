@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "503af8a9_add39d66",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:00:06Z",
+      "side": 1,
+      "message": "static final\n\nYou did it differently on the next line ;-)\n\nIn Gerrit project we have:\n\n  $ git grep \"static final\" | wc -l\n  1473\n  $ git grep \"final static\" | wc -l\n  13",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 21
+      },
+      "revId": "96f80fd961e6fb1c90435392d57701850d057218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_6589e648",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:00:06Z",
+      "side": 1,
+      "message": "Nit: unneeded blank line.",
+      "revId": "96f80fd961e6fb1c90435392d57701850d057218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_45866a38",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:00:06Z",
+      "side": 1,
+      "message": "private static",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "96f80fd961e6fb1c90435392d57701850d057218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_8dcee1bd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:00:06Z",
+      "side": 1,
+      "message": "Try-with-resource idiom accepts more than once resource:\n\n  try (InputStream in \u003d url.openStream();\n       TemporaryBuffer.Heap tmp \u003d new TemporaryBuffer.Heap(128 * 1024)) {\n     tmp.copy(in);\n     return new String(tmp.toByteArray(), UTF_8);\n  }",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 77
+      },
+      "revId": "96f80fd961e6fb1c90435392d57701850d057218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_a5511e2a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:00:06Z",
+      "side": 1,
+      "message": "private static",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 9
+      },
+      "revId": "96f80fd961e6fb1c90435392d57701850d057218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_8556a21d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:00:06Z",
+      "side": 1,
+      "message": "Method order in this class is not consistent:\n\n*  private\n*  public\n*  private",
+      "revId": "96f80fd961e6fb1c90435392d57701850d057218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_a56abedd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:00:06Z",
+      "side": 1,
+      "message": "Wrong indentation.",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "96f80fd961e6fb1c90435392d57701850d057218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
