@@ -70,6 +70,30 @@
       "revId": "b43684938099f267f575b12beff15e696695381c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_251b6e67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T07:56:32Z",
+      "side": 1,
+      "message": "It\u0027s not there yet, but I have it on my todo list :)\n\nWill be an own change.",
+      "parentUuid": "30c4a4d1_a451222a",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 49
+      },
+      "revId": "b43684938099f267f575b12beff15e696695381c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
