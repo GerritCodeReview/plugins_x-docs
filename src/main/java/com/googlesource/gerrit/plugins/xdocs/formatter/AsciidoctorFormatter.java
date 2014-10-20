@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ALLOW_HTML;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_APPEND_CSS;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INCLUDE_TOC;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -35,12 +36,14 @@ import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.Properties;
 
@@ -71,6 +74,10 @@ public class AsciidoctorFormatter implements Formatter {
   @Override
   public String format(String projectName, String revision,
       ConfigSection globalCfg, String raw) throws IOException {
+    if (!globalCfg.getBoolean(KEY_ALLOW_HTML, false)) {
+      raw = suppressHtml(raw);
+    }
+
     ConfigSection projectCfg =
         formatters.getFormatterConfig(globalCfg.getSubsection(), projectName);
     // asciidoctor ignores all attributes if no output file is specified,
@@ -96,6 +103,28 @@ public class AsciidoctorFormatter implements Formatter {
       if (!tmpFile.delete()) {
         tmpFile.deleteOnExit();
       }
+    }
+  }
+
+  private String suppressHtml(String raw) throws IOException {
+    try (BufferedReader br = new BufferedReader(new StringReader(raw))) {
+      StringBuilder sb = new StringBuilder();
+      boolean embeddedHtml = false;
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.startsWith("++++")) {
+          embeddedHtml = !embeddedHtml;
+        }
+        if (!embeddedHtml) {
+          if (line.startsWith("++++")) {
+            sb.append(line.substring(4));
+          } else {
+            sb.append(line);
+          }
+          sb.append("\n");
+        }
+      }
+      return sb.toString();
     }
   }
 
