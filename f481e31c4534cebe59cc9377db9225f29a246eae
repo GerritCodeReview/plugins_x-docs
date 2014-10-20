@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50c758d5_a52d9e88",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/MarkdownFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T08:24:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_0de3d137",
+      "range": {
+        "startLine": 34,
+        "startChar": 47,
+        "endLine": 34,
+        "endChar": 70
+      },
+      "revId": "f481e31c4534cebe59cc9377db9225f29a246eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503af8a9_2de08d28",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2014-10-19T10:09:52Z",
       "side": 1,
       "message": "All formatter specific configurations are not inheritable?",
+      "revId": "f481e31c4534cebe59cc9377db9225f29a246eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_8d6a61de",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T08:24:04Z",
+      "side": 1,
+      "message": "No, they are inheritable, but if a project has an own formatter subsection in its config then it always overrides the complete inherited formatter subsection.\n\nE.g. if we have the following configuration\n\n  parent project:\n\n    [formatter \"MARKDOWN\"]\n      ext \u003d md\n    [formatter \u003d \"ASCIIDOCTOR\"]\n      ext \u003d adoc\n      includeToc \u003d false\n\n  child project:\n\n    [formatter \u003d \"ASCIIDOCTOR\"]\n      ext \u003d txt\n\nthen the child project inherits the MARKDOWN formatter configuration as it is in the parent project. For the ASCIIDOCTOR formatter nothing is inherited, because the child projects overrides this configuration. This means in this example includeToc would be true for the child project (as this is the default value).\n\nIn the documentation this behaviour is described above in line 28 - 31. Let me know if this description needs further improvements.",
+      "parentUuid": "503af8a9_2de08d28",
       "revId": "f481e31c4534cebe59cc9377db9225f29a246eae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
