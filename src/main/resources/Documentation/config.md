@@ -160,7 +160,7 @@ formatter.<formatter>.allowHtml
 
 	*CANNOT* be overridden on project-level.
 
-	Supported for the following formatters: `MARKDOWN`
+	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
 
 	Default: `false`
 
