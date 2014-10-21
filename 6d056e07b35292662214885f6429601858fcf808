@@ -106,6 +106,24 @@
       "revId": "6d056e07b35292662214885f6429601858fcf808",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_1625bc48",
+        "filename": "lib/gerrit/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T16:04:53Z",
+      "side": 1,
+      "message": "\u003e Expose gwtexpui stuff in gwtui-api or even in a new artifact gwtexpui-api.\n\nI am obviously in favor of this one, I don\u0027t understand why we\u0027re arguing.",
+      "parentUuid": "503af8a9_6d761547",
+      "revId": "6d056e07b35292662214885f6429601858fcf808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
