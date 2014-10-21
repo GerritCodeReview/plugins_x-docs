@@ -88,6 +88,24 @@
       "revId": "6d056e07b35292662214885f6429601858fcf808",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_6d761547",
+        "filename": "lib/gerrit/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T16:01:59Z",
+      "side": 1,
+      "message": "True, but at the time of writing this plugin gwtexpui wasn\u0027t exposed by Gerrit in plugin-API, for historical reasons, i think. It was de-externalized but forgotten be included in Plugin-API. So your only option is:\n\n* Don\u0027t provide standalone mode for plugins that need gwtexpui\n* Don\u0027t use new features that was added recently, so that ancient version from Google storage bucket can be consumed\n* Expose gwtexpui stuff in gwtui-api or even in a new artifact gwtexpui-api.",
+      "parentUuid": "701c5c1f_9638ac79",
+      "revId": "6d056e07b35292662214885f6429601858fcf808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
