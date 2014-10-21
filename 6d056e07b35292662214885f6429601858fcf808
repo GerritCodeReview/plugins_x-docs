@@ -124,6 +124,24 @@
       "revId": "6d056e07b35292662214885f6429601858fcf808",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_ad463deb",
+        "filename": "lib/gerrit/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T16:09:12Z",
+      "side": 1,
+      "message": "OK, I will try to come up with needed change in Gerrit core.",
+      "parentUuid": "701c5c1f_1625bc48",
+      "revId": "6d056e07b35292662214885f6429601858fcf808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
