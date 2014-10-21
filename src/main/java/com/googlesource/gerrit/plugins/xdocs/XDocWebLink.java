@@ -15,9 +15,12 @@
 package com.googlesource.gerrit.plugins.xdocs;
 
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.webui.BranchWebLink;
+import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.WebLinkTarget;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -38,9 +41,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 @Singleton
-public class XDocWebLink implements ProjectWebLink, BranchWebLink {
+public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
   private static final Logger log = LoggerFactory
       .getLogger(XDocWebLink.class);
+
+  private static final String README = "readme";
+  private static final String PREVIEW = "preview";
 
   private final String pluginName;
   private final GitRepositoryManager repoManager;
@@ -66,27 +72,35 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
   }
 
   @Override
-  public String getLinkName() {
-    return "readme";
+  public WebLinkInfo getBranchWebLink(String projectName, String branchName) {
+    return new WebLinkInfo(README, getImageUrl(),
+        getBranchUrl(projectName, branchName), WebLinkTarget.BLANK);
   }
 
   @Override
-  public String getProjectUrl(String projectName) {
-    return getBranchUrl(projectName, Constants.HEAD);
+  public WebLinkInfo getProjectWeblink(String projectName) {
+    return new WebLinkInfo(README, getImageUrl(),
+        getBranchUrl(projectName, Constants.HEAD), WebLinkTarget.BLANK);
   }
 
   @Override
-  public String getBranchUrl(String projectName, String branchName) {
+  public WebLinkInfo getFileWebLink(String projectName, String revision,
+      String fileName) {
+    return new WebLinkInfo(PREVIEW, getImageUrl(),
+        getFileUrl(projectName, revision, fileName), WebLinkTarget.BLANK);
+  }
+
+  private String getBranchUrl(String projectName, String branchName) {
     ProjectState state = projectCache.get(new Project.NameKey(projectName));
     if (state == null) {
       // project not found -> no link
       return null;
     }
-    return getPatchUrl(projectName, branchName,
+    return getFileUrl(projectName, branchName,
         cfgFactory.create(state).getIndexFile());
   }
 
-  public String getPatchUrl(String projectName, String revision,
+  public String getFileUrl(String projectName, String revision,
       String fileName) {
     FormatterProvider formatter = formatters.get(projectName, fileName);
     if (formatter == null) {
@@ -127,13 +141,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink {
     }
   }
 
-  @Override
-  public String getImageUrl() {
+  private String getImageUrl() {
     return "plugins/" + pluginName + "/static/readme.png";
-  }
-
-  @Override
-  public String getTarget() {
-    return Target.BLANK;
   }
 }
