@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "701c5c1f_b60cc8df",
+        "filename": "lib/gerrit/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T15:24:41Z",
+      "side": 1,
+      "message": "I\u0027m confused, didn\u0027t gwtexpui get subtree-merged into gerrit-gwtexpui in I958ed659b?",
+      "revId": "6d056e07b35292662214885f6429601858fcf808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
