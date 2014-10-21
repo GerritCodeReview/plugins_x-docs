@@ -16,6 +16,24 @@
       "revId": "6d056e07b35292662214885f6429601858fcf808",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_250b6e95",
+        "filename": "lib/gerrit/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T15:32:08Z",
+      "side": 1,
+      "message": "Yes, I know that this is a bad hack, but plugins can\u0027t reference gerrit-gwtexpui, can they?",
+      "parentUuid": "701c5c1f_b60cc8df",
+      "revId": "6d056e07b35292662214885f6429601858fcf808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
