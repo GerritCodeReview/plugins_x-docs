@@ -7,3 +7,8 @@
   width: 100%;
 }
 
+.xdocs-error {
+  margin-top: 10px;
+  color: red;
+  font-weight:bold;
+}
