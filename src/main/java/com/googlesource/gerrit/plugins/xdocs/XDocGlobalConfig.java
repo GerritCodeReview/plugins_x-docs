@@ -29,6 +29,7 @@ public class XDocGlobalConfig {
   public static final String KEY_INCLUDE_TOC = "includeToc";
   public static final String KEY_MIME_TYPE = "mimeType";
   public static final String KEY_PREFIX = "prefix";
+  public static final String KEY_PRIO = "prio";
 
   private final Config cfg;
 

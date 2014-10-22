@@ -18,6 +18,7 @@ import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ENABLED
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_EXT;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_MIME_TYPE;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_PREFIX;
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_PRIO;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.SECTION_FORMATTER;
 
 import org.apache.commons.io.FilenameUtils;
@@ -78,6 +79,8 @@ public class Formatters {
         pluginCfgFactory.getGlobalPluginConfig(pluginName));
     MimeType mimeType = fileTypeRegistry.getMimeType(fileName, null);
     String extension = FilenameUtils.getExtension(fileName);
+    FormatterProvider formatter = null;
+    int formatterPrio = 0;
     for (String pluginName : formatters.plugins()) {
       for (Entry<String, Provider<Formatter>> e :
           formatters.byPlugin(pluginName).entrySet()) {
@@ -102,18 +105,26 @@ public class Formatters {
         for (String configuredMimeType :
           formatterCfg.getStringList(KEY_MIME_TYPE)) {
           if (mimeType.equals(new MimeType(configuredMimeType))) {
-            return new FormatterProvider(e.getKey(), e.getValue());
+            int prio = formatterCfg.getInt(KEY_PRIO, 0);
+            if (formatter == null || prio > formatterPrio) {
+              formatter = new FormatterProvider(e.getKey(), e.getValue());
+              formatterPrio = prio;
+            }
           }
         }
         for (String ext :
           formatterCfg.getStringList(KEY_EXT)) {
           if (extension.equals(ext)) {
-            return new FormatterProvider(e.getKey(), e.getValue());
+            int prio = formatterCfg.getInt(KEY_PRIO, 0);
+            if (formatter == null || prio > formatterPrio) {
+              formatter = new FormatterProvider(e.getKey(), e.getValue());
+              formatterPrio = prio;
+            }
           }
         }
       }
     }
-    return null;
+    return formatter;
   }
 
   public ConfigSection getFormatterConfig(String formatterName,
