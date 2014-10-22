@@ -34,6 +34,8 @@ complete inherited/global formatter configuration.
 formatter.<formatter>.ext
 :	Extension of files that should be rendered by this formatter.
 
+	If set to `*` all file extensions are handled by this formatter.
+
 	Multiple extensions may be specified for a formatter.
 
 	Overrides the [globally configured file extensions](#formatterExt)
@@ -135,6 +137,8 @@ Supported formatters:
 <a id="formatterExt">
 formatter.<formatter>.ext
 :	Extension of files that will be rendered by this formatter.
+
+	If set to `*` all file extensions are handled by this formatter.
 
 	Multiple extensions may be specified for a formatter.
 

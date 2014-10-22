@@ -114,7 +114,7 @@ public class Formatters {
         }
         for (String ext :
           formatterCfg.getStringList(KEY_EXT)) {
-          if (extension.equals(ext)) {
+          if (extension.equals(ext) || "*".equals(ext)) {
             int prio = formatterCfg.getInt(KEY_PRIO, 0);
             if (formatter == null || prio > formatterPrio) {
               formatter = new FormatterProvider(e.getKey(), e.getValue());
