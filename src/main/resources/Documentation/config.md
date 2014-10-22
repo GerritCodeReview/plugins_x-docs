@@ -82,6 +82,19 @@ formatter.<formatter>.appendCss
 
 	Default: `true` (project-specific CSS is appended to the default CSS)
 
+<a id="prio">
+formatter.<formatter>.prio
+:	The priority of this formatter.
+
+	If several formatters can handle a file, the formatter with the
+	higher priority is taken. If formatters have the same priority it
+	is undefined which formatter is used.
+
+	Overrides the [global configured priority](#formatterPrio) for this
+	formatter.
+
+	Default: `0`
+
 <a id="projectCss">
 Project-Specific CSS
 --------------------
@@ -197,3 +210,15 @@ formatter.<formatter>.appendCss
 	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
 
 	Default: `true` (project-specific CSS is appended to the default CSS)
+
+<a id="formatterPrio">
+formatter.<formatter>.prio
+:	The priority of this formatter.
+
+	If several formatters can handle a file, the formatter with the
+	higher priority is taken. If formatters have the same priority it
+	is undefined which formatter is used.
+
+	Can be overridden on [project-level](#prio).
+
+	Default: `0`
