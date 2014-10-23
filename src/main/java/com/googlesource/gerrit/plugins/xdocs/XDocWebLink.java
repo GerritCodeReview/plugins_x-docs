@@ -73,22 +73,30 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
 
   @Override
   public WebLinkInfo getBranchWebLink(String projectName, String branchName) {
-    return new WebLinkInfo(README, getImageUrl(),
-        getBranchUrl(projectName, branchName), WebLinkTarget.SELF);
+    String url = getBranchUrl(projectName, branchName);
+    if (url == null) {
+      return null;
+    }
+    return new WebLinkInfo(README, getImageUrl(), url, WebLinkTarget.SELF);
   }
 
   @Override
   public WebLinkInfo getProjectWeblink(String projectName) {
-    return new WebLinkInfo(README, getImageUrl(),
-        getBranchUrl(projectName, Constants.HEAD), WebLinkTarget.SELF);
+    String url = getBranchUrl(projectName, Constants.HEAD);
+    if (url == null) {
+      return null;
+    }
+    return new WebLinkInfo(README, getImageUrl(), url, WebLinkTarget.SELF);
   }
 
   @Override
   public WebLinkInfo getFileWebLink(String projectName, String revision,
       String fileName) {
-    return new WebLinkInfo(PREVIEW, getImageUrl(),
-        getFileUrl(projectName, revision, fileName, false),
-        WebLinkTarget.BLANK);
+    String url = getFileUrl(projectName, revision, fileName, false);
+    if (url == null) {
+      return null;
+    }
+    return new WebLinkInfo(PREVIEW, getImageUrl(), url, WebLinkTarget.BLANK);
   }
 
   private String getBranchUrl(String projectName, String branchName) {
