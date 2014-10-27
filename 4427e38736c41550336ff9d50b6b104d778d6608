@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5bafe9a_2a2bdfa8",
+        "filename": "pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-27T15:40:03Z",
+      "side": 1,
+      "message": "This should not be needed anymore.",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 143,
+        "endChar": 17
+      },
+      "revId": "4427e38736c41550336ff9d50b6b104d778d6608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
