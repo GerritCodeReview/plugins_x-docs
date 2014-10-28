@@ -1,12 +1,15 @@
 include_defs('//bucklets/gerrit_plugin.bucklet')
 
+MODULE = 'com.googlesource.gerrit.plugins.xdocs.XDocs'
+
 ASCIIDOCTOR = '//lib/asciidoctor:asciidoc_lib' if __standalone_mode__ \
   else '//plugins/x-docs/lib/asciidoctor:asciidoc_lib'
 
 gerrit_plugin(
   name = 'x-docs',
   srcs = glob(['src/main/java/**/*.java']),
-  resources = glob(['src/main/resources/**/*']),
+  resources = glob(['src/main/**/*']),
+  gwt_module = MODULE,
   manifest_entries = [
     'Gerrit-PluginName: xdocs',
     'Gerrit-ApiType: plugin',
