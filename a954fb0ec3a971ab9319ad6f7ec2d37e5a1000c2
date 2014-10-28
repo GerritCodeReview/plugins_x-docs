@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_d8256d4b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-28T10:08:21Z",
+      "side": 1,
+      "message": "optional:  use ternary operator?\n\n return url \u003d\u003d null ? null : new WebLinkInfo(...);",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 75
+      },
+      "revId": "a954fb0ec3a971ab9319ad6f7ec2d37e5a1000c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
