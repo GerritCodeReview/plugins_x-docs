@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b566c610_d838edf5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-28T09:46:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d515fa2f_d9f7b36b",
+      "range": {
+        "startLine": 87,
+        "startChar": 25,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "36a3d721585becf9f9ae0a9220c61eade1717977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b50a4612_583a7d70",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/public/xdocs.css",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-28T09:30:27Z",
       "side": 1,
       "message": "nit: missing space after `:`",
+      "range": {
+        "startLine": 13,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "36a3d721585becf9f9ae0a9220c61eade1717977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "955d4234_672ff27f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/public/xdocs.css",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-28T09:46:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b50a4612_583a7d70",
       "range": {
         "startLine": 13,
         "startChar": 13,
