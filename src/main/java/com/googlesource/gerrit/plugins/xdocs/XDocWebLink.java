@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
-import com.google.gerrit.extensions.webui.WebLinkTarget;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -73,22 +72,27 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
 
   @Override
   public WebLinkInfo getBranchWebLink(String projectName, String branchName) {
-    return new WebLinkInfo(README, getImageUrl(),
-        getBranchUrl(projectName, branchName), WebLinkTarget.SELF);
+    String url = getBranchUrl(projectName, branchName);
+    return url == null
+        ? null
+        : new WebLinkInfo(README, getImageUrl(), url, Target.SELF);
   }
 
   @Override
   public WebLinkInfo getProjectWeblink(String projectName) {
-    return new WebLinkInfo(README, getImageUrl(),
-        getBranchUrl(projectName, Constants.HEAD), WebLinkTarget.SELF);
+    String url = getBranchUrl(projectName, Constants.HEAD);
+    return url == null
+        ? null
+        : new WebLinkInfo(README, getImageUrl(), url, Target.SELF);
   }
 
   @Override
   public WebLinkInfo getFileWebLink(String projectName, String revision,
       String fileName) {
-    return new WebLinkInfo(PREVIEW, getImageUrl(),
-        getFileUrl(projectName, revision, fileName, false),
-        WebLinkTarget.BLANK);
+    String url = getFileUrl(projectName, revision, fileName, false);
+    return url == null
+        ? null
+        : new WebLinkInfo(PREVIEW, getImageUrl(), url, Target.BLANK);
   }
 
   private String getBranchUrl(String projectName, String branchName) {
