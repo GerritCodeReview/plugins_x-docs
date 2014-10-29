@@ -102,9 +102,11 @@ public class Formatters {
             continue;
           }
         }
-        for (String configuredMimeType :
-          formatterCfg.getStringList(KEY_MIME_TYPE)) {
-          if (mimeType.equals(new MimeType(configuredMimeType))) {
+        for (String mt : formatterCfg.getStringList(KEY_MIME_TYPE)) {
+          MimeType configuredMimeType = new MimeType(mt);
+          if (mimeType.equals(configuredMimeType)
+              || ("*".equals(configuredMimeType.getSubType())
+                  && mimeType.getMediaType().equals(configuredMimeType.getMediaType()))) {
             int prio = formatterCfg.getInt(KEY_PRIO, 0);
             if (formatter == null || prio > formatterPrio) {
               formatter = new FormatterProvider(e.getKey(), e.getValue());
