@@ -226,3 +226,17 @@ formatter.<formatter>.prio
 	Can be overridden on [project-level](#prio).
 
 	Default: `0`
+
+<a id="rawFormatter">
+formatter.RAW.formatter
+:	The name of the formatter that should be used as RAW formatter.
+
+	The RAW formatter is used when the `raw` URL parameter is appended
+	to the project documentation URL.
+
+	When this option is changed the `xdocs-x_doc_resources` cache must
+	be flushed.
+
+	*CANNOT* be overridden on project-level.
+
+	Default: `PLAIN_TEXT`

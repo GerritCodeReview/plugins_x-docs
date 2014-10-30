@@ -26,6 +26,7 @@ public class XDocGlobalConfig {
   public static final String KEY_APPEND_CSS = "appendCss";
   public static final String KEY_ENABLED = "enabled";
   public static final String KEY_EXT = "ext";
+  public static final String KEY_FORMATTER = "formatter";
   public static final String KEY_INCLUDE_TOC = "includeToc";
   public static final String KEY_MIME_TYPE = "mimeType";
   public static final String KEY_PREFIX = "prefix";
