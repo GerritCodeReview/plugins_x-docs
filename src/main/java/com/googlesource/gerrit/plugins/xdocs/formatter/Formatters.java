@@ -16,13 +16,11 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ENABLED;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_EXT;
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_FORMATTER;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_MIME_TYPE;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_PREFIX;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_PRIO;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.SECTION_FORMATTER;
-
-import org.apache.commons.io.FilenameUtils;
-import org.eclipse.jgit.lib.Config;
 
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -40,10 +38,17 @@ import com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig;
 
 import eu.medsea.mimeutil.MimeType;
 
+import org.apache.commons.io.FilenameUtils;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map.Entry;
 
 @Singleton
 public class Formatters {
+  private static final Logger log = LoggerFactory.getLogger(Formatters.class);
+
   public static final String RAW_FORMATTER = "RAW";
 
   private final String pluginName;
@@ -154,8 +159,7 @@ public class Formatters {
 
   public FormatterProvider getByName(String formatterName) {
     if (formatterName.equals(RAW_FORMATTER)) {
-      return new FormatterProvider(RAW_FORMATTER,
-          getByName(PlainTextFormatter.NAME).formatter);
+      return resolveRawFormatter();
     }
 
     for (String pluginName : formatters.plugins()) {
@@ -171,6 +175,28 @@ public class Formatters {
 
   public FormatterProvider getRawFormatter() {
     return getByName(RAW_FORMATTER);
+  }
+
+  private FormatterProvider resolveRawFormatter() {
+    XDocGlobalConfig globalCfg =
+        new XDocGlobalConfig(pluginCfgFactory.getGlobalPluginConfig(pluginName));
+    String formatterName =
+        globalCfg.getFormatterConfig(RAW_FORMATTER)
+            .getString(KEY_FORMATTER, PlainTextFormatter.NAME);
+    if (formatterName.equals(RAW_FORMATTER)) {
+      log.warn(String.format(
+          "%s plugin: Invalid '%s' formatter configuration, '%s' formatter cannot be set to '%s', using '%s' formatter",
+          pluginName, RAW_FORMATTER, RAW_FORMATTER, formatterName, PlainTextFormatter.NAME));
+      formatterName = PlainTextFormatter.NAME;
+    }
+    FormatterProvider formatter = getByName(formatterName);
+    if (formatter == null) {
+      log.warn(String.format(
+          "%s plugin: Invalid '%s' formatter configuration, formatter '%s' not found, using '%s' formatter",
+          pluginName, RAW_FORMATTER, formatterName, PlainTextFormatter.NAME));
+      formatter = getByName(PlainTextFormatter.NAME);
+    }
+    return new FormatterProvider(RAW_FORMATTER, formatter.formatter);
   }
 
   public static class FormatterProvider {
