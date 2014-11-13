@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
+import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -33,17 +34,23 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Singleton
 public class FormatterUtil {
-  private final GitRepositoryManager repoManager;
   private final String pluginName;
+  private final File baseDir;
+  private final GitRepositoryManager repoManager;
 
   @Inject
-  FormatterUtil(@PluginName String pluginName,
+  FormatterUtil(@PluginName String pluginName, @PluginData File baseDir,
       GitRepositoryManager repoManager) {
     this.pluginName = pluginName;
+    this.baseDir = baseDir;
     this.repoManager = repoManager;
   }
 
@@ -58,6 +65,25 @@ public class FormatterUtil {
    */
   public String getCss(String projectName, String name) {
     return escapeHtml(getMetaConfigFile(projectName, name + ".css"));
+  }
+
+  /**
+   * Returns the CSS from the file
+   * "<review-site>/data/<plugin-name>/css/<name>.css".
+   *
+   * @param name the name of the CSS file without the ".css" file extension
+   * @return the CSS from the file; HTML characters are escaped;
+   *         <code>null</code> if the file doesn't exist
+   * @throws IOException thrown in case of an I/O Error while reading the CSS
+   *         file
+   */
+  public String getGlobalCss(String name) throws IOException {
+    Path p = Paths.get(baseDir.getAbsolutePath(), "css", name + ".css");
+    if (Files.exists(p)) {
+      byte[] css = Files.readAllBytes(p);
+      return escapeHtml(new String(css, UTF_8));
+    }
+    return null;
   }
 
   /**
