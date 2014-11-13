@@ -104,18 +104,21 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           ObjectId objectId = tw.getObjectId(0);
           ObjectLoader loader = repo.open(objectId);
           byte[] bytes = loader.getBytes(Integer.MAX_VALUE);
-          if (formatter.getName().equals(Formatters.RAW_FORMATTER)
-              && RawText.isBinary(bytes)) {
+          boolean isBinary = RawText.isBinary(bytes);
+          if (formatter.getName().equals(Formatters.RAW_FORMATTER) && isBinary) {
             return Resources.METHOD_NOT_ALLOWED;
           }
           ObjectReader reader = repo.newObjectReader();
           try {
             String abbrRevId = reader.abbreviate(key.getRevId()).name();
+            String raw = new String(bytes, UTF_8);
+            if (!isBinary) {
+              raw = replaceMacros(repo, key.getProject(), key.getRevId(),
+                  abbrRevId, raw);
+            }
             String html =
                 formatter.get().format(key.getProject().get(),
-                    abbrRevId, formatterCfg,
-                    replaceMacros(repo, key.getProject(), key.getRevId(),
-                        abbrRevId, bytes));
+                    abbrRevId, formatterCfg, raw);
             return getAsHtmlResource(html, commit.getCommitTime());
           } finally {
             reader.release();
@@ -132,7 +135,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
   }
 
   private String replaceMacros(Repository repo, Project.NameKey project,
-      ObjectId revId, String abbrRevId, byte[] raw) throws GitAPIException,
+      ObjectId revId, String abbrRevId, String raw) throws GitAPIException,
       IOException {
     Map<String, String> macros = Maps.newHashMap();
 
@@ -149,8 +152,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
         (new Git(repo)).describe().setTarget(revId).call(), abbrRevId));
 
 
-    Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@")
-        .matcher(new String(raw, UTF_8));
+    Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@").matcher(raw);
     StringBuffer sb = new StringBuffer();
     while (m.find()) {
       String key = m.group(2);
