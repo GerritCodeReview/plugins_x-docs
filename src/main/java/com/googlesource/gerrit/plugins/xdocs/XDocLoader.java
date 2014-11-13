@@ -91,7 +91,11 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     try {
       RevWalk rw = new RevWalk(repo);
       try {
-        RevCommit commit = rw.parseCommit(key.getRevId());
+        ObjectId revId = key.getRevId();
+        if (revId == null) {
+          return Resource.NOT_FOUND;
+        }
+        RevCommit commit = rw.parseCommit(revId);
         RevTree tree = commit.getTree();
         TreeWalk tw = new TreeWalk(repo);
         try {
@@ -110,11 +114,11 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           }
           ObjectReader reader = repo.newObjectReader();
           try {
-            String abbrRevId = reader.abbreviate(key.getRevId()).name();
+            String abbrRevId = reader.abbreviate(revId).name();
             String html =
                 formatter.get().format(key.getProject().get(),
                     abbrRevId, formatterCfg,
-                    replaceMacros(repo, key.getProject(), key.getRevId(),
+                    replaceMacros(repo, key.getProject(), revId,
                         abbrRevId, bytes));
             return getAsHtmlResource(html, commit.getCommitTime());
           } finally {
