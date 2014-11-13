@@ -22,7 +22,7 @@ import com.google.inject.Inject;
 
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 
 public class MarkdownFormatter implements Formatter {
   public final static String NAME = "MARKDOWN";
@@ -40,7 +40,7 @@ public class MarkdownFormatter implements Formatter {
 
   @Override
   public String format(String projectName, String revision,
-      ConfigSection globalCfg, String raw) throws UnsupportedEncodingException {
+      ConfigSection globalCfg, String raw) throws IOException {
     ConfigSection projectCfg =
         formatters.getFormatterConfig(globalCfg.getSubsection(), projectName);
     com.google.gerrit.server.documentation.MarkdownFormatter f =
@@ -48,18 +48,24 @@ public class MarkdownFormatter implements Formatter {
     if (!globalCfg.getBoolean(KEY_ALLOW_HTML, false)) {
       f.suppressHtml();
     }
+    String globalCss = util.getGlobalCss("markdown");
     String projectCss = util.getCss(projectName, "markdown");
     if (projectCfg.getBoolean(KEY_APPEND_CSS, true)) {
-      // if f.setCss(css) is not invoked
+      // if there is no global CSS and f.setCss(null) is invoked
       // com.google.gerrit.server.documentation.MarkdownFormatter applies the
       // default CSS
+      f.setCss(globalCss);
       byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
       return util.insertCss(new String(b, UTF_8), projectCss);
     } else {
-      // if there is no project-specific CSS and f.setCss(null) is invoked
-      // com.google.gerrit.server.documentation.MarkdownFormatter applies the
-      // default CSS
-      f.setCss(projectCss);
+      if (projectCss != null) {
+        f.setCss(projectCss);
+      } else {
+        // if there is no global CSS and f.setCss(null) is invoked
+        // com.google.gerrit.server.documentation.MarkdownFormatter applies the
+        // default CSS
+        f.setCss(globalCss);
+      }
       byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
       return new String(b, UTF_8);
     }
