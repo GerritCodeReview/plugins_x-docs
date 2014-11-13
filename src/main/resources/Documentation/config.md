@@ -240,3 +240,13 @@ formatter.RAW.formatter
 	*CANNOT* be overridden on project-level.
 
 	Default: `PLAIN_TEXT`
+
+<a id="globalDefaultCss">
+Global Default CSS
+------------------
+
+Gerrit administrators can override the built-in default CSS by
+providing CSS files in `<review-site>/data/@PLUGIN@/css/`:
+
+* `ASCIIDOCTOR`: `asciidoctor.css`
+* `MARKDOWN`: `markdown.css`

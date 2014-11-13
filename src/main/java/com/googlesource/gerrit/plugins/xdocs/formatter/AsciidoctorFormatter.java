@@ -91,12 +91,15 @@ public class AsciidoctorFormatter implements Formatter {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);
         String html = out.toString(UTF_8.name());
+        String globalCss = util.getGlobalCss("asciidoctor");
         String projectCss = util.getCss(projectName, "asciidoctor");
         if (projectCfg.getBoolean(KEY_APPEND_CSS, true)) {
-          return util.insertCss(html, defaultCss, projectCss);
+          return util.insertCss(html,
+              MoreObjects.firstNonNull(globalCss, defaultCss), projectCss);
         } else {
           return util.insertCss(html,
-              MoreObjects.firstNonNull(projectCss, defaultCss));
+              MoreObjects.firstNonNull(projectCss,
+                  MoreObjects.firstNonNull(globalCss, defaultCss)));
         }
       }
     } finally {
