@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ALLOW_HTML;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_APPEND_CSS;
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_CSS_THEME;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.inject.Inject;
@@ -48,8 +49,9 @@ public class MarkdownFormatter implements Formatter {
     if (!globalCfg.getBoolean(KEY_ALLOW_HTML, false)) {
       f.suppressHtml();
     }
-    String globalCss = util.getGlobalCss("markdown");
-    String projectCss = util.getCss(projectName, "markdown");
+    String cssTheme = projectCfg.getString(KEY_CSS_THEME);
+    String globalCss = util.getGlobalCss("markdown", cssTheme);
+    String projectCss = util.getCss(projectName, "markdown", cssTheme);
     if (projectCfg.getBoolean(KEY_APPEND_CSS, true)) {
       // if there is no global CSS and f.setCss(null) is invoked
       // com.google.gerrit.server.documentation.MarkdownFormatter applies the
