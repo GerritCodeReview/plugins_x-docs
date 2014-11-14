@@ -84,6 +84,21 @@ formatter.<formatter>.appendCss
 
 	Default: `true` (project-specific CSS is appended to the default CSS)
 
+<a id="cssTheme">
+formatter.<formatter>.cssTheme
+:	The name of the CSS theme that should be used.
+
+	The theme name is included into the file name when loading a CSS
+	file, e.g. `@PLUGIN@/markdown-<theme-name>.css` when loading
+	project specific CSS from the project's `refs/meta/config` branch.
+
+	Overrides the [global configuration of `cssTheme`](#formatterCssTheme)
+	for this formatter.
+
+	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+
+	By default not set.
+
 <a id="prio">
 formatter.<formatter>.prio
 :	The priority of this formatter.
@@ -214,6 +229,19 @@ formatter.<formatter>.appendCss
 	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
 
 	Default: `true` (project-specific CSS is appended to the default CSS)
+
+<a id="formatterCssTheme">
+formatter.<formatter>.cssTheme
+:	The name of the CSS theme that should be used.
+
+	The theme name is included into the file name when loading a CSS
+	file, e.g. `<review-site>/data/@PLUGIN@/css/markdown-<theme-name>.css`
+
+	Can be overridden on [project-level](#cssTheme).
+
+	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+
+	By default not set.
 
 <a id="formatterPrio">
 formatter.<formatter>.prio

@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ALLOW_HTML;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_APPEND_CSS;
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_CSS_THEME;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INCLUDE_TOC;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -91,8 +92,9 @@ public class AsciidoctorFormatter implements Formatter {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);
         String html = out.toString(UTF_8.name());
-        String globalCss = util.getGlobalCss("asciidoctor");
-        String projectCss = util.getCss(projectName, "asciidoctor");
+        String cssTheme = projectCfg.getString(KEY_CSS_THEME);
+        String globalCss = util.getGlobalCss("asciidoctor", cssTheme);
+        String projectCss = util.getCss(projectName, "asciidoctor", cssTheme);
         if (projectCfg.getBoolean(KEY_APPEND_CSS, true)) {
           return util.insertCss(html,
               MoreObjects.firstNonNull(globalCss, defaultCss), projectCss);
