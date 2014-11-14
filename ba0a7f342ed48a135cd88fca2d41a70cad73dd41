@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3a148387_c45ade3b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-14T11:54:18Z",
+      "side": 1,
+      "message": "Yes, this is still missing, but I\u0027m thinking about implementing this too.",
+      "parentUuid": "fafd8b73_d283c427",
+      "range": {
+        "startLine": 101,
+        "startChar": 14,
+        "endLine": 102,
+        "endChar": 68
+      },
+      "revId": "ba0a7f342ed48a135cd88fca2d41a70cad73dd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a148387_a46362ff",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/FormatterUtil.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3a148387_24bbf2ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/FormatterUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-14T11:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a148387_a46362ff",
+      "range": {
+        "startLine": 50,
+        "startChar": 47,
+        "endLine": 50,
+        "endChar": 71
+      },
+      "revId": "ba0a7f342ed48a135cd88fca2d41a70cad73dd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a148387_8460e6f3",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/MarkdownFormatter.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2014-11-14T08:42:24Z",
       "side": 1,
       "message": "Why set global css or default css at all, when project specific css was defined and is set on line 62?",
+      "range": {
+        "startLine": 55,
+        "startChar": 3,
+        "endLine": 55,
+        "endChar": 24
+      },
+      "revId": "ba0a7f342ed48a135cd88fca2d41a70cad73dd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafd8b73_724ad874",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/MarkdownFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-14T11:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a148387_8460e6f3",
       "range": {
         "startLine": 55,
         "startChar": 3,
