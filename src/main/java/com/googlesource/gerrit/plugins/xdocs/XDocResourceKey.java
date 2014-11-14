@@ -104,6 +104,10 @@ public class XDocResourceKey {
       metaConfigRevision = s[4];
     }
     return new XDocResourceKey(formatter, new Project.NameKey(project), file,
-        ObjectId.fromString(revision), ObjectId.fromString(metaConfigRevision));
+        toObjectId(revision), toObjectId(metaConfigRevision));
+  }
+
+  private static ObjectId toObjectId(String id) {
+    return id != null ? ObjectId.fromString(id) : null;
   }
 }

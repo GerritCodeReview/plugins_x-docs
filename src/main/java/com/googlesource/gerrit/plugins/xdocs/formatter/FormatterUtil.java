@@ -124,7 +124,11 @@ public class FormatterUtil {
       try {
         RevWalk rw = new RevWalk(repo);
         try {
-          RevCommit commit = rw.parseCommit(repo.resolve(RefNames.REFS_CONFIG));
+          ObjectId id = repo.resolve(RefNames.REFS_CONFIG);
+          if (id == null) {
+            return null;
+          }
+          RevCommit commit = rw.parseCommit(id);
           RevTree tree = commit.getTree();
           TreeWalk tw = new TreeWalk(repo);
           try {
