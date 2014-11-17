@@ -138,7 +138,8 @@ provided in the `refs/meta/config` branch of the project:
 * `ASCIIDOCTOR`: `@PLUGIN@/asciidoctor.css`
 * `MARKDOWN`: `@PLUGIN@/markdown.css`
 
-Custom CSS files are *NOT* inherited from parent projects.
+If link:appendCss[appendCss] is set to true custom CSS files are
+inherited from parent projects.
 
 <a id="globalConfig">
 Global Configuration

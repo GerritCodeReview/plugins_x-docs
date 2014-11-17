@@ -14,17 +14,23 @@
 
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_APPEND_CSS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -46,14 +52,20 @@ public class FormatterUtil {
   private final String pluginName;
   private final File baseDir;
   private final GitRepositoryManager repoManager;
+  private final ProjectCache projectCache;
+  private final Formatters formatters;
 
   @Inject
   FormatterUtil(@PluginName String pluginName,
       @PluginData File baseDir,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      ProjectCache projectCache,
+      Formatters formatters) {
     this.pluginName = pluginName;
     this.baseDir = baseDir;
     this.repoManager = repoManager;
+    this.projectCache = projectCache;
+    this.formatters = formatters;
   }
 
   /**
@@ -87,6 +99,57 @@ public class FormatterUtil {
    */
   public String getCss(String projectName, String name) {
     return escapeHtml(getMetaConfigFile(projectName, name + ".css"));
+  }
+
+  /**
+   * Returns the inherited CSS.
+   *
+   * If the project has a parent project the CSS of the parent project is
+   * returned; if there is no parent project the global CSS is returned.
+   *
+   * @param projectName the name of the project
+   * @param formatterName the name of the formatter for which the CSS should be
+   *        returned
+   * @param name the name of the CSS file without theme and without the ".css"
+   *        file extension
+   * @param theme the name of the CSS theme, may be <code>null</code>, if given
+   *        it is included into the CSS file name: '<name>-<theme>.css'
+   * @return the inherited CSS; HTML characters are escaped; <code>null</code>
+   *         if there is no inherited CSS
+   * @throws IOException thrown in case of an I/O Error while reading the global
+   *         CSS file
+   */
+  public String getInheritedCss(String projectName, String formatterName,
+      String name, String theme) throws IOException {
+    return getInheritedCss(projectCache.get(new Project.NameKey(projectName)),
+        formatterName, name, theme);
+  }
+
+  private String getInheritedCss(ProjectState project, String formatterName,
+    String name, String theme) throws IOException {
+    for (ProjectState parent : project.parents()) {
+      String css = getCss(parent.getProject().getName(), name, theme);
+      if (css != null) {
+        ConfigSection cfg =
+            formatters.getFormatterConfig(formatterName, parent);
+        if (cfg.getBoolean(KEY_APPEND_CSS, true)) {
+          return joinCss(getInheritedCss(parent, formatterName, name, theme), css);
+        } else {
+          return css;
+        }
+      }
+    }
+    return getGlobalCss(name, theme);
+  }
+
+  private String joinCss(String css1, String css2) {
+    if (css1 == null) {
+      return css2;
+    }
+    if (css2 == null) {
+      return css1;
+    }
+    return Joiner.on('\n').join(css1, css2);
   }
 
   /**
