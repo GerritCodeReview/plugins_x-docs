@@ -11,8 +11,24 @@ project.
 
 ```
   [web]
+    indexRef = master
     indexFile = Documentation/README.md
 ```
+
+<a id="webIndexRef">
+web.indexRef
+:	The reference from which the documentation should be loaded if a
+	revision is not specified.
+
+	The documentation links in the project list will link to the index
+	file in this reference.
+
+	For branches the `refs/heads/` prefix may be omitted, all other
+	refs must be fully specified.
+
+	Inherited from the parent project if not specified.
+
+	Default: `HEAD`
 
 <a id="webIndexFile">
 web.indexFile
