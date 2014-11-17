@@ -15,8 +15,8 @@
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ALLOW_HTML;
-import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_APPEND_CSS;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_CSS_THEME;
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INHERIT_CSS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.inject.Inject;
@@ -43,30 +43,31 @@ public class MarkdownFormatter implements Formatter {
   public String format(String projectName, String revision,
       ConfigSection globalCfg, String raw) throws IOException {
     ConfigSection projectCfg =
-        formatters.getFormatterConfig(globalCfg.getSubsection(), projectName);
+        formatters.getFormatterConfig(NAME, projectName);
     com.google.gerrit.server.documentation.MarkdownFormatter f =
         new com.google.gerrit.server.documentation.MarkdownFormatter();
     if (!globalCfg.getBoolean(KEY_ALLOW_HTML, false)) {
       f.suppressHtml();
     }
     String cssTheme = projectCfg.getString(KEY_CSS_THEME);
-    String globalCss = util.getGlobalCss("markdown", cssTheme);
+    String inheritedCss =
+        util.getInheritedCss(projectName, NAME, "markdown", cssTheme);
     String projectCss = util.getCss(projectName, "markdown", cssTheme);
-    if (projectCfg.getBoolean(KEY_APPEND_CSS, true)) {
-      // if there is no global CSS and f.setCss(null) is invoked
+    if (projectCfg.getBoolean(KEY_INHERIT_CSS, true)) {
+      // if there is no inherited CSS and f.setCss(null) is invoked
       // com.google.gerrit.server.documentation.MarkdownFormatter applies the
       // default CSS
-      f.setCss(globalCss);
+      f.setCss(inheritedCss);
       byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
       return util.insertCss(new String(b, UTF_8), projectCss);
     } else {
       if (projectCss != null) {
         f.setCss(projectCss);
       } else {
-        // if there is no global CSS and f.setCss(null) is invoked
+        // if there is no inherited CSS and f.setCss(null) is invoked
         // com.google.gerrit.server.documentation.MarkdownFormatter applies the
         // default CSS
-        f.setCss(globalCss);
+        f.setCss(inheritedCss);
       }
       byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
       return new String(b, UTF_8);

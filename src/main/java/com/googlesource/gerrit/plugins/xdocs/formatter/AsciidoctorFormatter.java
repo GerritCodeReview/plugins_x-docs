@@ -15,9 +15,9 @@
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ALLOW_HTML;
-import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_APPEND_CSS;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_CSS_THEME;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INCLUDE_TOC;
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INHERIT_CSS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
@@ -80,7 +80,7 @@ public class AsciidoctorFormatter implements Formatter {
     }
 
     ConfigSection projectCfg =
-        formatters.getFormatterConfig(globalCfg.getSubsection(), projectName);
+        formatters.getFormatterConfig(NAME, projectName);
     // asciidoctor ignores all attributes if no output file is specified,
     // this is why we must specify an output file and then read its content
     File tmpFile =
@@ -93,15 +93,16 @@ public class AsciidoctorFormatter implements Formatter {
         ByteStreams.copy(input, out);
         String html = out.toString(UTF_8.name());
         String cssTheme = projectCfg.getString(KEY_CSS_THEME);
-        String globalCss = util.getGlobalCss("asciidoctor", cssTheme);
+        String inheritedCss =
+            util.getInheritedCss(projectName, NAME, "asciidoctor", cssTheme);
         String projectCss = util.getCss(projectName, "asciidoctor", cssTheme);
-        if (projectCfg.getBoolean(KEY_APPEND_CSS, true)) {
+        if (projectCfg.getBoolean(KEY_INHERIT_CSS, true)) {
           return util.insertCss(html,
-              MoreObjects.firstNonNull(globalCss, defaultCss), projectCss);
+              MoreObjects.firstNonNull(inheritedCss, defaultCss), projectCss);
         } else {
           return util.insertCss(html,
               MoreObjects.firstNonNull(projectCss,
-                  MoreObjects.firstNonNull(globalCss, defaultCss)));
+                  MoreObjects.firstNonNull(inheritedCss, defaultCss)));
         }
       }
     } finally {
