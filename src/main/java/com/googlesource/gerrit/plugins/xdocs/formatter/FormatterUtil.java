@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project;
@@ -56,6 +57,26 @@ public class FormatterUtil {
   }
 
   /**
+   * Returns the CSS from the file "<plugin-name>/<name>-<theme>.css" in the
+   * refs/meta/config branch of the project.
+   *
+   * If theme is <code>null</code> or empty, the CSS from the file
+   * "<plugin-name>/<name>.css" is returned.
+   *
+   * @param name the name of the file in the "<plugin-name>/" folder without
+   *        theme and without the ".css" file extension
+   * @param theme the name of the CSS theme, may be <code>null</code>, if given
+   *        it is included into the CSS file name: '<name>-<theme>.css'
+   * @return the CSS from the file; HTML characters are escaped;
+   *         <code>null</code> if the file doesn't exist
+   */
+  public String getCss(String projectName, String name, String theme) {
+    return Strings.isNullOrEmpty(theme)
+        ? getCss(projectName, name)
+        : getCss(projectName, name + "-" + theme);
+  }
+
+  /**
    * Returns the CSS from the file "<plugin-name>/<name>.css" in the
    * refs/meta/config branch of the project.
    *
@@ -66,6 +87,28 @@ public class FormatterUtil {
    */
   public String getCss(String projectName, String name) {
     return escapeHtml(getMetaConfigFile(projectName, name + ".css"));
+  }
+
+  /**
+   * Returns the CSS from the file
+   * "<review-site>/data/<plugin-name>/css/<name>-<theme>.css".
+   *
+   * If theme is <code>null</code> or empty, the CSS from the file
+   * "<review-site>/data/<plugin-name>/css/<name>.css" is returned.
+   *
+   * @param name the name of the CSS file without theme and without the ".css"
+   *        file extension
+   * @param theme the name of the CSS theme, may be <code>null</code>, if given
+   *        it is included into the CSS file name: '<name>-<theme>.css'
+   * @return the CSS from the file; HTML characters are escaped;
+   *         <code>null</code> if the file doesn't exist
+   * @throws IOException thrown in case of an I/O Error while reading the CSS
+   *         file
+   */
+  public String getGlobalCss(String name, String theme) throws IOException {
+    return Strings.isNullOrEmpty(theme)
+        ? getGlobalCss(name)
+        : getGlobalCss(name + "-" + theme);
   }
 
   /**

@@ -24,6 +24,7 @@ public class XDocGlobalConfig {
   public static final String SECTION_FORMATTER = "formatter";
   public static final String KEY_ALLOW_HTML = "allowHtml";
   public static final String KEY_APPEND_CSS = "appendCss";
+  public static final String KEY_CSS_THEME = "cssTheme";
   public static final String KEY_ENABLED = "enabled";
   public static final String KEY_EXT = "ext";
   public static final String KEY_FORMATTER = "formatter";
