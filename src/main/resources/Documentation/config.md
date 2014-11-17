@@ -11,8 +11,26 @@ project.
 
 ```
   [web]
+    indexBranch = master
     indexFile = Documentation/README.md
 ```
+
+<a id="webIndexBranch">
+web.indexBranch
+:	The branch from which the documentation should be loaded if a
+	revision is not specified.
+
+	If a revision is not specified, by default, the documentation is
+	loaded from the branch to which `HEAD` points. This parameter
+	overrides this behavior and instead defines a default branch from
+	which the documentation is loaded in this case.
+
+	The documentation links in the project list will link to the index
+	file in this branch.
+
+	Inherited from the parent project if not specified.
+
+	Default: not set (the branch to which `HEAD` points)
 
 <a id="webIndexFile">
 web.indexFile

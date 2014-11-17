@@ -29,6 +29,7 @@ public class XDocProjectConfig {
   }
 
   private static final String SECTION_WEB = "web";
+  private static final String KEY_INDEX_BRANCH = "indexBranch";
   private static final String KEY_INDEX_FILE = "indexFile";
   private static final String DEFAULT_INDEX_FILE = "README.md";
 
@@ -38,6 +39,10 @@ public class XDocProjectConfig {
   XDocProjectConfig(@PluginName String pluginName, PluginConfigFactory cfgFactory,
       @Assisted ProjectState project) {
     this.cfg = cfgFactory.getProjectPluginConfigWithInheritance(project, pluginName);
+  }
+
+  String getIndexBranch() {
+    return cfg.getString(SECTION_WEB, null, KEY_INDEX_BRANCH);
   }
 
   String getIndexFile() {

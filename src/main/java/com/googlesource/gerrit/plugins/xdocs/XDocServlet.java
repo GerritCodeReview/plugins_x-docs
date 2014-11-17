@@ -141,6 +141,9 @@ public class XDocServlet extends HttpServlet {
     try {
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
       String rev = key.revision;
+      if (rev == null) {
+        rev = cfg.getIndexBranch();
+      }
       if (rev == null || Constants.HEAD.equals(rev)) {
         rev = getHead.get().apply(new ProjectResource(projectControl));
       } else  {
