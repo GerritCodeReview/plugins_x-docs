@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1ae09f12_eb457174",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-11-17T15:19:09Z",
+      "side": 1,
+      "message": "Yep, indexRef makes sense.\n:-)\n\nLuca.",
+      "parentUuid": "1ae09f12_2beb7911",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 3
+      },
+      "revId": "1e5e5b538604f3736fd19aea17d7838e1b95750a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a81ef19_a7042a3c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
         "patchSetId": 1
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "I think we can still keep this here. It should be safe to assume that anything that is not starting with \u0027refs/\u0027 is a branch. The special case of \u0027HEAD\u0027 is already handled above.",
       "parentUuid": "1ae09f12_6be1812f",
+      "range": {
+        "startLine": 151,
+        "startChar": 10,
+        "endLine": 153,
+        "endChar": 11
+      },
+      "revId": "1e5e5b538604f3736fd19aea17d7838e1b95750a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae09f12_cb4ab584",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-11-17T15:19:09Z",
+      "side": 1,
+      "message": "yes, that is a fair assumption.",
+      "parentUuid": "daea87ee_11310c0b",
       "range": {
         "startLine": 151,
         "startChar": 10,
