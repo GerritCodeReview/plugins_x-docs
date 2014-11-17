@@ -14,11 +14,12 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
-import com.google.common.base.Objects;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.lib.ObjectId;
+
+import java.util.Objects;
 
 public class XDocResourceKey {
   private final String formatter;
@@ -54,15 +55,18 @@ public class XDocResourceKey {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(formatter, project, resource, revId);
+    return Objects.hash(formatter, project, resource, revId, metaConfigRevId);
   }
 
   @Override
   public boolean equals(Object other) {
     if (other instanceof XDocResourceKey) {
       XDocResourceKey rk = (XDocResourceKey) other;
-      return formatter.equals(rk.formatter) && project.equals(rk.project)
-          && resource.equals(rk.resource) && revId.equals(rk.revId);
+      return Objects.equals(formatter, rk.formatter)
+          && Objects.equals(project, rk.project)
+          && Objects.equals(resource, rk.resource)
+          && Objects.equals(revId, rk.revId)
+          && Objects.equals(metaConfigRevId, rk.metaConfigRevId);
     }
     return false;
   }
