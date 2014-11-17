@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 
 public class XDocProjectConfig {
   interface Factory {
@@ -29,6 +30,7 @@ public class XDocProjectConfig {
   }
 
   private static final String SECTION_WEB = "web";
+  private static final String KEY_INDEX_REF = "indexRef";
   private static final String KEY_INDEX_FILE = "indexFile";
   private static final String DEFAULT_INDEX_FILE = "README.md";
 
@@ -38,6 +40,12 @@ public class XDocProjectConfig {
   XDocProjectConfig(@PluginName String pluginName, PluginConfigFactory cfgFactory,
       @Assisted ProjectState project) {
     this.cfg = cfgFactory.getProjectPluginConfigWithInheritance(project, pluginName);
+  }
+
+  String getIndexRef() {
+    return MoreObjects.firstNonNull(
+        cfg.getString(SECTION_WEB, null, KEY_INDEX_REF),
+        Constants.HEAD);
   }
 
   String getIndexFile() {
