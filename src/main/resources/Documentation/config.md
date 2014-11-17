@@ -86,19 +86,19 @@ formatter.<formatter>.includeToc
 
 	Default: `true`
 
-<a id="appendCss">
-formatter.<formatter>.appendCss
-:	Whether the project-specific CSS should be appended to the default CSS.
+<a id="inheritCss">
+formatter.<formatter>.inheritCss
+:	Whether the CSS should be inherited or overridden.
 
 	If `false` the default CSS is completely replaced by the
 	project-specific CSS.
 
-	Overrides the [global configuration of `appendCss`](#formatterAppendCss)
+	Overrides the [global configuration of `inheritCss`](#formatterInheritCss)
 	for this formatter.
 
 	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
 
-	Default: `true` (project-specific CSS is appended to the default CSS)
+	Default: `true` (CSS is inherited)
 
 <a id="cssTheme">
 formatter.<formatter>.cssTheme
@@ -138,7 +138,8 @@ provided in the `refs/meta/config` branch of the project:
 * `ASCIIDOCTOR`: `@PLUGIN@/asciidoctor.css`
 * `MARKDOWN`: `@PLUGIN@/markdown.css`
 
-Custom CSS files are *NOT* inherited from parent projects.
+If link:inheritCss[inheritCss] is set to true custom CSS files are
+inherited from parent projects.
 
 <a id="globalConfig">
 Global Configuration
@@ -233,18 +234,18 @@ formatter.<formatter>.includeToc
 
 	Default: `true`
 
-<a id="formatterAppendCss">
-formatter.<formatter>.appendCss
-:	Whether project-specific CSS should be appended to the default CSS.
+<a id="formatterInheritCss">
+formatter.<formatter>.inheritCss
+:	Whether CSS should be inherited or overridden.
 
 	If `false` the default CSS is completely replaced by the
 	project-specific CSS.
 
-	Can be overridden on [project-level](#appendCss).
+	Can be overridden on [project-level](#inheritCss).
 
 	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
 
-	Default: `true` (project-specific CSS is appended to the default CSS)
+	Default: `true` (CSS is inherited)
 
 <a id="formatterCssTheme">
 formatter.<formatter>.cssTheme
