@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ae09f12_2beb7911",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-17T11:55:25Z",
+      "side": 1,
+      "message": "Good idea, this should return HEAD by default. It makes no sense to have this default case hard-coded in XDocServlet.\n\nBut I would name it \u0027indexRef\u0027 rather than \u0027indexRefSpec\u0027, since a refSpec is a mapping between source and target (\u0027\u003csrc\u003e:\u003cdst\u003e\u0027) and we don\u0027t need that here.\n\nDone.",
+      "parentUuid": "daea87ee_313410fb",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 3
+      },
+      "revId": "1e5e5b538604f3736fd19aea17d7838e1b95750a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a81ef19_a7042a3c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
         "patchSetId": 1
@@ -83,6 +107,30 @@
       "writtenOn": "2014-11-17T11:00:35Z",
       "side": 1,
       "message": "If we allow to configure a refspec then we just use it \"as-is\" without having to assume that is a refs/heads/\u003csomething\u003e",
+      "range": {
+        "startLine": 151,
+        "startChar": 10,
+        "endLine": 153,
+        "endChar": 11
+      },
+      "revId": "1e5e5b538604f3736fd19aea17d7838e1b95750a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_11310c0b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-17T11:55:25Z",
+      "side": 1,
+      "message": "I think we can still keep this here. It should be safe to assume that anything that is not starting with \u0027refs/\u0027 is a branch. The special case of \u0027HEAD\u0027 is already handled above.",
+      "parentUuid": "1ae09f12_6be1812f",
       "range": {
         "startLine": 151,
         "startChar": 10,
