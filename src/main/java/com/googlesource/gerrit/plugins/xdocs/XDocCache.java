@@ -15,6 +15,8 @@
 package com.googlesource.gerrit.plugins.xdocs;
 
 import com.google.common.cache.LoadingCache;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectCache;
@@ -48,6 +50,21 @@ public class XDocCache {
             ? p.getConfig().getRevision()
             : ObjectId.zeroId();
     return cache.getUnchecked((new XDocResourceKey(formatter.getName(),
-        project, file, revId, metaConfigRevId)).asString());
+        project, file, revId, metaConfigRevId, getParentsHash(project)))
+        .asString());
+  }
+
+  private String getParentsHash(Project.NameKey project) {
+    Hasher h = Hashing.md5().newHasher();
+    ProjectState p = projectCache.get(project);
+    if (p != null) {
+      for (ProjectState parent : p.parents()) {
+        h.putUnencodedChars(
+            parent.getConfig().getRevision() != null
+                ? parent.getConfig().getRevision().getName()
+                : ObjectId.zeroId().getName());
+      }
+    }
+    return h.hash().toString();
   }
 }

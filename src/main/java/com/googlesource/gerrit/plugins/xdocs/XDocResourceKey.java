@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.reviewdb.client.Project;
 
@@ -27,14 +28,16 @@ public class XDocResourceKey {
   private final String resource;
   private final ObjectId revId;
   private final ObjectId metaConfigRevId;
+  private final String parentsHash;
 
   XDocResourceKey(String formatter, Project.NameKey project, String r,
-      ObjectId revId, ObjectId metaConfigRevId) {
+      ObjectId revId, ObjectId metaConfigRevId, String parentsHash) {
     this.formatter = formatter;
     this.project = project;
     this.resource = r;
     this.revId = revId;
     this.metaConfigRevId = metaConfigRevId;
+    this.parentsHash = parentsHash;
   }
 
   public String getFormatter() {
@@ -55,7 +58,8 @@ public class XDocResourceKey {
 
   @Override
   public int hashCode() {
-    return Objects.hash(formatter, project, resource, revId, metaConfigRevId);
+    return Objects.hash(formatter, project, resource, revId, metaConfigRevId,
+        parentsHash);
   }
 
   @Override
@@ -66,7 +70,8 @@ public class XDocResourceKey {
           && Objects.equals(project, rk.project)
           && Objects.equals(resource, rk.resource)
           && Objects.equals(revId, rk.revId)
-          && Objects.equals(metaConfigRevId, rk.metaConfigRevId);
+          && Objects.equals(metaConfigRevId, rk.metaConfigRevId)
+          && Objects.equals(parentsHash, rk.parentsHash);
     }
     return false;
   }
@@ -82,6 +87,8 @@ public class XDocResourceKey {
     b.append(revId != null ? revId.name() : "");
     b.append("/");
     b.append(metaConfigRevId != null ? metaConfigRevId.name() : "");
+    b.append("/");
+    b.append(Strings.nullToEmpty(parentsHash));
     return b.toString();
   }
 
@@ -92,6 +99,7 @@ public class XDocResourceKey {
     String file = null;
     String revision = null;
     String metaConfigRevision = null;
+    String parentsHash = null;
     if (s.length > 0) {
       formatter = IdString.fromUrl(s[0]).get();
     }
@@ -107,8 +115,11 @@ public class XDocResourceKey {
     if (s.length > 4) {
       metaConfigRevision = s[4];
     }
+    if (s.length > 5) {
+      parentsHash = s[5];
+    }
     return new XDocResourceKey(formatter, new Project.NameKey(project), file,
-        toObjectId(revision), toObjectId(metaConfigRevision));
+        toObjectId(revision), toObjectId(metaConfigRevision), parentsHash);
   }
 
   private static ObjectId toObjectId(String id) {
