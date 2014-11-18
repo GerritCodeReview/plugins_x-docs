@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a900f9b_0f02252f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-18T21:52:08Z",
+      "side": 1,
+      "message": "Shoudn\u0027t you use ObjectId.zeroId() in case metaConfigRevId is null?\n\nSee discussion in [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/59988/1/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "461ced10b85c91a58a3e3a84dab221e7aad766b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
