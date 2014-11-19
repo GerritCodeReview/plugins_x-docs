@@ -22,6 +22,30 @@
       "revId": "461ced10b85c91a58a3e3a84dab221e7aad766b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a164301_d444dc76",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-19T09:15:37Z",
+      "side": 1,
+      "message": "This is a good proposal.\n\nDone",
+      "parentUuid": "9a900f9b_0f02252f",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "461ced10b85c91a58a3e3a84dab221e7aad766b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
