@@ -43,7 +43,10 @@ public class XDocCache {
   public Resource get(FormatterProvider formatter, Project.NameKey project,
       String file, ObjectId revId) {
     ProjectState p = projectCache.get(project);
-    ObjectId metaConfigRevId = p != null ? p.getConfig().getRevision() : null;
+    ObjectId metaConfigRevId =
+        p != null && p.getConfig().getRevision() != null
+            ? p.getConfig().getRevision()
+            : ObjectId.zeroId();
     return cache.getUnchecked((new XDocResourceKey(formatter.getName(),
         project, file, revId, metaConfigRevId)).asString());
   }
