@@ -22,6 +22,30 @@
       "revId": "9fe511be582e02eb72f5e088cf4bf6e9c1b75a90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa490b4e_12084c50",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-20T08:08:51Z",
+      "side": 1,
+      "message": "Yes, makes sense to rename this option now.\n\nDone",
+      "parentUuid": "fa490b4e_b2f860df",
+      "range": {
+        "startLine": 141,
+        "startChar": 3,
+        "endLine": 141,
+        "endChar": 28
+      },
+      "revId": "9fe511be582e02eb72f5e088cf4bf6e9c1b75a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
