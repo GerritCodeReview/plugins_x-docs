@@ -111,12 +111,9 @@ public class XDocServlet extends HttpServlet {
       validateRequestMethod(req);
 
       ResourceKey key = ResourceKey.fromPath(req.getPathInfo());
-      ProjectState state = projectCache.get(key.project);
-      if (state == null) {
-        Resource.NOT_FOUND.send(req, res);
-        return;
-      }
+      ProjectState state = getProject(key);
       XDocProjectConfig cfg = cfgFactory.create(state);
+
       if (key.file == null) {
         res.sendRedirect(getRedirectUrl(req, key, cfg));
         return;
@@ -255,6 +252,15 @@ public class XDocServlet extends HttpServlet {
     if (!"GET".equals(req.getMethod()) && !"HEAD".equals(req.getMethod())) {
       throw new MethodNotAllowedException();
     }
+  }
+
+  private ProjectState getProject(ResourceKey key)
+      throws ResourceNotFoundException {
+    ProjectState state = projectCache.get(key.project);
+    if (state == null) {
+      throw new ResourceNotFoundException();
+    }
+    return state;
   }
 
   private boolean isSafeImage(MimeType mimeType) {
