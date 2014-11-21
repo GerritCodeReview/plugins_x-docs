@@ -120,15 +120,9 @@ public class XDocServlet extends HttpServlet {
       }
 
       MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
-      FormatterProvider formatter;
-      if (req.getParameter("raw") != null) {
-        formatter = formatters.getRawFormatter();
-      } else {
-        formatter = formatters.get(state, key.file);
-        if (formatter == null && !isSafeImage(mimeType)) {
-          Resource.NOT_FOUND.send(req, res);
-          return;
-        }
+      FormatterProvider formatter = getFormatter(req, key);
+      if (formatter == null && !isSafeImage(mimeType)) {
+        throw new ResourceNotFoundException();
       }
 
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
@@ -261,6 +255,15 @@ public class XDocServlet extends HttpServlet {
       throw new ResourceNotFoundException();
     }
     return state;
+  }
+
+  private FormatterProvider getFormatter(HttpServletRequest req, ResourceKey key)
+      throws ResourceNotFoundException {
+    if (req.getParameter("raw") != null) {
+      return formatters.getRawFormatter();
+    } else {
+      return formatters.get(getProject(key), key.file);
+    }
   }
 
   private boolean isSafeImage(MimeType mimeType) {
