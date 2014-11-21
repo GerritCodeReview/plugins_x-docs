@@ -136,14 +136,9 @@ public class XDocServlet extends HttpServlet {
           validateCanReadCommit(repo, projectControl, revId);
         }
 
-        String eTag = null;
-        String receivedETag = req.getHeader(HttpHeaders.IF_NONE_MATCH);
-        if (receivedETag != null) {
-          eTag = computeETag(key.project, revId, key.file);
-          if (eTag.equals(receivedETag)) {
-            res.sendError(SC_NOT_MODIFIED);
-            return;
-          }
+        if (isResourceNotModified(req, key, revId)) {
+          res.sendError(SC_NOT_MODIFIED);
+          return;
         }
 
         Resource rsc;
@@ -156,10 +151,8 @@ public class XDocServlet extends HttpServlet {
         }
 
         if (rsc != Resource.NOT_FOUND) {
-          res.setHeader(
-              HttpHeaders.ETAG,
-              MoreObjects.firstNonNull(eTag,
-                  computeETag(key.project, revId, key.file)));
+          res.setHeader(HttpHeaders.ETAG,
+              computeETag(key.project, revId, key.file));
         }
         CacheHeaders.setCacheablePrivate(res, 7, TimeUnit.DAYS, false);
         rsc.send(req, res);
@@ -288,6 +281,15 @@ public class XDocServlet extends HttpServlet {
     } finally {
       rw.release();
     }
+  }
+
+  private static boolean isResourceNotModified(HttpServletRequest req,
+      ResourceKey key, ObjectId revId) {
+    String receivedETag = req.getHeader(HttpHeaders.IF_NONE_MATCH);
+    if (receivedETag != null) {
+      return receivedETag.equals(computeETag(key.project, revId, key.file));
+    }
+    return false;
   }
 
   private static String computeETag(Project.NameKey project, ObjectId revId,
