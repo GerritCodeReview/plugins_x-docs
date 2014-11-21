@@ -130,12 +130,7 @@ public class XDocServlet extends HttpServlet {
 
       Repository repo = repoManager.openRepository(key.project);
       try {
-        ObjectId revId =
-            repo.resolve(MoreObjects.firstNonNull(rev, Constants.HEAD));
-        if (revId == null) {
-          Resource.NOT_FOUND.send(req, res);
-          return;
-        }
+        ObjectId revId = resolveRevision(repo, rev);
 
         if (ObjectId.isId(rev)) {
           RevWalk rw = new RevWalk(repo);
@@ -278,6 +273,16 @@ public class XDocServlet extends HttpServlet {
       }
     }
     return rev;
+  }
+
+  private static ObjectId resolveRevision(Repository repo, String revision)
+      throws ResourceNotFoundException, IOException {
+    ObjectId revId =
+        repo.resolve(MoreObjects.firstNonNull(revision, Constants.HEAD));
+    if (revId == null) {
+      throw new ResourceNotFoundException();
+    }
+    return revId;
   }
 
   private static String computeETag(Project.NameKey project, ObjectId revId,
