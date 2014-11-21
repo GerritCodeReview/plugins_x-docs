@@ -82,6 +82,13 @@ The plugin includes several formatters for rendering documentation.
     <td><a href="../../../Documentation/licenses.html#Apache2_0">Apache2.0</a></td>
     <td><a href="http://commons.apache.org">http://commons.apache.org</a></td>
   </tr>
+  <tr>
+    <td><tt>ZipFormatter</tt></td>
+    <td><tt>ZIP</tt></td>
+    <td>Formatter for zip files.</td>
+    <td></td>
+    <td></td>
+  </tr>
 </table>
 
 <a id="htmlDiff">

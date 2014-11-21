@@ -96,7 +96,7 @@ formatter.<formatter>.inheritCss
 	Overrides the [global configuration of `inheritCss`](#formatterInheritCss)
 	for this formatter.
 
-	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`, `ZIP`
 
 	Default: `true` (CSS is inherited)
 
@@ -111,7 +111,7 @@ formatter.<formatter>.cssTheme
 	Overrides the [global configuration of `cssTheme`](#formatterCssTheme)
 	for this formatter.
 
-	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`, `ZIP`
 
 	By default not set.
 
@@ -137,6 +137,7 @@ provided in the `refs/meta/config` branch of the project:
 
 * `ASCIIDOCTOR`: `@PLUGIN@/asciidoctor.css`
 * `MARKDOWN`: `@PLUGIN@/markdown.css`
+* `ZIP`: `@PLUGIN@/zip.css`
 
 If link:inheritCss[inheritCss] is set to true custom CSS files are
 inherited from parent projects.
@@ -158,6 +159,10 @@ configuration.
     mimeType = text/x-markdown
   [formatter "PLAIN_TEXT"]
     mimeType = text/plain
+  [formatter "ZIP"]
+    ext = jar
+    ext = war
+    ext = zip
 ```
 
 Supported formatters:
@@ -165,6 +170,7 @@ Supported formatters:
 * `ASCIIDOCTOR`
 * `MARKDOWN`
 * `PLAIN_TEXT`
+* `ZIP`
 
 <a id="formatterExt">
 formatter.<formatter>.ext
@@ -243,7 +249,7 @@ formatter.<formatter>.inheritCss
 
 	Can be overridden on [project-level](#inheritCss).
 
-	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`, `ZIP`
 
 	Default: `true` (CSS is inherited)
 
@@ -256,7 +262,7 @@ formatter.<formatter>.cssTheme
 
 	Can be overridden on [project-level](#cssTheme).
 
-	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`, `ZIP`
 
 	By default not set.
 
@@ -295,3 +301,4 @@ providing CSS files in `<review-site>/data/@PLUGIN@/css/`:
 
 * `ASCIIDOCTOR`: `asciidoctor.css`
 * `MARKDOWN`: `markdown.css`
+* `ZIP`: `zip.css`
