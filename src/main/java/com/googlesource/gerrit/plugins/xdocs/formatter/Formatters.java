@@ -201,10 +201,9 @@ public class Formatters {
 
   public static class FormatterProvider {
     private final String name;
-    private final Provider<Formatter> formatter;
+    private final Provider<? extends Formatter> formatter;
 
-    FormatterProvider(String name,
-        Provider<Formatter> formatter) {
+    FormatterProvider(String name, Provider<? extends Formatter> formatter) {
       this.name = name;
       this.formatter = formatter;
     }
