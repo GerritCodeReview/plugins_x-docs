@@ -33,8 +33,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import com.googlesource.gerrit.plugins.xdocs.formatter.Formatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
+import com.googlesource.gerrit.plugins.xdocs.formatter.StreamFormatter;
+import com.googlesource.gerrit.plugins.xdocs.formatter.StringFormatter;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -48,14 +51,19 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Singleton
 public class XDocLoader extends CacheLoader<String, Resource> {
+  private static final Logger log = LoggerFactory.getLogger(XDocLoader.class);
+
   private static final String DEFAULT_HOST = "review.example.com";
 
   private final GitRepositoryManager repoManager;
@@ -107,21 +115,33 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           }
           ObjectId objectId = tw.getObjectId(0);
           ObjectLoader loader = repo.open(objectId);
-          byte[] bytes = loader.getBytes(Integer.MAX_VALUE);
-          boolean isBinary = RawText.isBinary(bytes);
-          if (formatter.getName().equals(Formatters.RAW_FORMATTER) && isBinary) {
-            return Resources.METHOD_NOT_ALLOWED;
-          }
           ObjectReader reader = repo.newObjectReader();
+          String abbrRevId = reader.abbreviate(revId).name();
           try {
-            String abbrRevId = reader.abbreviate(revId).name();
-            String raw = new String(bytes, UTF_8);
-            if (!isBinary) {
-              raw = replaceMacros(repo, key.getProject(), revId, abbrRevId, raw);
-            }
-            String html =
-                formatter.get().format(key.getProject().get(),
+            String html;
+            Formatter f = formatter.get();
+            if (f instanceof StringFormatter) {
+              byte[] bytes = loader.getBytes(Integer.MAX_VALUE);
+              boolean isBinary = RawText.isBinary(bytes);
+              if (formatter.getName().equals(Formatters.RAW_FORMATTER) && isBinary) {
+                return Resources.METHOD_NOT_ALLOWED;
+              }
+              String raw = new String(bytes, UTF_8);
+              if (!isBinary) {
+                raw = replaceMacros(repo, key.getProject(), revId, abbrRevId, raw);
+              }
+              html = ((StringFormatter) f).format(key.getProject().get(),
+                  abbrRevId, formatterCfg, raw);
+            } else if (f instanceof StreamFormatter) {
+              try (InputStream raw = loader.openStream()) {
+                html = ((StreamFormatter) f).format(key.getProject().get(),
                     abbrRevId, formatterCfg, raw);
+              }
+            } else {
+              log.error(String.format("Unsupported formatter: %s", formatter.getName()));
+              return Resource.NOT_FOUND;
+            }
+
             return getAsHtmlResource(html, commit.getCommitTime());
           } finally {
             reader.release();

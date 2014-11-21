@@ -16,25 +16,6 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
-
-import java.io.IOException;
-
 @ExtensionPoint
 public interface Formatter {
-
-  /**
-   * Formats the given raw text as html.
-   *
-   * @param projectName the name of the project that contains the file to be
-   *        formatted
-   * @param revision the abbreviated revision from which the file is loaded
-   * @param cfg the global configuration for this formatter
-   * @param raw the raw text
-   * @return the given text formatted as html
-   * @throws IOException thrown if the formatting fails
-   */
-  public String format(String projectName, String revision, ConfigSection cfg,
-      String raw)
-      throws IOException;
 }
