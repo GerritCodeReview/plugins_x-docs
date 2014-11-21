@@ -153,6 +153,8 @@ configuration.
 ```
   [formatter "ASCIIDOCTOR"]
     ext = adoc
+  [formatter "DOCX"]
+    ext = docx
   [formatter "MARKDOWN"]
     mimeType = text/x-markdown
   [formatter "PLAIN_TEXT"]
@@ -162,6 +164,7 @@ configuration.
 Supported formatters:
 
 * `ASCIIDOCTOR`
+* `DOCX`
 * `MARKDOWN`
 * `PLAIN_TEXT`
 

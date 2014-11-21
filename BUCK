@@ -5,6 +5,9 @@ MODULE = 'com.googlesource.gerrit.plugins.xdocs.XDocs'
 ASCIIDOCTOR = '//lib/asciidoctor:asciidoc_lib' if __standalone_mode__ \
   else '//plugins/x-docs/lib/asciidoctor:asciidoc_lib'
 
+DOCX4J = '//lib/docx4j:docx4j_lib' if __standalone_mode__ \
+  else '//plugins/x-docs/lib/docx4j:docx4j_lib'
+
 gerrit_plugin(
   name = 'x-docs',
   srcs = glob(['src/main/java/**/*.java']),
@@ -18,7 +21,10 @@ gerrit_plugin(
     'Gerrit-Module: com.googlesource.gerrit.plugins.xdocs.Module',
     'Gerrit-InitStep: com.googlesource.gerrit.plugins.xdocs.XDocInit',
   ],
-  deps = [ASCIIDOCTOR],
+  deps = [
+    ASCIIDOCTOR,
+    DOCX4J,
+  ],
 )
 
 # this is required for bucklets/tools/eclipse/project.py to work
