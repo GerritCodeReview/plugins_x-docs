@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df88b9e4_61cc96c8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/StreamFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T13:32:27Z",
+      "side": 1,
+      "message": "stream?",
+      "range": {
+        "startLine": 30,
+        "startChar": 24,
+        "endLine": 30,
+        "endChar": 28
+      },
+      "revId": "218bf73e82f7f61deff43899e55f019f96199058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
