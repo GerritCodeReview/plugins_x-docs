@@ -133,16 +133,7 @@ public class XDocServlet extends HttpServlet {
         ObjectId revId = resolveRevision(repo, rev);
 
         if (ObjectId.isId(rev)) {
-          RevWalk rw = new RevWalk(repo);
-          try {
-            RevCommit commit = rw.parseCommit(repo.resolve(rev));
-            if (!projectControl.canReadCommit(db.get(), rw, commit)) {
-              Resource.NOT_FOUND.send(req, res);
-              return;
-            }
-          } finally {
-            rw.release();
-          }
+          validateCanReadCommit(repo, projectControl, revId);
         }
 
         String eTag = null;
@@ -283,6 +274,20 @@ public class XDocServlet extends HttpServlet {
       throw new ResourceNotFoundException();
     }
     return revId;
+  }
+
+  private void validateCanReadCommit(Repository repo,
+      ProjectControl projectControl, ObjectId revId)
+      throws ResourceNotFoundException, IOException {
+    RevWalk rw = new RevWalk(repo);
+    try {
+      RevCommit commit = rw.parseCommit(revId);
+      if (!projectControl.canReadCommit(db.get(), rw, commit)) {
+        throw new ResourceNotFoundException();
+      }
+    } finally {
+      rw.release();
+    }
   }
 
   private static String computeETag(Project.NameKey project, ObjectId revId,
