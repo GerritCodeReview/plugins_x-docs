@@ -8,6 +8,9 @@ ASCIIDOCTOR = '//lib/asciidoctor:asciidoc_lib' if STANDALONE_MODE \
 DAISYDIFF = '//lib/daisydiff:daisydiff_lib' if STANDALONE_MODE \
   else '//plugins/x-docs/lib/daisydiff:daisydiff_lib'
 
+DOCX4J = '//lib/docx4j:docx4j_lib' if STANDALONE_MODE \
+  else '//plugins/x-docs/lib/docx4j:docx4j_lib'
+
 gerrit_plugin(
   name = 'x-docs',
   srcs = glob(['src/main/java/**/*.java']),
@@ -24,6 +27,7 @@ gerrit_plugin(
   deps = [
     ASCIIDOCTOR,
     DAISYDIFF,
+    DOCX4J,
   ],
 )
 

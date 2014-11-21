@@ -96,7 +96,7 @@ formatter.<formatter>.inheritCss
 	Overrides the [global configuration of `inheritCss`](#formatterInheritCss)
 	for this formatter.
 
-	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+	Supported for the following formatters: `ASCIIDOCTOR`, `DOCX`, `MARKDOWN`
 
 	Default: `true` (CSS is inherited)
 
@@ -111,7 +111,7 @@ formatter.<formatter>.cssTheme
 	Overrides the [global configuration of `cssTheme`](#formatterCssTheme)
 	for this formatter.
 
-	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+	Supported for the following formatters: `ASCIIDOCTOR`, `DOCX`, `MARKDOWN`
 
 	By default not set.
 
@@ -136,6 +136,7 @@ For some formatters a custom CSS file for the rendering can be
 provided in the `refs/meta/config` branch of the project:
 
 * `ASCIIDOCTOR`: `@PLUGIN@/asciidoctor.css`
+* `DOCX`: `@PLUGIN@/docx.css`
 * `MARKDOWN`: `@PLUGIN@/markdown.css`
 
 If link:inheritCss[inheritCss] is set to true custom CSS files are
@@ -154,6 +155,8 @@ configuration.
 ```
   [formatter "ASCIIDOCTOR"]
     ext = adoc
+  [formatter "DOCX"]
+    ext = docx
   [formatter "MARKDOWN"]
     mimeType = text/x-markdown
   [formatter "PLAIN_TEXT"]
@@ -163,6 +166,7 @@ configuration.
 Supported formatters:
 
 * `ASCIIDOCTOR`
+* `DOCX`
 * `MARKDOWN`
 * `PLAIN_TEXT`
 
@@ -243,7 +247,7 @@ formatter.<formatter>.inheritCss
 
 	Can be overridden on [project-level](#inheritCss).
 
-	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+	Supported for the following formatters: `ASCIIDOCTOR`, `DOCX`, `MARKDOWN`
 
 	Default: `true` (CSS is inherited)
 
@@ -256,7 +260,7 @@ formatter.<formatter>.cssTheme
 
 	Can be overridden on [project-level](#cssTheme).
 
-	Supported for the following formatters: `ASCIIDOCTOR`, `MARKDOWN`
+	Supported for the following formatters: `ASCIIDOCTOR`, `DOCX`, `MARKDOWN`
 
 	By default not set.
 
@@ -294,4 +298,5 @@ Gerrit administrators can override the built-in default CSS by
 providing CSS files in `<review-site>/data/@PLUGIN@/css/`:
 
 * `ASCIIDOCTOR`: `asciidoctor.css`
+* `DOCX`: `docx.css`
 * `MARKDOWN`: `markdown.css`
