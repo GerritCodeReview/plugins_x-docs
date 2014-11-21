@@ -15,10 +15,13 @@
 package com.googlesource.gerrit.plugins.xdocs;
 
 import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidoctorFormatter;
+import com.googlesource.gerrit.plugins.xdocs.formatter.DocxFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.MarkdownFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.PlainTextFormatter;
 
 import org.eclipse.jgit.lib.Config;
+
+import java.util.Arrays;
 
 public class XDocGlobalConfig {
   public static final String SECTION_FORMATTER = "formatter";
@@ -45,6 +48,8 @@ public class XDocGlobalConfig {
 
   static void initialize(Config cfg) {
     cfg.setString(SECTION_FORMATTER, AsciidoctorFormatter.NAME, KEY_EXT, "adoc");
+    cfg.setStringList(SECTION_FORMATTER, DocxFormatter.NAME, KEY_EXT,
+        Arrays.asList("docx", "pptx", "xlsx"));
     cfg.setString(SECTION_FORMATTER, MarkdownFormatter.NAME, KEY_MIME_TYPE,
         "text/x-markdown");
     cfg.setString(SECTION_FORMATTER, PlainTextFormatter.NAME, KEY_MIME_TYPE,

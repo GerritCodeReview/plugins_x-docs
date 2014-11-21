@@ -1,0 +1,29 @@
+include_defs('//bucklets/maven_jar.bucklet')
+
+VERSION = '4.3.1'
+
+java_library(
+  name = 'avalon-framework_lib',
+  exported_deps = [
+    ':avalon-framework-api',
+    ':avalon-framework-impl',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'avalon-framework-api',
+  id = 'org.apache.avalon.framework:avalon-framework-api:' + VERSION,
+  sha1 = '2dacadeb49bc14420990b1f28897d46f96e2181d',
+  src_sha1 = '5c04230666be057c5a3ad1558575fc9a886fc1b6',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'avalon-framework-impl',
+  id = 'org.apache.avalon.framework:avalon-framework-impl:' + VERSION,
+  sha1 = '2d5f5a07fd14513ce6d7a7bfaff69419c26dbd0b',
+  src_sha1 = '09f779f9b35461a7767a54bc835d21bd2a97ad6e',
+  license = 'Apache2.0',
+)
+
