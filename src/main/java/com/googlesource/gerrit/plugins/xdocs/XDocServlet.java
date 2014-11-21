@@ -130,9 +130,7 @@ public class XDocServlet extends HttpServlet {
       formatter = formatters.getRawFormatter();
     } else {
       formatter = formatters.get(state, key.file);
-      if (formatter == null
-          && !("image".equals(mimeType.getMediaType())
-              && fileTypeRegistry.isSafeInline(mimeType))) {
+      if (formatter == null && !isSafeImage(mimeType)) {
         Resource.NOT_FOUND.send(req, res);
         return;
       }
@@ -193,7 +191,7 @@ public class XDocServlet extends HttpServlet {
         Resource rsc;
         if (formatter != null) {
           rsc = docCache.get(formatter, key.project, key.file, revId);
-        } else if ("image".equals(mimeType.getMediaType())) {
+        } else if (isImage(mimeType)) {
           rsc = getImageResource(repo, revId, key.file);
         } else {
           rsc = Resource.NOT_FOUND;
@@ -236,8 +234,7 @@ public class XDocServlet extends HttpServlet {
         byte[] content = loader.getBytes(Integer.MAX_VALUE);
 
         MimeType mimeType = fileTypeRegistry.getMimeType(file, content);
-        if (!"image".equals(mimeType.getMediaType())
-            || !fileTypeRegistry.isSafeInline(mimeType)) {
+        if (!isSafeImage(mimeType)) {
           return Resource.NOT_FOUND;
         }
         return new SmallResource(content)
@@ -252,6 +249,14 @@ public class XDocServlet extends HttpServlet {
     } finally {
       rw.release();
     }
+  }
+
+  private boolean isSafeImage(MimeType mimeType) {
+    return isImage(mimeType) && fileTypeRegistry.isSafeInline(mimeType);
+  }
+
+  private static boolean isImage(MimeType mimeType) {
+    return "image".equals(mimeType.getMediaType());
   }
 
   private static String computeETag(Project.NameKey project, ObjectId revId,
