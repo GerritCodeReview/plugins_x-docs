@@ -23,6 +23,7 @@ import com.google.common.hash.Hashing;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.SmallResource;
@@ -106,37 +107,33 @@ public class XDocServlet extends HttpServlet {
   @Override
   public void service(HttpServletRequest req, HttpServletResponse res)
       throws IOException {
-    if (!"GET".equals(req.getMethod()) && !"HEAD".equals(req.getMethod())) {
-      CacheHeaders.setNotCacheable(res);
-      res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-      return;
-    }
+    try {
+      validateRequestMethod(req);
 
-    ResourceKey key = ResourceKey.fromPath(req.getPathInfo());
-    ProjectState state = projectCache.get(key.project);
-    if (state == null) {
-      Resource.NOT_FOUND.send(req, res);
-      return;
-    }
-    XDocProjectConfig cfg = cfgFactory.create(state);
-    if (key.file == null) {
-      res.sendRedirect(getRedirectUrl(req, key, cfg));
-      return;
-    }
-
-    MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
-    FormatterProvider formatter;
-    if (req.getParameter("raw") != null) {
-      formatter = formatters.getRawFormatter();
-    } else {
-      formatter = formatters.get(state, key.file);
-      if (formatter == null && !isSafeImage(mimeType)) {
+      ResourceKey key = ResourceKey.fromPath(req.getPathInfo());
+      ProjectState state = projectCache.get(key.project);
+      if (state == null) {
         Resource.NOT_FOUND.send(req, res);
         return;
       }
-    }
+      XDocProjectConfig cfg = cfgFactory.create(state);
+      if (key.file == null) {
+        res.sendRedirect(getRedirectUrl(req, key, cfg));
+        return;
+      }
 
-    try {
+      MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
+      FormatterProvider formatter;
+      if (req.getParameter("raw") != null) {
+        formatter = formatters.getRawFormatter();
+      } else {
+        formatter = formatters.get(state, key.file);
+        if (formatter == null && !isSafeImage(mimeType)) {
+          Resource.NOT_FOUND.send(req, res);
+          return;
+        }
+      }
+
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
       String rev = key.revision;
       if (rev == null) {
@@ -212,7 +209,9 @@ public class XDocServlet extends HttpServlet {
     } catch (RepositoryNotFoundException | NoSuchProjectException
         | ResourceNotFoundException | AuthException | RevisionSyntaxException e) {
       Resource.NOT_FOUND.send(req, res);
-      return;
+    } catch (MethodNotAllowedException e) {
+      CacheHeaders.setNotCacheable(res);
+      res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
   }
 
@@ -248,6 +247,13 @@ public class XDocServlet extends HttpServlet {
       return Resource.NOT_FOUND;
     } finally {
       rw.release();
+    }
+  }
+
+  private static void validateRequestMethod(HttpServletRequest req)
+      throws MethodNotAllowedException {
+    if (!"GET".equals(req.getMethod()) && !"HEAD".equals(req.getMethod())) {
+      throw new MethodNotAllowedException();
     }
   }
 
