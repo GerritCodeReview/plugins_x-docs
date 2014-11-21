@@ -1,0 +1,173 @@
+include_defs('//bucklets/maven_jar.bucklet')
+
+BATIK_VERSION = '1.7'
+
+java_library(
+  name = 'xmlgraphics_lib',
+  exported_deps = [
+    ':batik-anim',
+    ':batik-awt-util',
+    ':batik-bridge',
+    ':batik-css',
+    ':batik-dom',
+    ':batik-ext',
+    ':batik-extension',
+    ':batik-gvt',
+    ':batik-js',
+    ':batik-parser',
+    ':batik-script',
+    ':batik-svg-dom',
+    ':batik-svggen',
+    ':batik-transcoder',
+    ':batik-util',
+    ':batik-xml',
+    ':fop',
+    ':xmlgraphics-commons',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'batik-anim',
+  id = 'org.apache.xmlgraphics:batik-anim:' + BATIK_VERSION,
+  sha1 = 'a45dd2ff8e4ecd56a4fc64dc668b53bee90bf601',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-awt-util',
+  id = 'org.apache.xmlgraphics:batik-awt-util:' + BATIK_VERSION,
+  sha1 = '67605a29d49bf33f3c1d7832f490b0a007e7a6e2',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-bridge',
+  id = 'org.apache.xmlgraphics:batik-bridge:' + BATIK_VERSION,
+  sha1 = '8e0cde3830e0f17704cd392b0a09b13944987a51',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-css',
+  id = 'org.apache.xmlgraphics:batik-css:' + BATIK_VERSION,
+  sha1 = 'e6bb5c85753331534593f33fb9236acb41a0ab79',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-dom',
+  id = 'org.apache.xmlgraphics:batik-dom:' + BATIK_VERSION,
+  sha1 = '710d559bd1df52581b57b75a99ed5fd2e2918bb7',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-ext',
+  id = 'org.apache.xmlgraphics:batik-ext:' + BATIK_VERSION,
+  sha1 = '4784302b44a0336166fef6153a5e3d73e861aecc',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-extension',
+  id = 'org.apache.xmlgraphics:batik-extension:' + BATIK_VERSION,
+  sha1 = '8e810d9ce0499beca541e3b1a144557cf06f8b19',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-gvt',
+  id = 'org.apache.xmlgraphics:batik-gvt:' + BATIK_VERSION,
+  sha1 = '03d315e60d72c761c52946b4acaa4b86239ef938',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-js',
+  id = 'org.apache.xmlgraphics:batik-js:' + BATIK_VERSION,
+  sha1 = '688eb1bf13b7a54491fcb3405068fc5092589884',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-parser',
+  id = 'org.apache.xmlgraphics:batik-parser:' + BATIK_VERSION,
+  sha1 = '5d756cc4f6bf891793e6c7590773859c33a8609f',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-script',
+  id = 'org.apache.xmlgraphics:batik-script:' + BATIK_VERSION,
+  sha1 = '4ea7906724bfefc1fca3e5b28229a458523e1fbf',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-svg-dom',
+  id = 'org.apache.xmlgraphics:batik-svg-dom:' + BATIK_VERSION,
+  sha1 = '5b3b1fea480fabbd3e0c44540af25b9fda0587ae',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-svggen',
+  id = 'org.apache.xmlgraphics:batik-svggen:' + BATIK_VERSION,
+  sha1 = 'baa58d0f5bfd2a28142e222cee126eb71bd0a938',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-transcoder',
+  id = 'org.apache.xmlgraphics:batik-transcoder:' + BATIK_VERSION,
+  sha1 = 'aa2eb6300cb50bbb9dbf52daf7d625aa0df1d930',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-util',
+  id = 'org.apache.xmlgraphics:batik-util:' + BATIK_VERSION,
+  sha1 = '5c4dd0dd9a86a2fba2c6ea26fb62b32b21b2a61e',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'batik-xml',
+  id = 'org.apache.xmlgraphics:batik-xml:' + BATIK_VERSION,
+  sha1 = '17e3da8bd9d4a131350a7835f5cc0d93ba199c89',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'fop',
+  id = 'org.apache.xmlgraphics:fop:1.1',
+  sha1 = '95978100a6cde324078947a2d476cf2f207a7e5a',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'xmlgraphics-commons',
+  id = 'org.apache.xmlgraphics:xmlgraphics-commons:1.5',
+  sha1 = '7fb5c2b2c18f0e87fbe9bded16429a5d7cc2dc2b',
+  license = 'Apache2.0',
+  attach_source = False,
+)
+
