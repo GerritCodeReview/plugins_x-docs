@@ -126,23 +126,7 @@ public class XDocServlet extends HttpServlet {
       }
 
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
-      String rev = key.revision;
-      if (rev == null) {
-        rev = cfg.getIndexRef();
-      }
-      if (Constants.HEAD.equals(rev)) {
-        rev = getHead.get().apply(new ProjectResource(projectControl));
-      } else  {
-        if (!ObjectId.isId(rev)) {
-          if (!rev.startsWith(Constants.R_REFS)) {
-            rev = Constants.R_HEADS + rev;
-          }
-          if (!projectControl.controlForRef(rev).isVisible()) {
-            Resource.NOT_FOUND.send(req, res);
-            return;
-          }
-        }
-      }
+      String rev = getRevision(cfg, key.revision, projectControl);
 
       Repository repo = repoManager.openRepository(key.project);
       try {
@@ -272,6 +256,28 @@ public class XDocServlet extends HttpServlet {
 
   private static boolean isImage(MimeType mimeType) {
     return "image".equals(mimeType.getMediaType());
+  }
+
+  private String getRevision(XDocProjectConfig cfg, String revision,
+      ProjectControl projectControl) throws ResourceNotFoundException,
+      AuthException, IOException {
+    String rev = revision;
+    if (rev == null) {
+      rev = cfg.getIndexRef();
+    }
+    if (Constants.HEAD.equals(rev)) {
+      rev = getHead.get().apply(new ProjectResource(projectControl));
+    } else {
+      if (!ObjectId.isId(rev)) {
+        if (!rev.startsWith(Constants.R_REFS)) {
+          rev = Constants.R_HEADS + rev;
+        }
+        if (!projectControl.controlForRef(rev).isVisible()) {
+          throw new ResourceNotFoundException();
+        }
+      }
+    }
+    return rev;
   }
 
   private static String computeETag(Project.NameKey project, ObjectId revId,
