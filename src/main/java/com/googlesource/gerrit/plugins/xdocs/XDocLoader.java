@@ -22,6 +22,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
@@ -88,72 +90,118 @@ public class XDocLoader extends CacheLoader<String, Resource> {
   @Override
   public Resource load(String strKey) throws Exception {
     XDocResourceKey key = XDocResourceKey.fromString(strKey);
-    XDocGlobalConfig cfg =
-        new XDocGlobalConfig(cfgFactory.getGlobalPluginConfig(pluginName));
-    FormatterProvider formatter = formatters.getByName(key.getFormatter());
-    if (formatter == null) {
-      return Resource.NOT_FOUND;
-    }
-    ConfigSection formatterCfg = cfg.getFormatterConfig(formatter.getName());
-    Repository repo = repoManager.openRepository(key.getProject());
     try {
-      RevWalk rw = new RevWalk(repo);
+      FormatterProvider formatter = getFormatter(key.getFormatter());
+      Repository repo = repoManager.openRepository(key.getProject());
       try {
-        ObjectId revId = key.getRevId();
-        if (revId == null) {
-          return Resource.NOT_FOUND;
-        }
-        RevCommit commit = rw.parseCommit(revId);
-        RevTree tree = commit.getTree();
-        TreeWalk tw = new TreeWalk(repo);
+        RevWalk rw = new RevWalk(repo);
         try {
-          tw.addTree(tree);
-          tw.setRecursive(true);
-          tw.setFilter(PathFilter.create(key.getResource()));
-          if (!tw.next()) {
-            return Resource.NOT_FOUND;
-          }
-          ObjectId objectId = tw.getObjectId(0);
-          ObjectLoader loader = repo.open(objectId);
-          ObjectReader reader = repo.newObjectReader();
-          String abbrRevId = reader.abbreviate(revId).name();
+          ObjectId revId = checkRevId(key.getRevId());
+          RevCommit commit = rw.parseCommit(revId);
+          RevTree tree = commit.getTree();
+          TreeWalk tw = new TreeWalk(repo);
           try {
-            String html;
-            Formatter f = formatter.get();
-            if (f instanceof StringFormatter) {
-              byte[] bytes = loader.getBytes(Integer.MAX_VALUE);
-              boolean isBinary = RawText.isBinary(bytes);
-              if (formatter.getName().equals(Formatters.RAW_FORMATTER) && isBinary) {
-                return Resources.METHOD_NOT_ALLOWED;
-              }
-              String raw = new String(bytes, UTF_8);
-              if (!isBinary) {
-                raw = replaceMacros(repo, key.getProject(), revId, abbrRevId, raw);
-              }
-              html = ((StringFormatter) f).format(key.getProject().get(),
-                  abbrRevId, formatterCfg, raw);
-            } else if (f instanceof StreamFormatter) {
-              try (InputStream raw = loader.openStream()) {
-                html = ((StreamFormatter) f).format(key.getProject().get(),
-                    abbrRevId, formatterCfg, raw);
-              }
-            } else {
-              log.error(String.format("Unsupported formatter: %s", formatter.getName()));
-              return Resource.NOT_FOUND;
+            tw.addTree(tree);
+            tw.setRecursive(true);
+            tw.setFilter(PathFilter.create(key.getResource()));
+            if (!tw.next()) {
+              throw new ResourceNotFoundException();
             }
-
+            ObjectId objectId = tw.getObjectId(0);
+            ObjectLoader loader = repo.open(objectId);
+            String html =
+                getHtml(formatter, repo, loader, key.getProject(), revId);
             return getAsHtmlResource(html, commit.getCommitTime());
           } finally {
-            reader.release();
+            tw.release();
           }
         } finally {
-          tw.release();
+          rw.release();
         }
       } finally {
-        rw.release();
+        repo.close();
       }
+    } catch (ResourceNotFoundException e) {
+      return Resource.NOT_FOUND;
+    } catch (MethodNotAllowedException e) {
+      return Resources.METHOD_NOT_ALLOWED;
+    }
+  }
+
+  private FormatterProvider getFormatter(String formatterName)
+      throws ResourceNotFoundException {
+    FormatterProvider formatter = formatters.getByName(formatterName);
+    if (formatter == null) {
+      throw new ResourceNotFoundException();
+    }
+    return formatter;
+  }
+
+  private static ObjectId checkRevId(ObjectId revId)
+      throws ResourceNotFoundException {
+    if (revId == null) {
+      throw new ResourceNotFoundException();
+    }
+    return revId;
+  }
+
+  private String getHtml(FormatterProvider formatter, Repository repo,
+      ObjectLoader loader, Project.NameKey project, ObjectId revId)
+      throws MethodNotAllowedException, IOException, GitAPIException,
+      ResourceNotFoundException {
+    Formatter f = formatter.get();
+    if (f instanceof StringFormatter) {
+      return getHtml(formatter.getName(), (StringFormatter) f, repo, loader,
+          project, revId);
+    } else if (f instanceof StreamFormatter) {
+      return getHtml(formatter.getName(), (StreamFormatter) f, repo, loader,
+          project, revId);
+    } else {
+      log.error(String.format("Unsupported formatter: %s", formatter.getName()));
+      throw new ResourceNotFoundException();
+    }
+  }
+
+  private String getHtml(String formatterName, StringFormatter f,
+      Repository repo, ObjectLoader loader, Project.NameKey project,
+      ObjectId revId) throws MethodNotAllowedException, IOException,
+      GitAPIException {
+    byte[] bytes = loader.getBytes(Integer.MAX_VALUE);
+    boolean isBinary = RawText.isBinary(bytes);
+    if (formatterName.equals(Formatters.RAW_FORMATTER) && isBinary) {
+      throw new MethodNotAllowedException();
+    }
+    String raw = new String(bytes, UTF_8);
+    String abbrRevId = getAbbrRevId(repo, revId);
+    if (!isBinary) {
+      raw = replaceMacros(repo, project, revId, abbrRevId, raw);
+    }
+    return f.format(project.get(), abbrRevId,
+        getFormatterConfig(formatterName), raw);
+  }
+
+  private String getHtml(String formatterName, StreamFormatter f,
+      Repository repo, ObjectLoader loader, Project.NameKey project,
+      ObjectId revId) throws IOException {
+    try (InputStream raw = loader.openStream()) {
+      return ((StreamFormatter) f).format(project.get(),
+          getAbbrRevId(repo, revId), getFormatterConfig(formatterName), raw);
+    }
+  }
+
+  private ConfigSection getFormatterConfig(String formatterName) {
+    XDocGlobalConfig cfg =
+        new XDocGlobalConfig(cfgFactory.getGlobalPluginConfig(pluginName));
+    return cfg.getFormatterConfig(formatterName);
+  }
+
+  private static String getAbbrRevId(Repository repo, ObjectId revId)
+      throws IOException {
+    ObjectReader reader = repo.newObjectReader();
+    try {
+      return reader.abbreviate(revId).name();
     } finally {
-      repo.close();
+      reader.release();
     }
   }
 
