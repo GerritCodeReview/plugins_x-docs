@@ -2,7 +2,7 @@ include_defs('//bucklets/gerrit_plugin.bucklet')
 
 MODULE = 'com.googlesource.gerrit.plugins.xdocs.XDocs'
 
-ASCIIDOCTOR = '//lib/asciidoctor:asciidoc_lib' if __standalone_mode__ \
+ASCIIDOCTOR = '//lib/asciidoctor:asciidoc_lib' if STANDALONE_MODE \
   else '//plugins/x-docs/lib/asciidoctor:asciidoc_lib'
 
 gerrit_plugin(
