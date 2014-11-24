@@ -120,7 +120,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
         if (revId == null) {
           return null;
         }
-        Resource rsc = docCache.get(formatter, p, fileName, revId);
+        Resource rsc = docCache.get(formatter, p, fileName, revId, null, null);
         if (rsc != Resource.NOT_FOUND) {
           StringBuilder url = new StringBuilder();
           if (framed) {

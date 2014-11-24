@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
+import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -125,25 +126,36 @@ public class XDocServlet extends HttpServlet {
         throw new ResourceNotFoundException();
       }
 
+      validateDiffMode(key, mimeType);
+
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
-      String rev = getRevision(cfg, key.revision, projectControl);
+      String rev = getRevision(cfg,
+          MoreObjects.firstNonNull(key.revision, cfg.getIndexRef()),
+          projectControl);
+      String revB = getRevision(cfg, key.revisionB, projectControl);
 
       Repository repo = repoManager.openRepository(key.project);
       try {
-        ObjectId revId = resolveRevision(repo, rev);
-
+        ObjectId revId =
+            resolveRevision(repo, MoreObjects.firstNonNull(rev, Constants.HEAD));
         if (ObjectId.isId(rev)) {
           validateCanReadCommit(repo, projectControl, revId);
         }
 
-        if (isResourceNotModified(req, key, revId)) {
+        ObjectId revIdB = resolveRevision(repo, revB);
+        if (revIdB != null && ObjectId.isId(revB)) {
+          validateCanReadCommit(repo, projectControl, revIdB);
+        }
+
+        if (isResourceNotModified(req, key, revId, revIdB)) {
           res.sendError(SC_NOT_MODIFIED);
           return;
         }
 
         Resource rsc;
         if (formatter != null) {
-          rsc = docCache.get(formatter, key.project, key.file, revId);
+          rsc = docCache.get(formatter, key.project, key.file, revId,
+              revIdB, key.diffMode);
         } else if (isImage(mimeType)) {
           rsc = getImageResource(repo, revId, key.file);
         } else {
@@ -152,7 +164,7 @@ public class XDocServlet extends HttpServlet {
 
         if (rsc != Resource.NOT_FOUND) {
           res.setHeader(HttpHeaders.ETAG,
-              computeETag(key.project, revId, key.file));
+              computeETag(key.project, revId, key.file, revIdB, key.diffMode));
         }
         CacheHeaders.setCacheablePrivate(res, 7, TimeUnit.DAYS, false);
         rsc.send(req, res);
@@ -211,6 +223,14 @@ public class XDocServlet extends HttpServlet {
     }
   }
 
+  private static void validateDiffMode(ResourceKey key, MimeType mimeType)
+      throws ResourceNotFoundException {
+    if (key.diffMode != DiffMode.NO_DIFF
+        && (key.revisionB == null || isImage(mimeType))) {
+      throw new ResourceNotFoundException();
+    }
+  }
+
   private ProjectState getProject(ResourceKey key)
       throws ResourceNotFoundException {
     ProjectState state = projectCache.get(key.project);
@@ -240,29 +260,35 @@ public class XDocServlet extends HttpServlet {
   private String getRevision(XDocProjectConfig cfg, String revision,
       ProjectControl projectControl) throws ResourceNotFoundException,
       AuthException, IOException {
-    String rev = revision;
-    if (rev == null) {
-      rev = cfg.getIndexRef();
+    if (revision == null) {
+      return null;
     }
-    if (Constants.HEAD.equals(rev)) {
-      rev = getHead.get().apply(new ProjectResource(projectControl));
+
+    if (ObjectId.isId(revision)) {
+      return revision;
+    }
+
+    if (Constants.HEAD.equals(revision)) {
+      return getHead.get().apply(new ProjectResource(projectControl));
     } else {
-      if (!ObjectId.isId(rev)) {
-        if (!rev.startsWith(Constants.R_REFS)) {
-          rev = Constants.R_HEADS + rev;
-        }
-        if (!projectControl.controlForRef(rev).isVisible()) {
-          throw new ResourceNotFoundException();
-        }
+      String rev = revision;
+      if (!rev.startsWith(Constants.R_REFS)) {
+        rev = Constants.R_HEADS + rev;
       }
+      if (!projectControl.controlForRef(rev).isVisible()) {
+        throw new ResourceNotFoundException();
+      }
+      return rev;
     }
-    return rev;
   }
 
   private static ObjectId resolveRevision(Repository repo, String revision)
       throws ResourceNotFoundException, IOException {
-    ObjectId revId =
-        repo.resolve(MoreObjects.firstNonNull(revision, Constants.HEAD));
+    if (revision == null) {
+      return null;
+    }
+
+    ObjectId revId = repo.resolve(revision);
     if (revId == null) {
       throw new ResourceNotFoundException();
     }
@@ -284,21 +310,26 @@ public class XDocServlet extends HttpServlet {
   }
 
   private static boolean isResourceNotModified(HttpServletRequest req,
-      ResourceKey key, ObjectId revId) {
+      ResourceKey key, ObjectId revId, ObjectId revIdB) {
     String receivedETag = req.getHeader(HttpHeaders.IF_NONE_MATCH);
     if (receivedETag != null) {
-      return receivedETag.equals(computeETag(key.project, revId, key.file));
+      return receivedETag.equals(computeETag(key.project, revId, key.file,
+          revIdB, key.diffMode));
     }
     return false;
   }
 
   private static String computeETag(Project.NameKey project, ObjectId revId,
-      String file) {
-    return Hashing.md5().newHasher()
-        .putUnencodedChars(project.get())
+      String file, ObjectId revIdB, DiffMode diffMode) {
+    Hasher hasher = Hashing.md5().newHasher();
+    hasher.putUnencodedChars(project.get())
         .putUnencodedChars(revId.getName())
-        .putUnencodedChars(file)
-        .hash().toString();
+        .putUnencodedChars(file);
+    if (diffMode != DiffMode.NO_DIFF) {
+      hasher.putUnencodedChars(revIdB.getName()).putUnencodedChars(
+          diffMode.name());
+    }
+    return hasher.hash().toString();
   }
 
   private String getRedirectUrl(HttpServletRequest req, ResourceKey key,
@@ -323,11 +354,15 @@ public class XDocServlet extends HttpServlet {
     final Project.NameKey project;
     final String file;
     final String revision;
+    final String revisionB;
+    final DiffMode diffMode;
 
     static ResourceKey fromPath(String path) {
       String project;
       String file = null;
       String revision = null;
+      String revisionB = null;
+      DiffMode diffMode = DiffMode.NO_DIFF;
 
       if (!path.startsWith(PATH_PREFIX)) {
         // should not happen since this servlet is only registered to handle
@@ -360,13 +395,34 @@ public class XDocServlet extends HttpServlet {
         project = IdString.fromUrl(CharMatcher.is('/').trimTrailingFrom(path)).get();
       }
 
-      return new ResourceKey(project, file, revision);
+      if (revision != null) {
+        if (revision.contains("<->")) {
+          diffMode = DiffMode.UNIFIED;
+          int p = revision.indexOf("<->");
+          revisionB = revision.substring(p + 3);
+          revision = revision.substring(0, p);
+        } else if (revision.contains("<-")) {
+          diffMode = DiffMode.SIDEBYSIDE_A;
+          int p = revision.indexOf("<-");
+          revisionB = revision.substring(p + 2);
+          revision = revision.substring(0, p);
+        } else if (revision.contains("->")) {
+          diffMode = DiffMode.SIDEBYSIDE_B;
+          int p = revision.indexOf("->");
+          revisionB = revision.substring(p + 2);
+          revision = revision.substring(0, p);
+        }
+      }
+
+      return new ResourceKey(project, file, revision, revisionB, diffMode);
     }
 
-    private ResourceKey(String p, String f, String r) {
+    private ResourceKey(String p, String f, String r, String r2, DiffMode dm) {
       project = new Project.NameKey(p);
       file = f;
       revision = r;
+      revisionB = r2;
+      diffMode = dm;
     }
   }
 }
