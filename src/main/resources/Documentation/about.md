@@ -83,3 +83,11 @@ The plugin includes several formatters for rendering documentation.
     <td><a href="http://commons.apache.org">http://commons.apache.org</a></td>
   </tr>
 </table>
+
+<a id="htmlDiff">
+HTML Diff
+---------
+
+To generate the HTML diff [daisydiff](http://code.google.com/p/daisydiff/)
+is used which is licensed under the
+[Apache2.0](../../../Documentation/licenses.html#Apache2_0) license.
