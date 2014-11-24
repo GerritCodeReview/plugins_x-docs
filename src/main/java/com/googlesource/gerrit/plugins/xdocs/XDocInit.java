@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
+import static com.google.gerrit.pgm.init.api.InitUtil.extract;
+
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -54,6 +56,13 @@ public class XDocInit implements InitStep {
       ui.message("Initialized %s plugin: %s", pluginName,
           pluginConfig.getAbsolutePath());
     }
+
+    extract(new File(sitePaths.static_dir, "xdocs/css/unified.css"),
+        XDocInit.class, "diff/unified.css");
+    extract(new File(sitePaths.static_dir, "xdocs/css/sidebyside-a.css"),
+        XDocInit.class, "diff/sidebyside-a.css");
+    extract(new File(sitePaths.static_dir, "xdocs/css/sidebyside-b.css"),
+        XDocInit.class, "diff/sidebyside-b.css");
   }
 
   @Override

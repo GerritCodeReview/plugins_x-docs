@@ -53,14 +53,33 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.outerj.daisy.diff.HtmlCleaner;
+import org.outerj.daisy.diff.XslFilter;
+import org.outerj.daisy.diff.html.HTMLDiffer;
+import org.outerj.daisy.diff.html.HtmlSaxDiffOutput;
+import org.outerj.daisy.diff.html.TextNodeComparator;
+import org.outerj.daisy.diff.html.dom.DomTreeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
 
 @Singleton
 public class XDocLoader extends CacheLoader<String, Resource> {
@@ -97,24 +116,23 @@ public class XDocLoader extends CacheLoader<String, Resource> {
         RevWalk rw = new RevWalk(repo);
         try {
           ObjectId revId = checkRevId(key.getRevId());
-          RevCommit commit = rw.parseCommit(revId);
-          RevTree tree = commit.getTree();
-          TreeWalk tw = new TreeWalk(repo);
-          try {
-            tw.addTree(tree);
-            tw.setRecursive(true);
-            tw.setFilter(PathFilter.create(key.getResource()));
-            if (!tw.next()) {
+          String html = loadHtml(formatter, repo, rw, key, revId);
+
+          if (key.getDiffMode() != DiffMode.NO_DIFF) {
+            ObjectId revIdB = checkRevId(key.getRevIdB());
+            String htmlB = loadHtml(formatter, repo, rw, key, revIdB);
+            if (html == null && htmlB == null) {
               throw new ResourceNotFoundException();
             }
-            ObjectId objectId = tw.getObjectId(0);
-            ObjectLoader loader = repo.open(objectId);
-            String html =
-                getHtml(formatter, repo, loader, key.getProject(), revId);
-            return getAsHtmlResource(html, commit.getCommitTime());
-          } finally {
-            tw.release();
+            html = diffHtml(html, htmlB, key.getDiffMode());
+          } else {
+            if (html == null) {
+              throw new ResourceNotFoundException();
+            }
           }
+
+          RevCommit commit = rw.parseCommit(revId);
+          return getAsHtmlResource(html, commit.getCommitTime());
         } finally {
           rw.release();
         }
@@ -143,6 +161,27 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       throw new ResourceNotFoundException();
     }
     return revId;
+  }
+
+  private String loadHtml(FormatterProvider formatter, Repository repo,
+      RevWalk rw, XDocResourceKey key, ObjectId revId) throws IOException,
+      ResourceNotFoundException, MethodNotAllowedException, GitAPIException {
+    RevCommit commit = rw.parseCommit(revId);
+    RevTree tree = commit.getTree();
+    TreeWalk tw = new TreeWalk(repo);
+    try {
+      tw.addTree(tree);
+      tw.setRecursive(true);
+      tw.setFilter(PathFilter.create(key.getResource()));
+      if (!tw.next()) {
+        return null;
+      }
+      ObjectId objectId = tw.getObjectId(0);
+      ObjectLoader loader = repo.open(objectId);
+      return getHtml(formatter, repo, loader, key.getProject(), revId);
+    } finally {
+      tw.release();
+    }
   }
 
   private String getHtml(FormatterProvider formatter, Repository repo,
@@ -187,6 +226,60 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       return ((StreamFormatter) f).format(project.get(),
           getAbbrRevId(repo, revId), getFormatterConfig(formatterName), raw);
     }
+  }
+
+  private String diffHtml(String htmlA, String htmlB, DiffMode diffMode)
+      throws IOException, TransformerConfigurationException, SAXException,
+      ResourceNotFoundException {
+    ByteArrayOutputStream htmlDiff = new ByteArrayOutputStream();
+
+    SAXTransformerFactory tf =
+        (SAXTransformerFactory) TransformerFactory.newInstance();
+    TransformerHandler result = tf.newTransformerHandler();
+    result.setResult(new StreamResult(htmlDiff));
+
+    String htmlHeader;
+    switch (diffMode) {
+      case SIDEBYSIDE_A:
+        htmlHeader = "com/googlesource/gerrit/plugins/xdocs/diff/htmlheader-sidebyside-a.xsl";
+        break;
+      case SIDEBYSIDE_B:
+        htmlHeader = "com/googlesource/gerrit/plugins/xdocs/diff/htmlheader-sidebyside-b.xsl";
+        break;
+      case UNIFIED:
+        htmlHeader = "com/googlesource/gerrit/plugins/xdocs/diff/htmlheader-unified.xsl";
+        break;
+      default:
+        log.error(String.format("Unsupported diff mode: %s", diffMode.name()));
+        throw new ResourceNotFoundException();
+    }
+
+    ContentHandler postProcess = new XslFilter().xsl(result, htmlHeader);
+    postProcess.startDocument();
+    postProcess.startElement("", "diffreport", "diffreport",
+            new AttributesImpl());
+    postProcess.startElement("", "diff", "diff",
+            new AttributesImpl());
+
+    HtmlSaxDiffOutput output = new HtmlSaxDiffOutput(postProcess, "diff");
+    HTMLDiffer differ = new HTMLDiffer(output);
+    differ.diff(getComparator(htmlA), getComparator(htmlB));
+
+    postProcess.endElement("", "diff", "diff");
+    postProcess.endElement("", "diffreport", "diffreport");
+    postProcess.endDocument();
+
+    return htmlDiff.toString(UTF_8.name());
+  }
+
+  private TextNodeComparator getComparator(String html) throws IOException,
+      SAXException {
+    InputSource source =
+        new InputSource(new ByteArrayInputStream(
+            Strings.nullToEmpty(html).getBytes(UTF_8)));
+    DomTreeBuilder handler = new DomTreeBuilder();
+    new HtmlCleaner().cleanAndParse(source, handler);
+    return new TextNodeComparator(handler, Locale.US);
   }
 
   private ConfigSection getFormatterConfig(String formatterName) {

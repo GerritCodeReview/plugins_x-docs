@@ -130,12 +130,21 @@ limitations under the License.
       <artifactId>asciidoctorj</artifactId>
       <version>1.5.1</version>
     </dependency>
+    <dependency>
+      <groupId>org.outerj.daisy</groupId>
+      <artifactId>daisydiff</artifactId>
+      <version>1.1</version>
+    </dependency>
   </dependencies>
 
   <repositories>
     <repository>
       <id>snapshot-repository</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
+      <id>atlassian</id>
+      <url>https://maven.atlassian.com/content/repositories/atlassian-3rdparty</url>
     </repository>
   </repositories>
 </project>

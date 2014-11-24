@@ -29,15 +29,20 @@ public class XDocResourceKey {
   private final ObjectId revId;
   private final ObjectId metaConfigRevId;
   private final String parentsHash;
+  private final ObjectId revIdB;
+  private final DiffMode diffMode;
 
   XDocResourceKey(String formatter, Project.NameKey project, String r,
-      ObjectId revId, ObjectId metaConfigRevId, String parentsHash) {
+      ObjectId revId, ObjectId metaConfigRevId, String parentsHash,
+      ObjectId revIdB, DiffMode diffMode) {
     this.formatter = formatter;
     this.project = project;
     this.resource = r;
     this.revId = revId;
     this.metaConfigRevId = metaConfigRevId;
     this.parentsHash = parentsHash;
+    this.revIdB = revIdB;
+    this.diffMode = diffMode != null ? diffMode : DiffMode.NO_DIFF;
   }
 
   public String getFormatter() {
@@ -56,10 +61,18 @@ public class XDocResourceKey {
     return revId;
   }
 
+  public ObjectId getRevIdB() {
+    return revIdB;
+  }
+
+  public DiffMode getDiffMode() {
+    return diffMode;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(formatter, project, resource, revId, metaConfigRevId,
-        parentsHash);
+        parentsHash, revIdB, diffMode);
   }
 
   @Override
@@ -71,7 +84,9 @@ public class XDocResourceKey {
           && Objects.equals(resource, rk.resource)
           && Objects.equals(revId, rk.revId)
           && Objects.equals(metaConfigRevId, rk.metaConfigRevId)
-          && Objects.equals(parentsHash, rk.parentsHash);
+          && Objects.equals(parentsHash, rk.parentsHash)
+          && Objects.equals(revIdB, rk.revIdB)
+          && Objects.equals(diffMode, rk.diffMode);
     }
     return false;
   }
@@ -89,6 +104,10 @@ public class XDocResourceKey {
     b.append(metaConfigRevId != null ? metaConfigRevId.name() : "");
     b.append("/");
     b.append(Strings.nullToEmpty(parentsHash));
+    b.append("/");
+    b.append(revIdB != null ? revIdB.name() : "");
+    b.append("/");
+    b.append(diffMode.name());
     return b.toString();
   }
 
@@ -100,6 +119,8 @@ public class XDocResourceKey {
     String revision = null;
     String metaConfigRevision = null;
     String parentsHash = null;
+    String revisionB = null;
+    String diffMode = null;
     if (s.length > 0) {
       formatter = IdString.fromUrl(s[0]).get();
     }
@@ -118,11 +139,18 @@ public class XDocResourceKey {
     if (s.length > 5) {
       parentsHash = s[5];
     }
+    if (s.length > 6) {
+      revisionB = s[6];
+    }
+    if (s.length > 7) {
+      diffMode = s[7];
+    }
     return new XDocResourceKey(formatter, new Project.NameKey(project), file,
-        toObjectId(revision), toObjectId(metaConfigRevision), parentsHash);
+        toObjectId(revision), toObjectId(metaConfigRevision), parentsHash,
+        toObjectId(revisionB), DiffMode.valueOf(diffMode));
   }
 
   private static ObjectId toObjectId(String id) {
-    return id != null ? ObjectId.fromString(id) : null;
+    return !Strings.isNullOrEmpty(id) ? ObjectId.fromString(id) : null;
   }
 }
