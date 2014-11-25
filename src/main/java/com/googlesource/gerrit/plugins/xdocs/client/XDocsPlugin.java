@@ -25,5 +25,9 @@ public class XDocsPlugin extends PluginEntryPoint {
         new XDocScreen.Factory());
     Plugin.get().screenRegex("project/(.*)/(.*)",
         new XDocScreen.HeadFactory());
+    Plugin.get().screenRegex("c/(.*)/([0-9.]+)/(.*),unified",
+        new XDocUnifiedDiffScreen.Factory());
+    Plugin.get().screenRegex("c/(.*)/([0-9.]+)/(.*)",
+        new XDocSideBySideDiffScreen.Factory());
   }
 }
