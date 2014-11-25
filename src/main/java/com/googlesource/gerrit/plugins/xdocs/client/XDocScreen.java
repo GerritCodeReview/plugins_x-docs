@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.plugin.client.Plugin;
 import com.google.gerrit.plugin.client.screen.Screen;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -35,8 +36,9 @@ public class XDocScreen extends VerticalPanel {
     public void onLoad(Screen screen) {
       String projectName = URL.decode(screen.getToken(1));
       String revision = URL.decode(screen.getToken(2));
-      String fileName = URL.decode(screen.getToken(3));
-      screen.show(new XDocScreen(projectName, revision, fileName));
+      String path = URL.decode(screen.getToken(3));
+      screen.show(new XDocScreen(projectName, revision, path));
+      screen.setWindowTitle(getFileName(path));
     }
   }
 
@@ -44,23 +46,24 @@ public class XDocScreen extends VerticalPanel {
     @Override
     public void onLoad(Screen screen) {
       String projectName = URL.decode(screen.getToken(1));
-      String fileName = URL.decode(screen.getToken(2));
-      screen.show(new XDocScreen(projectName, "HEAD", fileName));
+      String path = URL.decode(screen.getToken(2));
+      screen.show(new XDocScreen(projectName, "HEAD", path));
+      screen.setWindowTitle(getFileName(path));
     }
   }
 
-  XDocScreen(String projectName, String revision, String fileName) {
+  XDocScreen(String projectName, String revision, String path) {
     setStyleName("xdocs-panel");
 
     HorizontalPanel p = new HorizontalPanel();
     p.setStyleName("xdocs-header");
     p.add(new InlineHyperlink(projectName, "/admin/projects/" + projectName));
     p.add(new Label("/"));
-    p.add(new Label(fileName));
+    p.add(new Label(path));
     p.add(new Label("(" + revision + ")"));
     add(p);
 
-    final String url = getUrl(projectName, revision, fileName);
+    final String url = getUrl(projectName, revision, path);
     RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
     try {
       builder.sendRequest(null, new RequestCallback() {
@@ -90,6 +93,14 @@ public class XDocScreen extends VerticalPanel {
     Label l = new Label("Unable to load document: " + message);
     l.setStyleName("xdocs-error");
     add(l);
+  }
+
+  public static String getFileName(String path) {
+    String fileName = Patch.COMMIT_MSG.equals(path)
+        ? "Commit Message"
+        : path;
+    int s = fileName.lastIndexOf('/');
+    return s >= 0 ? fileName.substring(s + 1) : fileName;
   }
 
   public static String getUrl(String projectName, String revision, String fileName) {

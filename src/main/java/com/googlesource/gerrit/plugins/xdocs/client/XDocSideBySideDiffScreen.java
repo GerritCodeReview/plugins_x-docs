@@ -27,6 +27,7 @@ public class XDocSideBySideDiffScreen extends XDocDiffScreen {
       String patchSet = URL.decode(screen.getToken(2));
       String path = URL.decode(screen.getToken(3));
       screen.show(new XDocSideBySideDiffScreen(change, patchSet, path));
+      screen.setWindowTitle(XDocScreen.getFileName(path));
     }
   }
 
