@@ -5,6 +5,8 @@
 
 .xdocs-panel iframe {
   width: 100%;
+  border-width: 1px;
+  border-style: solid;
 }
 
 .xdocs-error {
