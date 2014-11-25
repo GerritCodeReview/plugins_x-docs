@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.plugin.client.Plugin;
 import com.google.gerrit.plugin.client.screen.Screen;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -46,6 +47,7 @@ public class XDocScreen extends VerticalPanel {
       String projectName = URL.decode(screen.getToken(1));
       String fileName = URL.decode(screen.getToken(2));
       screen.show(new XDocScreen(projectName, "HEAD", fileName));
+      screen.setWindowTitle(getFileName(fileName));
     }
   }
 
@@ -90,6 +92,14 @@ public class XDocScreen extends VerticalPanel {
     Label l = new Label("Unable to load document: " + message);
     l.setStyleName("xdocs-error");
     add(l);
+  }
+
+  public static String getFileName(String path) {
+    String fileName = Patch.COMMIT_MSG.equals(path)
+        ? "Commit Message"
+        : path;
+    int s = fileName.lastIndexOf('/');
+    return s >= 0 ? fileName.substring(s + 1) : fileName;
   }
 
   public static String getUrl(String projectName, String revision, String fileName) {
