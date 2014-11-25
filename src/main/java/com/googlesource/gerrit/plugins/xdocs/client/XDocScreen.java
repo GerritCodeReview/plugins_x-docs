@@ -92,7 +92,7 @@ public class XDocScreen extends VerticalPanel {
     add(l);
   }
 
-  private String getUrl(String projectName, String revision, String fileName) {
+  public static String getUrl(String projectName, String revision, String fileName) {
     StringBuilder url = new StringBuilder();
     url.append("plugins/");
     url.append(Plugin.get().getName());
@@ -107,7 +107,7 @@ public class XDocScreen extends VerticalPanel {
     return url.toString();
   }
 
-  private void resize(Widget w, String id) {
+  public static void resize(Widget w, String id) {
     StringBuilder autoResizeScript = new StringBuilder();
     autoResizeScript.append("if (document.getElementById) {");
     autoResizeScript.append("var e = document.getElementById(\"");
