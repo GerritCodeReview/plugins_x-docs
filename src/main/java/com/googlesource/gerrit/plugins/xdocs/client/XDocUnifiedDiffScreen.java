@@ -26,6 +26,7 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
       String patchSet = URL.decode(screen.getToken(2));
       String path = URL.decode(screen.getToken(4));
       screen.show(new XDocUnifiedDiffScreen(change, patchSet, path));
+      screen.setWindowTitle(XDocScreen.getFileName(path));
     }
   }
 
