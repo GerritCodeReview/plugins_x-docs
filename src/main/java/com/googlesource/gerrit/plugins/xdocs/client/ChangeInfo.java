@@ -14,20 +14,21 @@
 
 package com.googlesource.gerrit.plugins.xdocs.client;
 
-import com.google.gerrit.plugin.client.Plugin;
-import com.google.gerrit.plugin.client.PluginEntryPoint;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gwt.core.client.JavaScriptObject;
 
-public class XDocsPlugin extends PluginEntryPoint {
+public class ChangeInfo extends JavaScriptObject {
+  public final native String project() /*-{ return this.project; }-*/;
+  public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
 
-  @Override
-  public void onPluginLoad() {
-    Plugin.get().screenRegex("project/(.*)/rev/(.*)/(.*)",
-        new XDocScreen.Factory());
-    Plugin.get().screenRegex("project/(.*)/(.*)",
-        new XDocScreen.HeadFactory());
-    Plugin.get().screenRegex("c/(.*)/([0-9]+(\\.{2}[0-9]+)?)/(.*),unified",
-        new XDocUnifiedDiffScreen.Factory());
-    Plugin.get().screenRegex("c/(.*)/([0-9]+(\\.{2}[0-9]+)?)/(.*)",
-        new XDocSideBySideDiffScreen.Factory());
+  protected ChangeInfo() {
+  }
+
+  public static class RevisionInfo extends JavaScriptObject {
+    public final native int _number() /*-{ return this._number; }-*/;
+    public final native String ref() /*-{ return this.ref; }-*/;
+
+    protected RevisionInfo () {
+    }
   }
 }

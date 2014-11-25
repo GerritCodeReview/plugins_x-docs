@@ -18,3 +18,17 @@
   color: red;
   font-weight: bold;
 }
+
+.xdocs-sidebyside-panel {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.xdocs-sidebyside-panel td {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.xdocs-sidebyside-panel iframe {
+  border-style: none;
+}
