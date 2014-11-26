@@ -27,7 +27,7 @@ public class XDocSideBySideDiffScreen extends XDocDiffScreen {
       String patchSet = URL.decode(screen.getToken(2));
       String path = URL.decode(screen.getToken(4));
       screen.show(new XDocSideBySideDiffScreen(change, patchSet, path));
-      screen.setWindowTitle(XDocScreen.getFileName(path));
+      screen.setWindowTitle(FileInfo.getFileName(path));
     }
   }
 
@@ -39,13 +39,13 @@ public class XDocSideBySideDiffScreen extends XDocDiffScreen {
   protected void display(ChangeInfo change) {
     String frameIdA = "xdoc_sidebyside_diff_a_iframe";
     Frame frameA =
-        new Frame(XDocScreen.getUrl(change.project(), getRevisionSideA(), getPath()));
+        new Frame(XDocApi.getUrl(change.project(), getRevisionSideA(), getPath()));
     frameA.getElement().setId(frameIdA);
     XDocScreen.resize(frameA, frameIdA);
 
     String frameIdB = "xdoc_sidebyside_diff_b_iframe";
     Frame frameB =
-        new Frame(XDocScreen.getUrl(change.project(), getRevisionSideB(), getPath()));
+        new Frame(XDocApi.getUrl(change.project(), getRevisionSideB(), getPath()));
     frameB.getElement().setId(frameIdB);
     XDocScreen.resize(frameB, frameIdB);
 

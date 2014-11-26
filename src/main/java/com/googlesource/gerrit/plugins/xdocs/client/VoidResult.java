@@ -14,22 +14,13 @@
 
 package com.googlesource.gerrit.plugins.xdocs.client;
 
-import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class ChangeInfo extends JavaScriptObject {
-  public final native String project() /*-{ return this.project; }-*/;
-  public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
-  public final native int _number() /*-{ return this._number; }-*/;
-
-  protected ChangeInfo() {
+public final class VoidResult extends JavaScriptObject {
+  protected VoidResult() {
   }
 
-  public static class RevisionInfo extends JavaScriptObject {
-    public final native int _number() /*-{ return this._number; }-*/;
-    public final native String ref() /*-{ return this.ref; }-*/;
-
-    protected RevisionInfo () {
-    }
+  public static VoidResult create() {
+    return createObject().cast();
   }
 }
