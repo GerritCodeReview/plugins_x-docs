@@ -53,8 +53,11 @@ public class XDocScreen extends VerticalPanel {
     setStyleName("xdocs-panel");
 
     HorizontalPanel p = new HorizontalPanel();
+    p.setStyleName("xdocs-header");
     p.add(new InlineHyperlink(projectName, "/admin/projects/" + projectName));
-    p.add(new Label(" / " + fileName + " (" + revision + ")"));
+    p.add(new Label("/"));
+    p.add(new Label(fileName));
+    p.add(new Label("(" + revision + ")"));
     add(p);
 
     final String url = getUrl(projectName, revision, fileName);
