@@ -26,7 +26,7 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
       String patchSet = URL.decode(screen.getToken(2));
       String path = URL.decode(screen.getToken(3));
       screen.show(new XDocUnifiedDiffScreen(change, patchSet, path));
-      screen.setWindowTitle(XDocScreen.getFileName(path));
+      screen.setWindowTitle(FileInfo.getFileName(path));
     }
   }
 
@@ -38,7 +38,7 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
   protected void display(ChangeInfo change) {
     String frameId = "xdoc_unified_diff_iframe";
     Frame frame =
-        new Frame(XDocScreen.getUrl(change.project(), getRevision(), getPath()));
+        new Frame(XDocApi.getUrl(change.project(), getRevision(), getPath()));
     frame.getElement().setId(frameId);
     XDocScreen.resize(frame, frameId);
     add(frame);
@@ -46,5 +46,10 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
 
   private String getRevision() {
     return getRevisionA() + "<->" + getRevisionB();
+  }
+
+  @Override
+  protected String getPanel() {
+    return "unified";
   }
 }
