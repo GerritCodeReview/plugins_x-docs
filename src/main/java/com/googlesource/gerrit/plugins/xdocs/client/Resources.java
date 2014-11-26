@@ -14,22 +14,17 @@
 
 package com.googlesource.gerrit.plugins.xdocs.client;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 
-public class ChangeInfo extends JavaScriptObject {
-  public final native String project() /*-{ return this.project; }-*/;
-  public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
-  public final native int _number() /*-{ return this._number; }-*/;
+public interface Resources extends ClientBundle {
 
-  protected ChangeInfo() {
-  }
+  @Source("go-next.png")
+  public ImageResource go_next();
 
-  public static class RevisionInfo extends JavaScriptObject {
-    public final native int _number() /*-{ return this._number; }-*/;
-    public final native String ref() /*-{ return this.ref; }-*/;
+  @Source("go-prev.png")
+  public ImageResource go_prev();
 
-    protected RevisionInfo () {
-    }
-  }
+  @Source("go-up.png")
+  public ImageResource go_up();
 }

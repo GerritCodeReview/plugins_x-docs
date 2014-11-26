@@ -14,37 +14,50 @@
 
 package com.googlesource.gerrit.plugins.xdocs.client;
 
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.plugin.client.Plugin;
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.RevisionInfo;
 
 public abstract class XDocDiffScreen extends VerticalPanel {
+  private final String changeId;
   private final String path;
   private String revisionA;
   private String revisionB;
+  private int patchSet;
+  private Integer base;
+  private FlowPanel iconPanel;
 
-  XDocDiffScreen(final String change, final String patchSet, String path) {
+  XDocDiffScreen(String changeId, final String patchSet, String path) {
     setStyleName("xdocs-panel");
 
+    this.changeId = changeId;
     this.path = path;
 
-    ChangeApi.getChangeInfo(change, new AsyncCallback<ChangeInfo>() {
+    ChangeApi.getChangeInfo(changeId, new AsyncCallback<ChangeInfo>() {
 
       @Override
       public void onSuccess(ChangeInfo change) {
-        addPathHeader(change);
         setRevisions(change, patchSet);
+        addHeader(change);
         display(change);
       }
 
       @Override
       public void onFailure(Throwable caught) {
-        showError("Unable to load change " + change + ": " + caught.getMessage());
+        showError("Unable to load change " + XDocDiffScreen.this.changeId
+            + ": " + caught.getMessage());
       }
     });
   }
@@ -63,41 +76,163 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     return revisionB;
   }
 
-  private void setRevisions(ChangeInfo change, String patchSet) {
-    int i = patchSet.indexOf("..");
+  private void setRevisions(ChangeInfo change, String patchSetString) {
+    int i = patchSetString.indexOf("..");
     if (i > 0) {
-      revisionA = getRevision(change, patchSet.substring(0, i));
-      if (patchSet.length() > i + 2) {
-        revisionB = getRevision(change, patchSet.substring(i + 2));
+      base = parsePatchSet(patchSetString.substring(0, i));
+      revisionA = getRevision(change, base);
+      if (patchSetString.length() > i + 2) {
+        patchSet = parsePatchSet(patchSetString.substring(i + 2));
+        revisionB = getRevision(change, patchSet);
       } else {
-        throw new IllegalArgumentException("Invalid patch set: " + patchSet);
+        throw new IllegalArgumentException("Invalid patch set: " + patchSetString);
       }
     } else {
+      patchSet = parsePatchSet(patchSetString);
       revisionB = getRevision(change, patchSet);
       revisionA = this.revisionB + "^1";
     }
   }
 
-  private static String getRevision(ChangeInfo change, String patchSet) {
+  private static String getRevision(ChangeInfo change, int patchSet) {
     for (RevisionInfo rev : Natives.asList(change.revisions().values())) {
-      try {
-        if (rev._number() == Integer.valueOf(patchSet)) {
-          return rev.ref();
-        }
-      } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("Invalid patch set: " + patchSet);
+      if (rev._number() == patchSet) {
+        return rev.ref();
       }
     }
     throw new IllegalArgumentException("Patch set " + patchSet + " not found.");
   }
 
-  private void addPathHeader(ChangeInfo change) {
+  private static int parsePatchSet(String patchSet) {
+    try {
+      return Integer.valueOf(patchSet);
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("Invalid patch set: " + patchSet);
+    }
+  }
+
+  private void addHeader(ChangeInfo change) {
     HorizontalPanel p = new HorizontalPanel();
     p.setStyleName("xdocs-header");
+    p.add(getPathHeader(change));
+
+    iconPanel = new FlowPanel();
+    iconPanel.setStyleName("xdocs-icon-panel");
+    p.add(iconPanel);
+    addNavigationButtons(change);
+
+    add(p);
+  }
+
+  private Widget getPathHeader(ChangeInfo change) {
+    HorizontalPanel p = new HorizontalPanel();
+    p.setStyleName("xdocs-file-header");
     p.add(new InlineHyperlink(change.project(), "/admin/projects/" + change.project()));
     p.add(new Label("/"));
     p.add(new Label(path));
-    add(p);
+    return p;
+  }
+
+  private void addNavigationButtons(final ChangeInfo change) {
+    DiffApi.list(changeId, patchSet, base,
+        new AsyncCallback<NativeMap<FileInfo>>() {
+      @Override
+      public void onSuccess(NativeMap<FileInfo> result) {
+        JsArray<FileInfo> files = result.values();
+        FileInfo.sortFileInfoByPath(files);
+        int index = 0;
+        for (int i = 0; i < files.length(); i++) {
+          if (path.equals(files.get(i).path())) {
+            index = i;
+            break;
+          }
+        }
+
+        FileInfo prevInfo = index == 0 ? null : files.get(index - 1);
+        if (prevInfo != null) {
+          iconPanel.add(createNavLink(XDocsPlugin.RESOURCES.go_prev(),
+              change, patchSet, base, prevInfo));
+        }
+
+        iconPanel.add(createIcon(XDocsPlugin.RESOURCES.go_up(),
+            "Up to change", toChange(change)));
+
+        FileInfo nextInfo = index == files.length() - 1
+            ? null
+            : files.get(index + 1);
+        if (nextInfo != null) {
+          iconPanel.add(createNavLink(XDocsPlugin.RESOURCES.go_next(),
+              change, patchSet, base, nextInfo));
+        }
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        showError("Unable to load files of change " + changeId + ": "
+            + caught.getMessage());
+      }
+    });
+  }
+
+  private InlineHyperlink createNavLink(ImageResource res,
+      final ChangeInfo change, final int patchSet, final Integer base,
+      final FileInfo file) {
+    final InlineHyperlink link = createIcon(
+        res, FileInfo.getFileName(file.path()),
+        toFile(change, patchSet, base, file));
+    XDocApi.checkHtml(XDocApi.getUrl(change.project(),
+        getRevision(change, patchSet), file.path()),
+        new AsyncCallback<VoidResult>() {
+      @Override
+      public void onSuccess(VoidResult result) {
+        link.setTargetHistoryToken(
+            toPreview(change, patchSet, base, file));
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+      }
+    });
+    return link;
+  }
+
+  private static InlineHyperlink createIcon(ImageResource res, String tooltip, String target) {
+    InlineHyperlink l = new InlineHyperlink(
+        AbstractImagePrototype.create(res).getHTML(), true, target);
+    if (tooltip != null) {
+      l.setTitle(tooltip);
+    }
+    return l;
+  }
+
+  private String toPreview(ChangeInfo change, int patchSet,
+      Integer base, FileInfo file) {
+    String panel = getPanel();
+    return "/x/" + Plugin.get().getName()
+        + toPatchSet(change, patchSet, base)
+        + file.path()
+        + (panel != null ? "," + panel : "");
+  }
+
+  private String toFile(ChangeInfo change, int patchSet, Integer base,
+      FileInfo file) {
+    String panel = file.binary() ? "unified" : getPanel();
+    return toPatchSet(change, patchSet, base)
+        + file.path()
+        + (panel != null ? "," + panel : "");
+  }
+
+  protected String getPanel() {
+    return null;
+  }
+
+  private static String toPatchSet(ChangeInfo change, int patchSet, Integer base) {
+    return toChange(change)
+        + (base != null ? patchSet + ".." + base : patchSet) + "/";
+  }
+
+  private static String toChange(ChangeInfo change) {
+    return "/c/" + change._number() + "/";
   }
 
   protected void showError(String message) {

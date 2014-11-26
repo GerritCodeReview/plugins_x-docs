@@ -31,6 +31,10 @@ public class ChangeApi {
     return call(id, "detail");
   }
 
+  public static RestApi revision(String changeId, int patchSetId) {
+    return change(changeId).view("revisions").id(patchSetId);
+  }
+
   private static RestApi call(String id, String action) {
     return change(id).view(action);
   }

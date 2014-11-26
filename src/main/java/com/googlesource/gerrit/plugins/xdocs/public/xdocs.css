@@ -3,8 +3,19 @@
   width: 100%;
 }
 
-.xdocs-header td {
+.xdocs-file-header td {
   padding-right: 5px;
+}
+
+.xdocs-icon-panel {
+  position: absolute;
+  right: 10px;
+  height: 16px;
+  line-height: 16px;
+}
+
+.xdocs-icon-panel img {
+  padding-right: 3px;
 }
 
 .xdocs-panel iframe {

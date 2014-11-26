@@ -16,8 +16,10 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.plugin.client.Plugin;
 import com.google.gerrit.plugin.client.PluginEntryPoint;
+import com.google.gwt.core.client.GWT;
 
 public class XDocsPlugin extends PluginEntryPoint {
+  public static final Resources RESOURCES = GWT.create(Resources.class);
 
   @Override
   public void onPluginLoad() {
