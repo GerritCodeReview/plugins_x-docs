@@ -49,7 +49,7 @@ import java.net.URL;
 import java.util.Properties;
 
 @Singleton
-public class AsciidoctorFormatter implements Formatter {
+public class AsciidoctorFormatter implements StringFormatter {
   public static final String NAME = "ASCIIDOCTOR";
 
   private static final String BACKEND = "html5";

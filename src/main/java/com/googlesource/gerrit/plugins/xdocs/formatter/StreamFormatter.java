@@ -14,16 +14,23 @@
 
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
-
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 
-public class PlainTextFormatter implements StringFormatter {
-  public final static String NAME = "PLAIN_TEXT";
+import java.io.IOException;
+import java.io.InputStream;
 
-  @Override
+public interface StreamFormatter extends Formatter {
+  /**
+   * Formats the given raw text as html.
+   *
+   * @param projectName the name of the project that contains the file to be
+   *        formatted
+   * @param revision the abbreviated revision from which the file is loaded
+   * @param cfg the global configuration for this formatter
+   * @param raw the raw stream
+   * @return the content from the given stream formatted as html
+   * @throws IOException thrown if the formatting fails
+   */
   public String format(String projectName, String revision, ConfigSection cfg,
-      String raw) {
-    return "<pre>" + escapeHtml(raw) + "</pre>";
-  }
+      InputStream raw) throws IOException;
 }

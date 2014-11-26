@@ -25,7 +25,7 @@ import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 
 import java.io.IOException;
 
-public class MarkdownFormatter implements Formatter {
+public class MarkdownFormatter implements StringFormatter {
   public final static String NAME = "MARKDOWN";
 
   private final FormatterUtil util;
