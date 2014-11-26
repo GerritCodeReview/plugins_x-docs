@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_05c61228",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-26T19:34:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f6c2d15_b67ba8ad",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "44193b1c81540a59c22a8080f812bc25f009e305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_46bc1292",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-26T19:34:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f6c2d15_5677b4c4",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "44193b1c81540a59c22a8080f812bc25f009e305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f6c2d15_96782cb2",
         "filename": "BUCK",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-11-26T13:35:55Z",
       "side": 1,
       "message": "It\u0027s named STANDALONE_MODE in the previous entry.",
+      "range": {
+        "startLine": 8,
+        "startChar": 47,
+        "endLine": 8,
+        "endChar": 66
+      },
+      "revId": "44193b1c81540a59c22a8080f812bc25f009e305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_25cb0e2f",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-26T19:34:09Z",
+      "side": 1,
+      "message": "Ah, yes, forgot to change this after the rebasing...\n\nDone.",
+      "parentUuid": "7f6c2d15_96782cb2",
       "range": {
         "startLine": 8,
         "startChar": 47,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_c5cf9a37",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-26T19:34:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfb4e5b0_48ff3f77",
+      "range": {
+        "startLine": 244,
+        "startChar": 21,
+        "endLine": 244,
+        "endChar": 65
+      },
+      "revId": "44193b1c81540a59c22a8080f812bc25f009e305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f6c2d15_f6852030",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2014-11-26T13:35:55Z",
       "side": 1,
       "message": "wrap this line?",
+      "range": {
+        "startLine": 139,
+        "startChar": 46,
+        "endLine": 139,
+        "endChar": 47
+      },
+      "revId": "44193b1c81540a59c22a8080f812bc25f009e305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_66c10e0f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/XDocServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-26T19:34:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f6c2d15_f6852030",
       "range": {
         "startLine": 139,
         "startChar": 46,
