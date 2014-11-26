@@ -14,15 +14,9 @@
 
 package com.googlesource.gerrit.plugins.xdocs.client;
 
-import com.google.gerrit.plugin.client.Plugin;
 import com.google.gerrit.plugin.client.screen.Screen;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHyperlink;
@@ -38,7 +32,7 @@ public class XDocScreen extends VerticalPanel {
       String revision = URL.decode(screen.getToken(2));
       String path = URL.decode(screen.getToken(3));
       screen.show(new XDocScreen(projectName, revision, path));
-      screen.setWindowTitle(getFileName(path));
+      screen.setWindowTitle(FileInfo.getFileName(path));
     }
   }
 
@@ -48,7 +42,7 @@ public class XDocScreen extends VerticalPanel {
       String projectName = URL.decode(screen.getToken(1));
       String path = URL.decode(screen.getToken(2));
       screen.show(new XDocScreen(projectName, "HEAD", path));
-      screen.setWindowTitle(getFileName(path));
+      screen.setWindowTitle(FileInfo.getFileName(path));
     }
   }
 
@@ -56,66 +50,35 @@ public class XDocScreen extends VerticalPanel {
     setStyleName("xdocs-panel");
 
     HorizontalPanel p = new HorizontalPanel();
-    p.setStyleName("xdocs-header");
+    p.setStyleName("xdocs-file-header");
     p.add(new InlineHyperlink(projectName, "/admin/projects/" + projectName));
     p.add(new Label("/"));
     p.add(new Label(path));
     p.add(new Label("(" + revision + ")"));
     add(p);
 
-    final String url = getUrl(projectName, revision, path);
-    RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
-    try {
-      builder.sendRequest(null, new RequestCallback() {
-        public void onResponseReceived(Request request, Response response) {
-          int status = response.getStatusCode();
-          if (200 <= status && status < 300) {
-            String frameId = "xdoc_iframe";
-            Frame frame = new Frame(url);
-            frame.getElement().setId(frameId);
-            resize(frame, frameId);
-            add(frame);
-          } else {
-            showError(status + " " + response.getStatusText());
-          }
-        }
+    final String url = XDocApi.getUrl(projectName, revision, path);
+    XDocApi.checkHtml(url, new AsyncCallback<VoidResult>() {
+      @Override
+      public void onSuccess(VoidResult result) {
+        String frameId = "xdoc_iframe";
+        Frame frame = new Frame(url);
+        frame.getElement().setId(frameId);
+        resize(frame, frameId);
+        add(frame);
+      }
 
-        public void onError(Request request, Throwable exception) {
-          showError(exception.getMessage());
-        }
-      });
-    } catch (RequestException e) {
-      showError(e.getMessage());
-    }
+      @Override
+      public void onFailure(Throwable caught) {
+        showError(caught.getMessage());
+      }
+    });
   }
 
   private void showError(String message) {
     Label l = new Label("Unable to load document: " + message);
     l.setStyleName("xdocs-error");
     add(l);
-  }
-
-  public static String getFileName(String path) {
-    String fileName = Patch.COMMIT_MSG.equals(path)
-        ? "Commit Message"
-        : path;
-    int s = fileName.lastIndexOf('/');
-    return s >= 0 ? fileName.substring(s + 1) : fileName;
-  }
-
-  public static String getUrl(String projectName, String revision, String fileName) {
-    StringBuilder url = new StringBuilder();
-    url.append("plugins/");
-    url.append(Plugin.get().getName());
-    url.append("/project/");
-    url.append(URL.encodeQueryString(projectName));
-    if (revision != null && !"HEAD".equals(revision)) {
-      url.append("/rev/");
-      url.append(URL.encodeQueryString(revision));
-    }
-    url.append("/");
-    url.append(URL.encodeQueryString(fileName));
-    return url.toString();
   }
 
   public static void resize(Widget w, String id) {
