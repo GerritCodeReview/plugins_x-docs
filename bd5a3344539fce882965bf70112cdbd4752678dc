@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fabe956_85f20278",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T07:15:48Z",
+      "side": 1,
+      "message": "Wrong indentation",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 11
+      },
+      "revId": "bd5a3344539fce882965bf70112cdbd4752678dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_45e5eab7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/go-next.png",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T07:15:48Z",
+      "side": 1,
+      "message": "This icon and friends already exist i gerrit. Can\u0027t we just expose and reuse them from plugins? IIRC, there was a pending change for this.",
+      "revId": "bd5a3344539fce882965bf70112cdbd4752678dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
