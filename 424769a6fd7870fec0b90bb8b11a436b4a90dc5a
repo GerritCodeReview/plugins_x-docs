@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_25030e80",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/ListChangesOption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-28T16:20:14Z",
+      "side": 1,
+      "message": "I know :(\n\nUnfortunately at the moment it is not (easily) possible to reuse all classes from the Gerrit client. I wanted to concentrate on the plugin logic first, but I\u0027m aware that this should be cleaned up later...",
+      "parentUuid": "7faeed66_26e476b9",
+      "revId": "424769a6fd7870fec0b90bb8b11a436b4a90dc5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_c5f8fa5b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2014-11-27T07:14:15Z",
       "side": 1,
       "message": "Remove all this in this method.",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "424769a6fd7870fec0b90bb8b11a436b4a90dc5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f117199_23476a7f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-28T16:20:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fabe956_c5f8fa5b",
       "range": {
         "startLine": 69,
         "startChar": 6,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_c5079a88",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocsPlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-28T16:20:14Z",
+      "side": 1,
+      "message": "Done\n\nIt\u0027s also not too bad if this matches too much. The revision is validated later and the user will just get an error if anything wrong was specified. Still being more precise with the reg exp is better :)",
+      "parentUuid": "7faeed66_c6f8025c",
+      "range": {
+        "startLine": 28,
+        "startChar": 37,
+        "endLine": 28,
+        "endChar": 45
+      },
+      "revId": "424769a6fd7870fec0b90bb8b11a436b4a90dc5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_e5f5f662",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocsPlugin.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2014-11-27T07:14:15Z",
       "side": 1,
       "message": "Wouldn\u0027t this regex also match with unified (or whatever) panel like above?",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "424769a6fd7870fec0b90bb8b11a436b4a90dc5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_e5041686",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocsPlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-28T16:20:14Z",
+      "side": 1,
+      "message": "Yes, but the first match wins and the evaluation is done in the order in which the screens are registered.",
+      "parentUuid": "5fabe956_e5f5f662",
       "range": {
         "startLine": 30,
         "startChar": 30,
