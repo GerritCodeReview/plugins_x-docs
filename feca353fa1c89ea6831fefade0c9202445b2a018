@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_a50e1ea0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-28T16:19:06Z",
+      "side": 1,
+      "message": "At the moment there is nothing configurable here.\n\nDepending on the URL the servlet generates the HTML diff for unified diff (revisionA\u003c-\u003erevisionB) side-by-side diff side A (revisionA\u003c-revisionB) or side-by-side diff side B (revisionA-\u003erevisionB). This URL syntax should be the same for all users so that links can be shared and the same result is shown.\n\nAs explained below (line 28-31) there is no client logic yet that invokes these URLs, but they can only be called manually. \n\nFor the future my idea is like this:\n 1. allow user to switch between normal side-by-side diff \n    screen and preview side-by-side diff screen (both \n    directions)\n 2. allow user to switch between normal unified diff \n    screen and preview unified diff screen (both \n    directions)\n 3. allow user to switch from (preview) side-by-side diff \n    screen to (preview) unified diff screen (both directions)\n\nSo even when this is implemented I\u0027m not sure which user preference we need here.",
+      "parentUuid": "5fabe956_05dff2e1",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "feca353fa1c89ea6831fefade0c9202445b2a018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7faeed66_06dffae1",
         "filename": "src/main/resources/com/googlesource/gerrit/plugins/xdocs/diff/htmlheader-sidebyside-a.xsl",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2014-11-27T07:05:21Z",
       "side": 1,
       "message": "This file extracted from daisydiff? Can you add a comment/ rational why it needs to be changed from the distro [1].\n\n [1] https://code.google.com/p/daisydiff/source/browse/trunk/daisydiff/src/java/org/outerj/daisy/diff/htmlheader.xsl?r\u003d98",
+      "revId": "feca353fa1c89ea6831fefade0c9202445b2a018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_05fe1211",
+        "filename": "src/main/resources/com/googlesource/gerrit/plugins/xdocs/diff/htmlheader-sidebyside-a.xsl",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-28T16:19:06Z",
+      "side": 1,
+      "message": "I\u0027ve added an explantion about this to the commit message.",
+      "parentUuid": "7faeed66_06dffae1",
       "revId": "feca353fa1c89ea6831fefade0c9202445b2a018",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
