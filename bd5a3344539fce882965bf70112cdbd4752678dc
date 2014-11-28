@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_8511a2c2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-28T16:20:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fabe956_85f20278",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 11
+      },
+      "revId": "bd5a3344539fce882965bf70112cdbd4752678dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_45e5eab7",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/go-next.png",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-11-27T07:15:48Z",
       "side": 1,
       "message": "This icon and friends already exist i gerrit. Can\u0027t we just expose and reuse them from plugins? IIRC, there was a pending change for this.",
+      "revId": "bd5a3344539fce882965bf70112cdbd4752678dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f117199_034cee9d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/go-next.png",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-28T16:20:50Z",
+      "side": 1,
+      "message": "Hmm, can\u0027t find any change that enables this, but would be cool if the Gerrit core icons could simply be used. I would not like to loose much time on this, but rather first move on with getting the plugin functionality done and then cleanup later, but if we find an easy way to reuse the icons I\u0027m happy to do it :)",
+      "parentUuid": "5fabe956_45e5eab7",
       "revId": "bd5a3344539fce882965bf70112cdbd4752678dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
