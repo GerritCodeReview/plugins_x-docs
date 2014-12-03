@@ -99,6 +99,24 @@
       "revId": "bd5a3344539fce882965bf70112cdbd4752678dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_2a5fff2d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/go-next.png",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:48:30Z",
+      "side": 1,
+      "message": "Thanks, I rebased those changes.\n\nDone.",
+      "parentUuid": "1f117199_a33a3ae8",
+      "revId": "bd5a3344539fce882965bf70112cdbd4752678dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
