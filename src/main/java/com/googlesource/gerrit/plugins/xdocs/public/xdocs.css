@@ -18,6 +18,10 @@
   padding-right: 3px;
 }
 
+.xdocs-icon-panel div {
+  float: left;
+}
+
 .xdocs-panel iframe {
   width: 100%;
   border-width: 1px;
