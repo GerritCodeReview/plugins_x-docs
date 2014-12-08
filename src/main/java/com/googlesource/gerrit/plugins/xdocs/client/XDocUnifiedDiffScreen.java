@@ -52,4 +52,12 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
   protected String getPanel() {
     return "unified";
   }
+
+  @Override
+  protected void init() {
+    addIcon(createIcon(
+        XDocsPlugin.RESOURCES.sideBySideDiffPreview(),
+        "side-by-side preview diff",
+        XDocsPlugin.getSideBySideDiffUrl(changeId, base, patchSet, path)));
+  }
 }

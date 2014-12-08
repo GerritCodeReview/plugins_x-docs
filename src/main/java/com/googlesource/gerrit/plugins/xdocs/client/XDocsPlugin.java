@@ -14,10 +14,10 @@
 
 package com.googlesource.gerrit.plugins.xdocs.client;
 
-import com.google.gerrit.client.Resources;
 import com.google.gerrit.plugin.client.Plugin;
 import com.google.gerrit.plugin.client.PluginEntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.URL;
 
 public class XDocsPlugin extends PluginEntryPoint {
   public static final Resources RESOURCES = GWT.create(Resources.class);
@@ -32,5 +32,29 @@ public class XDocsPlugin extends PluginEntryPoint {
         new XDocUnifiedDiffScreen.Factory());
     Plugin.get().screenRegex("c/(.*)/([0-9]+(\\.{2}[0-9]+)?)/(.*)",
         new XDocSideBySideDiffScreen.Factory());
+  }
+
+  public static String getSideBySideDiffUrl(String changeId,
+      Integer patchSetIdA, int patchSetIdB, String fileName) {
+    StringBuilder url = new StringBuilder();
+    url.append("/x/");
+    url.append(Plugin.get().getPluginName());
+    url.append("/c/");
+    url.append(changeId);
+    url.append("/");
+    if (patchSetIdA != null) {
+      url.append(patchSetIdA);
+      url.append("..");
+    }
+    url.append(patchSetIdB);
+    url.append("/");
+    url.append(URL.encode(fileName));
+    return url.toString();
+  }
+
+  public static String getUnifiedDiffUrl(String changeId, Integer patchSetIdA,
+      int patchSetIdB, String fileName) {
+    return getSideBySideDiffUrl(changeId, patchSetIdA, patchSetIdB, fileName)
+        + ",unified";
   }
 }
