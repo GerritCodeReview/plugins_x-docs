@@ -68,6 +68,10 @@ public class XDocSideBySideDiffScreen extends XDocDiffScreen {
   @Override
   protected void init() {
     addIcon(createIcon(
+        XDocsPlugin.RESOURCES.sideBySideDiff(),
+        "side-by-side text diff",
+        XDocsPlugin.getSideBySideDiffUrl(changeId, base, patchSet, path)));
+    addIcon(createIcon(
         XDocsPlugin.RESOURCES.unifiedDiffPreview(),
         "unified preview diff",
         XDocsPlugin.getUnifiedPreviewDiffUrl(changeId, base, patchSet, path)));

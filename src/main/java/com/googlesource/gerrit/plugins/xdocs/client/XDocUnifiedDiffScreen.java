@@ -56,6 +56,10 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
   @Override
   protected void init() {
     addIcon(createIcon(
+        XDocsPlugin.RESOURCES.unifiedDiff(),
+        "unified text diff",
+        XDocsPlugin.getUnifiedDiffUrl(changeId, base, patchSet, path)));
+    addIcon(createIcon(
         XDocsPlugin.RESOURCES.sideBySideDiffPreview(),
         "side-by-side preview diff",
         XDocsPlugin.getSideBySidePreviewDiffUrl(changeId, base, patchSet, path)));

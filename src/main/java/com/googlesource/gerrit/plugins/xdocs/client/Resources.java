@@ -18,6 +18,12 @@ import com.google.gwt.resources.client.ImageResource;
 
 public interface Resources extends com.google.gerrit.client.Resources {
 
+  @Source("sideBySideDiff.png")
+  public ImageResource sideBySideDiff();
+
+  @Source("unifiedDiff.png")
+  public ImageResource unifiedDiff();
+
   @Source("sideBySideDiffPreview.png")
   public ImageResource sideBySideDiffPreview();
 
