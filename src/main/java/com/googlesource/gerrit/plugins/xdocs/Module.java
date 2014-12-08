@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
+import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.GerritTopMenu;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
@@ -27,6 +28,8 @@ import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.inject.Inject;
 
+import com.googlesource.gerrit.plugins.xdocs.client.SideBySideDiffPreviewWebLink;
+import com.googlesource.gerrit.plugins.xdocs.client.UnifiedDiffPreviewWebLink;
 import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidoctorFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.MarkdownFormatter;
@@ -64,6 +67,10 @@ public class Module extends FactoryModule {
         .to(XDocWebLink.class);
     DynamicSet.bind(binder(), FileWebLink.class)
         .to(XDocWebLink.class);
+    DynamicSet.bind(binder(), DiffWebLink.class)
+        .to(SideBySideDiffPreviewWebLink.class);
+    DynamicSet.bind(binder(), DiffWebLink.class)
+        .to(UnifiedDiffPreviewWebLink.class);
 
     DynamicSet.bind(binder(), TopMenu.class).toInstance(new TopMenu() {
       @Override
