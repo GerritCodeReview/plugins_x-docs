@@ -31,13 +31,14 @@ import com.google.gwt.user.client.ui.Widget;
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.RevisionInfo;
 
 public abstract class XDocDiffScreen extends VerticalPanel {
-  private final String changeId;
-  private final String path;
-  private String revisionA;
-  private String revisionB;
-  private int patchSet;
-  private Integer base;
+  protected final String changeId;
+  protected final String path;
+  protected String revisionA;
+  protected String revisionB;
+  protected int patchSet;
+  protected Integer base;
   private FlowPanel iconPanel;
+  private FlowPanel additionalIconPanel;
 
   XDocDiffScreen(String changeId, final String patchSet, String path) {
     setStyleName("xdocs-panel");
@@ -51,6 +52,7 @@ public abstract class XDocDiffScreen extends VerticalPanel {
       public void onSuccess(ChangeInfo change) {
         setRevisions(change, patchSet);
         addHeader(change);
+        init();
         display(change);
       }
 
@@ -119,9 +121,14 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     iconPanel = new FlowPanel();
     iconPanel.setStyleName("xdocs-icon-panel");
     p.add(iconPanel);
+    additionalIconPanel = new FlowPanel();
+    iconPanel.add(additionalIconPanel);
     addNavigationButtons(change);
 
     add(p);
+  }
+
+  protected void init() {
   }
 
   private Widget getPathHeader(ChangeInfo change) {
@@ -196,13 +203,17 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     return link;
   }
 
-  private static InlineHyperlink createIcon(ImageResource res, String tooltip, String target) {
+  protected static InlineHyperlink createIcon(ImageResource res, String tooltip, String target) {
     InlineHyperlink l = new InlineHyperlink(
         AbstractImagePrototype.create(res).getHTML(), true, target);
     if (tooltip != null) {
       l.setTitle(tooltip);
     }
     return l;
+  }
+
+  protected void addIcon(InlineHyperlink icon) {
+    additionalIconPanel.add(icon);
   }
 
   private String toPreview(ChangeInfo change, int patchSet,
