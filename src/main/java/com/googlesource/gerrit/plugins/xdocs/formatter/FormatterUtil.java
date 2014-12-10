@@ -14,11 +14,13 @@
 
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
+import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_CSS_THEME;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INHERIT_CSS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -40,20 +42,31 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.util.TemporaryBuffer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 @Singleton
 public class FormatterUtil {
+  private static final Logger log = LoggerFactory.getLogger(FormatterUtil.class);
+
   private final String pluginName;
   private final File baseDir;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final Formatters formatters;
+  private final Map<String, String> defaultCss;
 
   @Inject
   FormatterUtil(@PluginName String pluginName,
@@ -66,6 +79,7 @@ public class FormatterUtil {
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.formatters = formatters;
+    this.defaultCss = new HashMap<>();
   }
 
   /**
@@ -189,6 +203,47 @@ public class FormatterUtil {
       return escapeHtml(new String(css, UTF_8));
     }
     return null;
+  }
+
+  public String applyCss(String html, String formatterName, String projectName)
+      throws IOException {
+    ConfigSection projectCfg =
+        formatters.getFormatterConfig(formatterName, projectName);
+    String cssName = formatterName.toLowerCase(Locale.US);
+    String cssTheme = projectCfg.getString(KEY_CSS_THEME);
+    String defaultCss = getDefaultCss(formatterName);
+    String inheritedCss =
+        getInheritedCss(projectName, formatterName, cssName, cssTheme);
+    String projectCss = getCss(projectName, cssName, cssTheme);
+    if (projectCfg.getBoolean(KEY_INHERIT_CSS, true)) {
+      return insertCss(html,
+          MoreObjects.firstNonNull(inheritedCss, defaultCss), projectCss);
+    } else {
+      return insertCss(html,
+          MoreObjects.firstNonNull(projectCss,
+              MoreObjects.firstNonNull(inheritedCss, defaultCss)));
+    }
+  }
+
+  private String getDefaultCss(String formatterName) throws IOException {
+    String css = defaultCss.get(formatterName) ;
+    if (css == null) {
+      URL url = FormatterUtil.class.getResource(
+          formatterName.toLowerCase(Locale.US) + ".css");
+      if (url != null) {
+        try (InputStream in = url.openStream();
+            TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(128 * 1024)) {
+          tmp.copy(in);
+          css = new String(tmp.toByteArray(), UTF_8);
+        }
+      } else {
+        log.info(String.format("No default CSS for formatter '%s' found.",
+            formatterName));
+        css = "";
+      }
+      defaultCss.put(formatterName, css);
+    }
+    return css;
   }
 
   /**

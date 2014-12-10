@@ -15,12 +15,9 @@
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ALLOW_HTML;
-import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_CSS_THEME;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INCLUDE_TOC;
-import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INHERIT_CSS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.annotations.PluginData;
@@ -35,17 +32,14 @@ import org.asciidoctor.AttributesBuilder;
 import org.asciidoctor.Options;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
-import org.eclipse.jgit.util.TemporaryBuffer;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.net.URL;
 import java.util.Properties;
 
 @Singleton
@@ -57,7 +51,6 @@ public class AsciidoctorFormatter implements StringFormatter {
   private static final String ERUBY = "erb";
 
   private final File baseDir;
-  private final String defaultCss;
   private final Properties attributes;
   private final FormatterUtil util;
   private final Formatters formatters;
@@ -66,7 +59,6 @@ public class AsciidoctorFormatter implements StringFormatter {
   public AsciidoctorFormatter(@PluginData File baseDir,
       FormatterUtil formatterUtil, Formatters formatters) throws IOException {
     this.baseDir = baseDir;
-    this.defaultCss = readCss();
     this.attributes = readAttributes();
     this.util = formatterUtil;
     this.formatters = formatters;
@@ -92,18 +84,7 @@ public class AsciidoctorFormatter implements StringFormatter {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);
         String html = out.toString(UTF_8.name());
-        String cssTheme = projectCfg.getString(KEY_CSS_THEME);
-        String inheritedCss =
-            util.getInheritedCss(projectName, NAME, "asciidoctor", cssTheme);
-        String projectCss = util.getCss(projectName, "asciidoctor", cssTheme);
-        if (projectCfg.getBoolean(KEY_INHERIT_CSS, true)) {
-          return util.insertCss(html,
-              MoreObjects.firstNonNull(inheritedCss, defaultCss), projectCss);
-        } else {
-          return util.insertCss(html,
-              MoreObjects.firstNonNull(projectCss,
-                  MoreObjects.firstNonNull(inheritedCss, defaultCss)));
-        }
+        return util.applyCss(html, NAME, projectName);
       }
     } finally {
       if (!tmpFile.delete()) {
@@ -152,19 +133,6 @@ public class AsciidoctorFormatter implements StringFormatter {
     ab.attribute("last-update-label!");
     ab.attribute("revnumber", revision);
     return ab.get();
-  }
-
-  private static String readCss() throws IOException {
-    String name = "asciidoctor.css";
-    URL url = AsciidoctorFormatter.class.getResource(name);
-    if (url == null) {
-      throw new FileNotFoundException("Resource " + name);
-    }
-    try (InputStream in = url.openStream();
-        TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(128 * 1024)) {
-      tmp.copy(in);
-      return new String(tmp.toByteArray(), UTF_8);
-    }
   }
 
   private static Properties readAttributes() throws IOException {
