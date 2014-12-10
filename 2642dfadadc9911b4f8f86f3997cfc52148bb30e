@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44dcfe2f_1df293fc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/HtmlBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-10T20:45:30Z",
+      "side": 1,
+      "message": "Actually this class could be added in its own change?",
+      "revId": "2642dfadadc9911b4f8f86f3997cfc52148bb30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24e9cacf_bcdb617f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/ZipFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-10T20:45:30Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 31,
+        "startChar": 27,
+        "endLine": 31,
+        "endChar": 37
+      },
+      "revId": "2642dfadadc9911b4f8f86f3997cfc52148bb30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44dcfe2f_fde5e733",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/ZipFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-10T20:45:30Z",
+      "side": 1,
+      "message": "not needed.",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "2642dfadadc9911b4f8f86f3997cfc52148bb30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
