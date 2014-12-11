@@ -17,8 +17,11 @@ package com.googlesource.gerrit.plugins.xdocs;
 import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidoctorFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.MarkdownFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.PlainTextFormatter;
+import com.googlesource.gerrit.plugins.xdocs.formatter.ZipFormatter;
 
 import org.eclipse.jgit.lib.Config;
+
+import java.util.Arrays;
 
 public class XDocGlobalConfig {
   public static final String SECTION_FORMATTER = "formatter";
@@ -49,5 +52,7 @@ public class XDocGlobalConfig {
         "text/x-markdown");
     cfg.setString(SECTION_FORMATTER, PlainTextFormatter.NAME, KEY_MIME_TYPE,
         "text/plain");
+    cfg.setStringList(SECTION_FORMATTER, ZipFormatter.NAME, KEY_EXT,
+        Arrays.asList("jar", "war", "zip"));
   }
 }
