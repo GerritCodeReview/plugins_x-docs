@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4e5f21c_b22240c7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/HtmlBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-11T12:31:11Z",
+      "side": 1,
+      "message": "Done\n\n  https://gerrit-review.googlesource.com/62370",
+      "parentUuid": "44dcfe2f_1df293fc",
+      "revId": "2642dfadadc9911b4f8f86f3997cfc52148bb30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24e9cacf_bcdb617f",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/ZipFormatter.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2014-12-10T20:45:30Z",
       "side": 1,
       "message": "Unused.",
+      "range": {
+        "startLine": 31,
+        "startChar": 27,
+        "endLine": 31,
+        "endChar": 37
+      },
+      "revId": "2642dfadadc9911b4f8f86f3997cfc52148bb30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_d0449c7a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/ZipFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-11T12:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24e9cacf_bcdb617f",
       "range": {
         "startLine": 31,
         "startChar": 27,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "e4e5f21c_92273cd7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/ZipFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-11T12:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44dcfe2f_fde5e733",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "2642dfadadc9911b4f8f86f3997cfc52148bb30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4ef7afe_50dc2c77",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/ZipFormatter.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2014-12-11T07:02:27Z",
       "side": 1,
       "message": "With \"for\" loop usage this can be reduced to one line. This is the standard idiom here:\n\n  for (ZipEntry entry; (entry \u003d zip.getNextEntry()) !\u003d null;) {\n  [...]",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "2642dfadadc9911b4f8f86f3997cfc52148bb30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_b03918f9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/ZipFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-11T12:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ef7afe_50dc2c77",
       "range": {
         "startLine": 57,
         "startChar": 6,
