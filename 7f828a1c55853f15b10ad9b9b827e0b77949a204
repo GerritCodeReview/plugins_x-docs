@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ef7afe_705050d4",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T13:10:34Z",
+      "side": 1,
+      "message": "Style: one file per line. I see, that was copied from Gerrit core, but it\u0027s wrong there as well:\n\n  exclude \u003d [\n    \u0027META-INF/LICENSE.txt\u0027,\n    \u0027META-INF/NOTICE.txt\u0027\n  ],\n\nOr better, because the same set is repeated below, just define EXCLUDE above:\n\n  EXCLUDE \u003d [\n    \u0027META-INF/LICENSE.txt\u0027,\n    \u0027META-INF/NOTICE.txt\u0027\n  ],\n\nAnd use it here and below:\n\n  exclude \u003d EXCLUDE,",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_32c53038",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/DocxFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T13:10:34Z",
+      "side": 1,
+      "message": "Why is this needed? Add a comment or point to the documentation?",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 80
+      },
+      "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_1047c418",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T13:10:34Z",
+      "side": 1,
+      "message": "What about old Word Document formats?\n\n  ext \u003d doc\n\nWhat about other, like Excel, etc...?\n\nWhat about ODF documents (LibreOffice)? Are they supported as well?",
+      "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
