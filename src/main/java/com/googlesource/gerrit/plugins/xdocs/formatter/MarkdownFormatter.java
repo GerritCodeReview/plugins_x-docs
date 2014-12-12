@@ -53,13 +53,14 @@ public class MarkdownFormatter implements StringFormatter {
     String inheritedCss =
         util.getInheritedCss(projectName, NAME, "markdown", cssTheme);
     String projectCss = util.getCss(projectName, "markdown", cssTheme);
+    String html;
     if (projectCfg.getBoolean(KEY_INHERIT_CSS, true)) {
       // if there is no inherited CSS and f.setCss(null) is invoked
       // com.google.gerrit.server.documentation.MarkdownFormatter applies the
       // default CSS
       f.setCss(inheritedCss);
       byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
-      return util.insertCss(new String(b, UTF_8), projectCss);
+      html = util.insertCss(new String(b, UTF_8), projectCss);
     } else {
       if (projectCss != null) {
         f.setCss(projectCss);
@@ -70,7 +71,8 @@ public class MarkdownFormatter implements StringFormatter {
         f.setCss(inheritedCss);
       }
       byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
-      return new String(b, UTF_8);
+      html = new String(b, UTF_8);
     }
+    return util.applyInsertAnchorsScript(html);
   }
 }

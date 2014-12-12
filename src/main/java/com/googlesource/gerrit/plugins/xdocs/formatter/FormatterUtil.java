@@ -26,10 +26,12 @@ import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
@@ -67,19 +69,24 @@ public class FormatterUtil {
   private final ProjectCache projectCache;
   private final Formatters formatters;
   private final Map<String, String> defaultCss;
+  private final Map<String, String> resources;
+  private final String webUrl;
 
   @Inject
   FormatterUtil(@PluginName String pluginName,
       @PluginData File baseDir,
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
-      Formatters formatters) {
+      Formatters formatters,
+      @CanonicalWebUrl Provider<String> webUrl) {
     this.pluginName = pluginName;
     this.baseDir = baseDir;
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.formatters = formatters;
     this.defaultCss = new HashMap<>();
+    this.resources = new HashMap<>();
+    this.webUrl = webUrl.get();
   }
 
   /**
@@ -288,6 +295,52 @@ public class FormatterUtil {
         b.append(css2);
         b.append("</style>\n");
       }
+      b.append(html.substring(p));
+      return b.toString();
+    } else {
+      return html;
+    }
+  }
+
+  public String applyInsertAnchorsScript(String html) throws IOException {
+    return insertJavaScript(html, getResource("insert-anchors.js"));
+  }
+
+  public String getResource(String resourceName) throws IOException {
+     String resource = resources.get(resourceName);
+     if (resource == null) {
+       resource = readResource(resourceName);
+       resources.put(resourceName, resource);
+     }
+     return resource;
+  }
+
+  private String readResource(String resourceName) throws IOException {
+    URL url = FormatterUtil.class.getResource(resourceName);
+    try (InputStream in = url.openStream();
+        TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(128 * 1024)) {
+      tmp.copy(in);
+      String resource = new String(tmp.toByteArray(), UTF_8);
+      return resource.replaceAll("@URL@", webUrl);
+    }
+  }
+
+  public String insertJavaScript(String html, String script) {
+    return insertScript(html, script, "text/javascript");
+  }
+
+  public String insertScript(String html, String script, String type) {
+    if (html == null || script == null) {
+      return html;
+    }
+
+    int p = html.lastIndexOf("</html>");
+    if (p > 0) {
+      StringBuilder b = new StringBuilder();
+      b.append(html.substring(0, p));
+      b.append("<script type=\"" + type + "\">\n");
+      b.append(script);
+      b.append("</script>\n");
       b.append(html.substring(p));
       return b.toString();
     } else {

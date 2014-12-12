@@ -24,9 +24,9 @@ public class XDocsPlugin extends PluginEntryPoint {
 
   @Override
   public void onPluginLoad() {
-    Plugin.get().screenRegex("project/(.*)/rev/(.*)/(.*)",
+    Plugin.get().screenRegex("project/(.*)/rev/(.*)/([^#]*)(#(.*))?",
         new XDocScreen.Factory());
-    Plugin.get().screenRegex("project/(.*)/(.*)",
+    Plugin.get().screenRegex("project/(.*)/([^#]*)(#(.*))?",
         new XDocScreen.HeadFactory());
     Plugin.get().screenRegex("c/(.*)/([0-9]+(\\.{2}[0-9]+)?)/(.*),unified",
         new XDocUnifiedDiffScreen.Factory());

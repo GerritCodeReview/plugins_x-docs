@@ -84,7 +84,8 @@ public class AsciidoctorFormatter implements StringFormatter {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);
         String html = out.toString(UTF_8.name());
-        return util.applyCss(html, NAME, projectName);
+        return util.applyInsertAnchorsScript(
+            util.applyCss(html, NAME, projectName));
       }
     } finally {
       if (!tmpFile.delete()) {
