@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ef7afe_30d9a807",
+        "filename": "src/main/resources/static/sideBySideDiffPreview.png",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T13:23:01Z",
+      "side": 1,
+      "message": "Can\u0027t we reuse the on from core, once another change was merged:\n\n  gerrit-gwtui-common/src/main/resources/com/google/gerrit/client/sideBySideDiff.png",
+      "revId": "ec5539ab3d9c2362cd89eb4b779b222fa746562c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
