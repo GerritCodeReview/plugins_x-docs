@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e4e5f21c_529f943c",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-12T13:37:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ef7afe_705050d4",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4e5f21c_32c53038",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/DocxFormatter.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a4ef7afe_50cc2c45",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/formatter/DocxFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-12T13:37:13Z",
+      "side": 1,
+      "message": "It\u0027s explained in the commit message, but I can add a comment here as well.",
+      "parentUuid": "e4e5f21c_32c53038",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 80
+      },
+      "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4ef7afe_1047c418",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 3
@@ -59,6 +107,24 @@
       "writtenOn": "2014-12-12T13:10:34Z",
       "side": 1,
       "message": "What about old Word Document formats?\n\n  ext \u003d doc\n\nWhat about other, like Excel, etc...?\n\nWhat about ODF documents (LibreOffice)? Are they supported as well?",
+      "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_12990c56",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-12T13:37:13Z",
+      "side": 1,
+      "message": "Good question. Looking at the documentation [1], it should work for PowerPoint (\"pptx\") and Excel (\"xslx\") too.\n\nI believe it only works for the -x MS Office documents, e.g. \u0027docx\u0027, but not \u0027doc\u0027. I assume this is why the library is called \u0027docx4j\u0027 and not \u0027doc4j\u0027. Also [2] indicates that it only works for docx.\n\nI don\u0027t know if it works with ODF documents, maybe we can just try this. If not, it would be cool to have another formatter for this.\n\n[1] http://www.docx4java.org/trac/docx4j\n[2] http://stackoverflow.com/questions/227236/convert-word-doc-to-html-programmatically-in-java",
+      "parentUuid": "a4ef7afe_1047c418",
       "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
