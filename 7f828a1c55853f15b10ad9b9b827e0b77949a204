@@ -128,6 +128,24 @@
       "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_b27ec04d",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-12T14:06:43Z",
+      "side": 1,
+      "message": "Unfortunately I can\u0027t try out LibreOffice because the security police on my system prevents me from running it :(",
+      "parentUuid": "e4e5f21c_12990c56",
+      "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
