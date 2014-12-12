@@ -164,6 +164,24 @@
       "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_50f30c7c",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T14:13:59Z",
+      "side": 1,
+      "message": "And i was wondering why you have police at your company that prevent you to use Open source software???\n\n;-)",
+      "parentUuid": "a4ef7afe_70f6106e",
+      "revId": "7f828a1c55853f15b10ad9b9b827e0b77949a204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
