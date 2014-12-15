@@ -34,11 +34,9 @@ public class XDocsPlugin extends PluginEntryPoint {
         new XDocSideBySideDiffScreen.Factory());
   }
 
-  public static String getSideBySidePreviewDiffUrl(String changeId,
+  public static String getSideBySideDiffUrl(String changeId,
       Integer patchSetIdA, int patchSetIdB, String fileName) {
     StringBuilder url = new StringBuilder();
-    url.append("/x/");
-    url.append(Plugin.get().getPluginName());
     url.append("/c/");
     url.append(changeId);
     url.append("/");
@@ -49,6 +47,21 @@ public class XDocsPlugin extends PluginEntryPoint {
     url.append(patchSetIdB);
     url.append("/");
     url.append(URL.encode(fileName));
+    return url.toString();
+  }
+
+  public static String getUnifiedDiffUrl(String changeId, Integer patchSetIdA,
+      int patchSetIdB, String fileName) {
+    return getSideBySideDiffUrl(changeId, patchSetIdA, patchSetIdB, fileName)
+        + ",unified";
+  }
+
+  public static String getSideBySidePreviewDiffUrl(String changeId,
+      Integer patchSetIdA, int patchSetIdB, String fileName) {
+    StringBuilder url = new StringBuilder();
+    url.append("/x/");
+    url.append(Plugin.get().getPluginName());
+    url.append(getSideBySideDiffUrl(changeId, patchSetIdA, patchSetIdB, fileName));
     return url.toString();
   }
 
