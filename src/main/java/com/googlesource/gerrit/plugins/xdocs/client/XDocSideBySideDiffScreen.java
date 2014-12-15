@@ -64,4 +64,12 @@ public class XDocSideBySideDiffScreen extends XDocDiffScreen {
   private String getRevisionSideB() {
     return getRevisionA() + "->" + getRevisionB();
   }
+
+  @Override
+  protected void init() {
+    addIcon(createIcon(
+        XDocsPlugin.RESOURCES.unifiedDiffPreview(),
+        "unified preview diff",
+        XDocsPlugin.getUnifiedPreviewDiffUrl(changeId, base, patchSet, path)));
+  }
 }
