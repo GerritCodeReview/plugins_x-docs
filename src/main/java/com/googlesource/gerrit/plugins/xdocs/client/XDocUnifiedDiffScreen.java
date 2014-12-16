@@ -45,7 +45,7 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
   }
 
   private String getRevision() {
-    return getRevisionA() + "<->" + getRevisionB();
+    return (getRevisionA() != null ? getRevisionA() : "") + "<->" + getRevisionB();
   }
 
   @Override

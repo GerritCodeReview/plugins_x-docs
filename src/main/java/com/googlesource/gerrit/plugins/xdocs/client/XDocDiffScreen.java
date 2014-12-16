@@ -30,6 +30,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.RevisionInfo;
 
+import java.util.List;
+
 public abstract class XDocDiffScreen extends VerticalPanel {
   protected final String changeId;
   protected final String path;
@@ -49,8 +51,33 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     ChangeApi.getChangeInfo(changeId, new AsyncCallback<ChangeInfo>() {
 
       @Override
-      public void onSuccess(ChangeInfo change) {
-        setRevisions(change, patchSet);
+      public void onSuccess(final ChangeInfo change) {
+        parseRevisions(change, patchSet);
+        if (revisionA == null) {
+          ProjectApi.getCommitInfo(change.project(), change.current_revision(),
+              new AsyncCallback<CommitInfo>() {
+                @Override
+                public void onSuccess(CommitInfo commit) {
+                  if (commit.parents() != null) {
+                    List<CommitInfo> parents = Natives.asList(commit.parents());
+                    if (!parents.isEmpty()) {
+                      revisionA = parents.get(0).commit();
+                    }
+                  }
+                  show(change);
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                  // never invoked
+                }
+              });
+        } else {
+          show(change);
+        }
+      }
+
+      private void show(ChangeInfo change) {
         addHeader(change);
         init();
         display(change);
@@ -78,7 +105,7 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     return revisionB;
   }
 
-  private void setRevisions(ChangeInfo change, String patchSetString) {
+  private void parseRevisions(ChangeInfo change, String patchSetString) {
     int i = patchSetString.indexOf("..");
     if (i > 0) {
       base = parsePatchSet(patchSetString.substring(0, i));
@@ -92,7 +119,6 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     } else {
       patchSet = parsePatchSet(patchSetString);
       revisionB = getRevision(change, patchSet);
-      revisionA = this.revisionB + "^1";
     }
   }
 

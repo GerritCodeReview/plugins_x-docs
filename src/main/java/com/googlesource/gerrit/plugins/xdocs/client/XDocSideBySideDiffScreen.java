@@ -38,8 +38,9 @@ public class XDocSideBySideDiffScreen extends XDocDiffScreen {
   @Override
   protected void display(ChangeInfo change) {
     String frameIdA = "xdoc_sidebyside_diff_a_iframe";
-    Frame frameA =
-        new Frame(XDocApi.getUrl(change.project(), getRevisionSideA(), getPath()));
+    Frame frameA = getRevisionA() != null
+        ? new Frame(XDocApi.getUrl(change.project(), getRevisionSideA(), getPath()))
+        : new Frame();
     frameA.getElement().setId(frameIdA);
     XDocScreen.resize(frameA, frameIdA);
 
@@ -62,7 +63,7 @@ public class XDocSideBySideDiffScreen extends XDocDiffScreen {
   }
 
   private String getRevisionSideB() {
-    return getRevisionA() + "->" + getRevisionB();
+    return (getRevisionA() != null ? getRevisionA() : "") + "->" + getRevisionB();
   }
 
   @Override
