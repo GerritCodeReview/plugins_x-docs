@@ -31,6 +31,7 @@ import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.xdocs.client.SideBySideDiffPreviewWebLink;
 import com.googlesource.gerrit.plugins.xdocs.client.UnifiedDiffPreviewWebLink;
 import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidoctorFormatter;
+import com.googlesource.gerrit.plugins.xdocs.formatter.DocxFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.MarkdownFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.PlainTextFormatter;
@@ -55,6 +56,9 @@ public class Module extends FactoryModule {
     bind(Formatter.class)
         .annotatedWith(Exports.named(AsciidoctorFormatter.NAME))
         .to(AsciidoctorFormatter.class);
+    bind(Formatter.class)
+        .annotatedWith(Exports.named(DocxFormatter.NAME))
+        .to(DocxFormatter.class);
     bind(Formatter.class)
         .annotatedWith(Exports.named(MarkdownFormatter.NAME))
         .to(MarkdownFormatter.class);
