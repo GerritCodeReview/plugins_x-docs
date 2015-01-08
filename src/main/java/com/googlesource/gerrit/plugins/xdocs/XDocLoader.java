@@ -115,12 +115,14 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       try {
         RevWalk rw = new RevWalk(repo);
         try {
-          ObjectId revId = checkRevId(key.getRevId());
-          String html = loadHtml(formatter, repo, rw, key, revId);
+          String html = null;
+          if (key.getRevId() != null) {
+            html = loadHtml(formatter, repo, rw, key, key.getRevId());
+          }
 
           if (key.getDiffMode() != DiffMode.NO_DIFF) {
-            ObjectId revIdB = checkRevId(key.getRevIdB());
-            String htmlB = loadHtml(formatter, repo, rw, key, revIdB);
+            String htmlB =
+                loadHtml(formatter, repo, rw, key, checkRevId(key.getRevIdB()));
             if (html == null && htmlB == null) {
               throw new ResourceNotFoundException();
             }
@@ -131,7 +133,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
             }
           }
 
-          RevCommit commit = rw.parseCommit(revId);
+          RevCommit commit = rw.parseCommit(
+              MoreObjects.firstNonNull(key.getRevIdB(), key.getRevId()));
           return getAsHtmlResource(html, commit.getCommitTime());
         } finally {
           rw.release();

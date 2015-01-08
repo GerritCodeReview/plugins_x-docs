@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.net.HttpHeaders;
@@ -130,15 +131,20 @@ public class XDocServlet extends HttpServlet {
 
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
       String rev = getRevision(cfg,
-          MoreObjects.firstNonNull(key.revision, cfg.getIndexRef()),
+          key.diffMode == DiffMode.NO_DIFF
+              ? MoreObjects.firstNonNull(key.revision, cfg.getIndexRef())
+              : key.revision,
           projectControl);
       String revB = getRevision(cfg, key.revisionB, projectControl);
 
       Repository repo = repoManager.openRepository(key.project);
       try {
         ObjectId revId =
-            resolveRevision(repo, MoreObjects.firstNonNull(rev, Constants.HEAD));
-        if (ObjectId.isId(rev)) {
+            resolveRevision(repo,
+                key.diffMode == DiffMode.NO_DIFF
+                    ? MoreObjects.firstNonNull(rev, Constants.HEAD)
+                    : rev);
+        if (revId != null && ObjectId.isId(rev)) {
           validateCanReadCommit(repo, projectControl, revId);
         }
 
@@ -322,9 +328,11 @@ public class XDocServlet extends HttpServlet {
   private static String computeETag(Project.NameKey project, ObjectId revId,
       String file, ObjectId revIdB, DiffMode diffMode) {
     Hasher hasher = Hashing.md5().newHasher();
-    hasher.putUnencodedChars(project.get())
-        .putUnencodedChars(revId.getName())
-        .putUnencodedChars(file);
+    hasher.putUnencodedChars(project.get());
+    if (revId != null) {
+      hasher.putUnencodedChars(revId.getName());
+    }
+    hasher.putUnencodedChars(file);
     if (diffMode != DiffMode.NO_DIFF) {
       hasher.putUnencodedChars(revIdB.getName()).putUnencodedChars(
           diffMode.name());
@@ -400,7 +408,7 @@ public class XDocServlet extends HttpServlet {
           diffMode = DiffMode.UNIFIED;
           int p = revision.indexOf("<->");
           revisionB = revision.substring(p + 3);
-          revision = revision.substring(0, p);
+          revision = Strings.emptyToNull(revision.substring(0, p));
         } else if (revision.contains("<-")) {
           diffMode = DiffMode.SIDEBYSIDE_A;
           int p = revision.indexOf("<-");
@@ -410,7 +418,7 @@ public class XDocServlet extends HttpServlet {
           diffMode = DiffMode.SIDEBYSIDE_B;
           int p = revision.indexOf("->");
           revisionB = revision.substring(p + 2);
-          revision = revision.substring(0, p);
+          revision = Strings.emptyToNull(revision.substring(0, p));
         }
       }
 
