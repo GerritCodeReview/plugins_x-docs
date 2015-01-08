@@ -23,6 +23,7 @@ import com.google.common.base.Strings;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.net.HttpHeaders;
+import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -32,6 +33,7 @@ import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.GetHead;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -122,6 +124,8 @@ public class XDocServlet extends HttpServlet {
       }
 
       MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
+      mimeType = new MimeType(FileContentUtil.resolveContentType(
+          state, key.file, FileMode.FILE, mimeType.toString()));
       FormatterProvider formatter = getFormatter(req, key);
       if (formatter == null && !isSafeImage(mimeType)) {
         throw new ResourceNotFoundException();
