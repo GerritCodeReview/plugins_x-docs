@@ -25,7 +25,7 @@ import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.SECTION_FOR
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
