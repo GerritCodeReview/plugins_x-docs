@@ -167,7 +167,7 @@ public class XDocServlet extends HttpServlet {
           rsc = docCache.get(formatter, key.project, key.file, revId,
               revIdB, key.diffMode);
         } else if (isImage(mimeType)) {
-          rsc = getImageResource(repo, revId, key.file);
+          rsc = getImageResource(repo, revId, state, key.file);
         } else {
           rsc = Resource.NOT_FOUND;
         }
@@ -191,7 +191,8 @@ public class XDocServlet extends HttpServlet {
     }
   }
 
-  private Resource getImageResource(Repository repo, ObjectId revId, String file) {
+  private Resource getImageResource(Repository repo, ObjectId revId,
+      ProjectState state, String file) {
     RevWalk rw = new RevWalk(repo);
     try {
       RevCommit commit = rw.parseCommit(revId);
@@ -209,6 +210,8 @@ public class XDocServlet extends HttpServlet {
         byte[] content = loader.getBytes(Integer.MAX_VALUE);
 
         MimeType mimeType = fileTypeRegistry.getMimeType(file, content);
+        mimeType = new MimeType(FileContentUtil.resolveContentType(
+            state, file, FileMode.FILE, mimeType.toString()));
         if (!isSafeImage(mimeType)) {
           return Resource.NOT_FOUND;
         }
