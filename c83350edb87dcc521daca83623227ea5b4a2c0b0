@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abb4abb0_08dce726",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-20T16:18:04Z",
+      "side": 1,
+      "message": "\u0027edit\u0027 is null if there is no change edit and then we run into an NPE here...",
+      "revId": "c83350edb87dcc521daca83623227ea5b4a2c0b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
