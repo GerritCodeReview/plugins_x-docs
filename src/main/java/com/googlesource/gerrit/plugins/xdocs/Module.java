@@ -28,8 +28,6 @@ import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.inject.Inject;
 
-import com.googlesource.gerrit.plugins.xdocs.client.SideBySideDiffPreviewWebLink;
-import com.googlesource.gerrit.plugins.xdocs.client.UnifiedDiffPreviewWebLink;
 import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidoctorFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.DocxFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatter;
