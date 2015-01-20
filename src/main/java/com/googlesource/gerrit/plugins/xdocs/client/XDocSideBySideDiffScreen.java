@@ -16,8 +16,11 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+
+import com.googlesource.gerrit.plugins.xdocs.client.PatchSetSelectBox.DiffView;
+import com.googlesource.gerrit.plugins.xdocs.client.PatchSetSelectBox.DisplaySide;
 
 public class XDocSideBySideDiffScreen extends XDocDiffScreen {
   static class Factory implements Screen.EntryPoint {
@@ -50,12 +53,17 @@ public class XDocSideBySideDiffScreen extends XDocDiffScreen {
     frameB.getElement().setId(frameIdB);
     XDocScreen.resize(frameB, frameIdB);
 
-    HorizontalPanel p = new HorizontalPanel();
-    p.setVerticalAlignment(ALIGN_MIDDLE);
-    p.setStyleName("xdocs-sidebyside-panel");
-    p.add(frameA);
-    p.add(frameB);
-    add(p);
+    FlexTable t = new FlexTable();
+    t.setStyleName("xdocs-diff-table");
+    int row = addRow(t);
+    t.setWidget(row, 0, new PatchSetSelectBox(
+        DiffView.SIDE_BY_SIDE, DisplaySide.A, change, base, patchSet, path));
+    t.setWidget(row, 1, new PatchSetSelectBox(
+        DiffView.SIDE_BY_SIDE,  DisplaySide.B, change, base, patchSet, path));
+    row = addRow(t);
+    t.setWidget(row, 0, frameA);
+    t.setWidget(row, 1, frameB);
+    add(t);
   }
 
   private String getRevisionSideA() {

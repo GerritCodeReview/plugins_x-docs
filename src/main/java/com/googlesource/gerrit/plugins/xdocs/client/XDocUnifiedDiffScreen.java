@@ -16,7 +16,11 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Frame;
+
+import com.googlesource.gerrit.plugins.xdocs.client.PatchSetSelectBox.DiffView;
+import com.googlesource.gerrit.plugins.xdocs.client.PatchSetSelectBox.DisplaySide;
 
 public class XDocUnifiedDiffScreen extends XDocDiffScreen {
   static class Factory implements Screen.EntryPoint {
@@ -41,7 +45,16 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
         new Frame(XDocApi.getUrl(change.project(), getRevision(), getPath()));
     frame.getElement().setId(frameId);
     XDocScreen.resize(frame, frameId);
-    add(frame);
+
+    FlexTable t = new FlexTable();
+    t.setStyleName("xdocs-diff-table");
+    t.addStyleName("xdocs-unified-diff-table");
+    t.setWidget(addRow(t), 0, new PatchSetSelectBox(
+        DiffView.UNIFIED_DIFF, DisplaySide.A, change, base, patchSet, path));
+    t.setWidget(addRow(t), 0, new PatchSetSelectBox(
+        DiffView.UNIFIED_DIFF, DisplaySide.B, change, base, patchSet, path));
+    t.setWidget(addRow(t), 0, frame);
+    add(t);
   }
 
   private String getRevision() {
