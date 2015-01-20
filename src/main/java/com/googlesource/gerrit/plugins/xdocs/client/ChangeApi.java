@@ -17,6 +17,8 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 import com.google.gerrit.plugin.client.rpc.RestApi;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.EditInfo;
+
 import java.util.EnumSet;
 
 public class ChangeApi {
@@ -43,7 +45,19 @@ public class ChangeApi {
     return new RestApi("/changes/").id(id);
   }
 
+  public static RestApi change(int id) {
+    return new RestApi("/changes/").id(id);
+  }
+
   public static void addOptions(RestApi call, EnumSet<ListChangesOption> s) {
     call.addParameterRaw("O", Integer.toHexString(ListChangesOption.toBits(s)));
+  }
+
+  public static void edit(int id, AsyncCallback<EditInfo> cb) {
+    edit(id).get(cb);
+  }
+
+  public static RestApi edit(int id) {
+    return change(id).view("edit");
   }
 }

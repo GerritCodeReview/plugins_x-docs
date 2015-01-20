@@ -32,10 +32,23 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class RevisionInfo extends JavaScriptObject {
+    public static RevisionInfo fromEdit(EditInfo edit) {
+      RevisionInfo revisionInfo = createObject().cast();
+      revisionInfo.takeFromEdit(edit);
+      return revisionInfo;
+    }
+    private final native void takeFromEdit(EditInfo edit) /*-{
+      this._number = 0;
+      this.name = edit.name;
+      this.commit = edit.commit;
+      this.edit_base = edit.base_revision;
+    }-*/;
+
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;
     public final native String ref() /*-{ return this.ref; }-*/;
     public final native boolean is_edit() /*-{ return this._number == 0; }-*/;
+    public final native CommitInfo commit() /*-{ return this.commit; }-*/;
     public final native String edit_base() /*-{ return this.edit_base; }-*/;
 
     public static int findEditParent(JsArray<RevisionInfo> list) {
@@ -73,6 +86,13 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     protected RevisionInfo () {
+    }
+  }
+
+  public static class EditInfo extends JavaScriptObject {
+    public final native String name() /*-{ return this.name; }-*/;
+
+    protected EditInfo() {
     }
   }
 }
