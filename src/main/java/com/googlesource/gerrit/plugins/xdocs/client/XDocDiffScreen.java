@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.EditInfo;
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.RevisionInfo;
 
 import java.util.List;
@@ -53,29 +54,44 @@ public abstract class XDocDiffScreen extends VerticalPanel {
 
       @Override
       public void onSuccess(final ChangeInfo change) {
-        parseRevisions(change, patchSet);
-        if (revisionA == null) {
-          ProjectApi.getCommitInfo(change.project(), change.current_revision(),
-              new AsyncCallback<CommitInfo>() {
-                @Override
-                public void onSuccess(CommitInfo commit) {
-                  if (commit.parents() != null) {
-                    List<CommitInfo> parents = Natives.asList(commit.parents());
-                    if (!parents.isEmpty()) {
-                      revisionA = parents.get(0).commit();
-                    }
-                  }
-                  show(change);
-                }
+        change.revisions().copyKeysIntoChildren("name");
+        ChangeApi.edit(change._number(), new AsyncCallback<EditInfo>() {
+          @Override
+          public void onSuccess(EditInfo edit) {
+            if (edit != null) {
+              change.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
+            }
 
-                @Override
-                public void onFailure(Throwable caught) {
-                  // never invoked
-                }
-              });
-        } else {
-          show(change);
-        }
+            parseRevisions(change, patchSet);
+            if (revisionA == null) {
+              ProjectApi.getCommitInfo(change.project(), change.current_revision(),
+                  new AsyncCallback<CommitInfo>() {
+                    @Override
+                    public void onSuccess(CommitInfo commit) {
+                      if (commit.parents() != null) {
+                        List<CommitInfo> parents = Natives.asList(commit.parents());
+                        if (!parents.isEmpty()) {
+                          revisionA = parents.get(0).commit();
+                        }
+                      }
+                      show(change);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                      // never invoked
+                    }
+                  });
+            } else {
+              show(change);
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            // never invoked
+          }
+        });
       }
 
       private void show(ChangeInfo change) {
@@ -125,6 +141,9 @@ public abstract class XDocDiffScreen extends VerticalPanel {
 
   private static String getRevision(ChangeInfo change, int patchSet) {
     for (RevisionInfo rev : Natives.asList(change.revisions().values())) {
+      if (rev.is_edit()) {
+        return rev.commit().commit();
+      }
       if (rev._number() == patchSet) {
         return rev.ref();
       }
