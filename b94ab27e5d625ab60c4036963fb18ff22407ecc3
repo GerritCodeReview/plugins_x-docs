@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "abb4abb0_2828cb6f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-20T15:51:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abb4abb0_08238798",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 8
+      },
+      "revId": "b94ab27e5d625ab60c4036963fb18ff22407ecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abb4abb0_682ec381",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/ChangeInfo.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "8bb9a7ac_c7eebec4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-20T15:51:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abb4abb0_682ec381",
+      "revId": "b94ab27e5d625ab60c4036963fb18ff22407ecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bb9a7ac_a7ccea75",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2015-01-20T15:45:06Z",
       "side": 1,
       "message": "Is Gerrit Callback still not available to plugins?",
+      "range": {
+        "startLine": 58,
+        "startChar": 45,
+        "endLine": 58,
+        "endChar": 58
+      },
+      "revId": "b94ab27e5d625ab60c4036963fb18ff22407ecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_e7ebc2b1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-20T15:51:56Z",
+      "side": 1,
+      "message": "Unfortunately not.",
+      "parentUuid": "8bb9a7ac_a7ccea75",
       "range": {
         "startLine": 58,
         "startChar": 45,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "8bb9a7ac_87e8c6b6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-20T15:51:56Z",
+      "side": 1,
+      "message": "Yes, and it\u0027s actually a bug that it is not invoked. IIRC any error is always handled by GerritCallback in core UI.",
+      "parentUuid": "8bb9a7ac_47fbae86",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 21
+      },
+      "revId": "b94ab27e5d625ab60c4036963fb18ff22407ecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bb9a7ac_670032e0",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
         "patchSetId": 1
@@ -99,6 +189,30 @@
       "writtenOn": "2015-01-20T15:45:06Z",
       "side": 1,
       "message": "This looks funny ;-)",
+      "range": {
+        "startLine": 143,
+        "startChar": 19,
+        "endLine": 143,
+        "endChar": 36
+      },
+      "revId": "b94ab27e5d625ab60c4036963fb18ff22407ecc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_47a40e99",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-20T15:51:56Z",
+      "side": 1,
+      "message": "I know :)",
+      "parentUuid": "8bb9a7ac_670032e0",
       "range": {
         "startLine": 143,
         "startChar": 19,
