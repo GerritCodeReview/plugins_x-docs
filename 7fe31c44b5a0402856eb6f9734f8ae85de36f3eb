@@ -22,6 +22,30 @@
       "revId": "7fe31c44b5a0402856eb6f9734f8ae85de36f3eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebb4e3df_1a437d76",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/XDocDiffScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-21T14:59:39Z",
+      "side": 1,
+      "message": "I think it\u0027s not needed in this scenario, current_revision is not much used.",
+      "parentUuid": "0be697ff_1b553b17",
+      "range": {
+        "startLine": 63,
+        "startChar": 16,
+        "endLine": 63,
+        "endChar": 81
+      },
+      "revId": "7fe31c44b5a0402856eb6f9734f8ae85de36f3eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
