@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b02b38e_e6f0fef4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/ChangeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-22T22:57:25Z",
+      "side": 1,
+      "message": "Well, as always, i\u0027m bit sceptical to copy/paste sources from core to plugins? In this case the situation is really ridiculous: This file is already contained in the plugin-api, or more precisely: class file. To be used in client side plugin you need the source and of course you need GWT modules. I think it was a bug that we havn\u0027t exposed extension client sources to plugin API. With this change you can remove this file [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/63489",
+      "revId": "f14908055cc3d6dbd42dd3efa8c05756202cf033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
