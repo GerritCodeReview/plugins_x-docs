@@ -15,8 +15,12 @@
 package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.plugin.client.Plugin;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.Label;
 
@@ -32,6 +36,8 @@ public class PatchSetSelectBox extends FlowPanel {
     SIDE_BY_SIDE,
     UNIFIED_DIFF
   }
+
+  private static final String COMMIT_MSG = "/COMMIT_MSG";
 
   private final DiffView diffView;
   private final DisplaySide side;
@@ -71,6 +77,10 @@ public class PatchSetSelectBox extends FlowPanel {
     RevisionInfo.sortRevisionInfoByNumber(list);
     for (int i = 0; i < list.length(); i++) {
       add(createLink(list.get(i)));
+    }
+
+    if (!COMMIT_MSG.equals(path)) {
+      add(createDownloadLink());
     }
   }
 
@@ -120,6 +130,19 @@ public class PatchSetSelectBox extends FlowPanel {
       link.setStyleName("xdocs-patch-set-select-box-selected");
     }
     return link;
+  }
+
+  private Anchor createDownloadLink() {
+    String base = GWT.getHostPageBaseURL() + "cat/";
+    String sideUrl = isBaseSelected() ? "1" : "0";
+    int ps = isBaseSelected()
+        ? change.revision(change.current_revision())._number()
+        : getSelectedPatchSet();
+    Anchor anchor = new Anchor(
+        new ImageResourceRenderer().render(XDocsPlugin.RESOURCES.downloadIcon()),
+        base + URL.encode(change._number() + "," + ps + "," + path) + "^" + sideUrl);
+    anchor.setTitle("Download");
+    return anchor;
   }
 
   private Integer getSelectedPatchSet() {

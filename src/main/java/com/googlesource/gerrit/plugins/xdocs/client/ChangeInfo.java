@@ -27,6 +27,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native int _number() /*-{ return this._number; }-*/;
   public final native String current_revision() /*-{ return this.current_revision; }-*/;
+  public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
 
   protected ChangeInfo() {
   }
