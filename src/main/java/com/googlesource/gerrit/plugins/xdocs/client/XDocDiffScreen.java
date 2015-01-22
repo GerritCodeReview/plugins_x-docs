@@ -24,10 +24,12 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.EditInfo;
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.RevisionInfo;
@@ -190,7 +192,15 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     p.setStyleName("xdocs-file-header");
     p.add(new InlineHyperlink(change.project(), "/admin/projects/" + change.project()));
     p.add(new Label("/"));
-    p.add(new Label(path));
+
+    int s = path.lastIndexOf('/') + 1;
+    SafeHtmlBuilder html = new SafeHtmlBuilder();
+    html.append(path.substring(0, s));
+    html.openElement("b");
+    html.append(path.substring(s));
+    html.closeElement("b");
+    p.add(new InlineHTML(html.toSafeHtml()));
+
     return p;
   }
 
