@@ -21,6 +21,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHyperlink;
@@ -276,5 +277,11 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     Label l = new Label(message);
     l.setStyleName("xdocs-error");
     add(l);
+  }
+
+  protected static int addRow(FlexTable table) {
+    int row = table.getRowCount();
+    table.insertRow(row);
+    return row;
   }
 }

@@ -15,7 +15,12 @@
 package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ChangeInfo extends JavaScriptObject {
   public final native String project() /*-{ return this.project; }-*/;
@@ -28,7 +33,44 @@ public class ChangeInfo extends JavaScriptObject {
 
   public static class RevisionInfo extends JavaScriptObject {
     public final native int _number() /*-{ return this._number; }-*/;
+    public final native String name() /*-{ return this.name; }-*/;
     public final native String ref() /*-{ return this.ref; }-*/;
+    public final native boolean is_edit() /*-{ return this._number == 0; }-*/;
+    public final native String edit_base() /*-{ return this.edit_base; }-*/;
+
+    public static int findEditParent(JsArray<RevisionInfo> list) {
+      for (int i = 0; i < list.length(); i++) {
+        // edit under revisions?
+        RevisionInfo editInfo = list.get(i);
+        if (editInfo.is_edit()) {
+          String parentRevision = editInfo.edit_base();
+          // find parent
+          for (int j = 0; j < list.length(); j++) {
+            RevisionInfo parentInfo = list.get(j);
+            String name = parentInfo.name();
+            if (name.equals(parentRevision)) {
+              // found parent patch set number
+              return parentInfo._number();
+            }
+          }
+        }
+      }
+      return -1;
+    }
+
+    public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
+      final int editParent = findEditParent(list);
+      Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
+        @Override
+        public int compare(RevisionInfo a, RevisionInfo b) {
+          return num(a) - num(b);
+        }
+
+        private int num(RevisionInfo r) {
+          return !r.is_edit() ? 2 * (r._number() - 1) + 1 : 2 * editParent;
+        }
+      });
+    }
 
     protected RevisionInfo () {
     }
