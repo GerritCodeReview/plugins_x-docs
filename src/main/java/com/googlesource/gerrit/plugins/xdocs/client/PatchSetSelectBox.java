@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.plugin.client.Plugin;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.Label;
@@ -150,7 +149,7 @@ public class PatchSetSelectBox extends FlowPanel {
     }
     url.append(patchSetIdB);
     url.append("/");
-    url.append(URL.encode(path));
+    url.append(path);
     if (diffView == DiffView.UNIFIED_DIFF) {
       url.append(",unified");
     }

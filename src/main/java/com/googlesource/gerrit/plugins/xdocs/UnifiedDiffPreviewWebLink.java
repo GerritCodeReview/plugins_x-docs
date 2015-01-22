@@ -38,22 +38,22 @@ public class UnifiedDiffPreviewWebLink implements DiffWebLink {
 
   @Override
   public DiffWebLinkInfo getDiffLink(String projectName, int changeId,
-      Integer patchSetIdA, String revisionA, String fileNameA, int patchSetIdB,
-      String revisionB, String fileNameB) {
-    FormatterProvider formatter = formatters.get(projectName, fileNameB);
+      Integer patchSetIdA, String revisionA, String pathA, int patchSetIdB,
+      String revisionB, String pathB) {
+    FormatterProvider formatter = formatters.get(projectName, pathB);
     if (formatter == null) {
       return null;
     }
 
     return DiffWebLinkInfo.forUnifiedDiffView(UNIFIED_PREVIEW_DIFF,
         "plugins/" + pluginName + "/static/unifiedDiffPreview.png",
-        getUrl(pluginName, changeId, patchSetIdA, patchSetIdB, fileNameB),
+        getUrl(pluginName, changeId, patchSetIdA, patchSetIdB, pathB),
         Target.SELF);
   }
 
   private static String getUrl(String pluginName, int changeId,
-      Integer patchSetIdA, int patchSetIdB, String fileName) {
+      Integer patchSetIdA, int patchSetIdB, String path) {
     return SideBySideDiffPreviewWebLink.getUrl(pluginName, changeId,
-        patchSetIdA, patchSetIdB, fileName) + ",unified";
+        patchSetIdA, patchSetIdB, path) + ",unified";
   }
 }
