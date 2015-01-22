@@ -45,6 +45,30 @@
       "revId": "7ca4e0c2e42ca8d7e90bdc7ae7432c34dbbfb1bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bffafb8_45d90a84",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-22T21:59:26Z",
+      "side": 1,
+      "message": "I know, but it\u0027s also failing in the normal diff screen. If it\u0027s fixed there it will work here as well :)",
+      "parentUuid": "6b02b38e_a6d1e662",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 143,
+        "endChar": 85
+      },
+      "revId": "7ca4e0c2e42ca8d7e90bdc7ae7432c34dbbfb1bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
