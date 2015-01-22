@@ -25,9 +25,28 @@ import java.util.Comparator;
 public class ChangeInfo extends JavaScriptObject {
   public final native String project() /*-{ return this.project; }-*/;
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
-  public final native int _number() /*-{ return this._number; }-*/;
-  public final native String current_revision() /*-{ return this.current_revision; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
+  public final native int _number() /*-{ return this._number; }-*/;
+  private final native String statusRaw() /*-{ return this.status; }-*/;
+  public final native String current_revision() /*-{ return this.current_revision; }-*/;
+  public final native void set_edit(EditInfo edit) /*-{ this.edit = edit; }-*/;
+  public final native EditInfo edit() /*-{ return this.edit; }-*/;
+  public final native boolean has_edit() /*-{ return this.hasOwnProperty('edit') }-*/;
+
+  public final ChangeStatus getStatus() {
+    return ChangeStatus.valueOf(statusRaw());
+  }
+
+  public final boolean isOpen() {
+    switch (getStatus()) {
+      case NEW:
+      case SUBMITTED:
+      case DRAFT:
+        return true;
+      default:
+        return false;
+    }
+  }
 
   protected ChangeInfo() {
   }

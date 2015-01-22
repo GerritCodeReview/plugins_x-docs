@@ -60,6 +60,7 @@ public abstract class XDocDiffScreen extends VerticalPanel {
             @Override
             public void onSuccess(EditInfo edit) {
               if (edit != null) {
+                change.set_edit(edit);
                 change.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
               }
               initRevisionsAndShow(change);

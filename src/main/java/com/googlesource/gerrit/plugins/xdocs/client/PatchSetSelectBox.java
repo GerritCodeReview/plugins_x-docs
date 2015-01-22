@@ -82,6 +82,10 @@ public class PatchSetSelectBox extends FlowPanel {
     if (!COMMIT_MSG.equals(path)) {
       add(createDownloadLink());
     }
+
+    if (showEditIcon()) {
+      add(createEditIcon());
+    }
   }
 
   private void addPatchSetLabel() {
@@ -145,6 +149,26 @@ public class PatchSetSelectBox extends FlowPanel {
     return anchor;
   }
 
+  private boolean showEditIcon() {
+    if (sideA() || !change.isOpen() || !Plugin.get().isSignedIn()) {
+      return false;
+    }
+
+    if (change.has_edit()) {
+      return patchSet == 0;
+    } else {
+      return patchSet == change.revision(change.current_revision())._number();
+    }
+  }
+
+  private Anchor createEditIcon() {
+    Anchor anchor = new Anchor(
+        new ImageResourceRenderer().render(XDocsPlugin.RESOURCES.edit()),
+        "#" + getEditUrl(change._number(), patchSet, path));
+    anchor.setTitle("Edit");
+    return anchor;
+  }
+
   private Integer getSelectedPatchSet() {
     return sideA() ? basePatchSet : Integer.valueOf(patchSet);
   }
@@ -179,4 +203,15 @@ public class PatchSetSelectBox extends FlowPanel {
     return url.toString();
   }
 
+  private static String getEditUrl(int changeId, int patchSetId, String path) {
+    StringBuilder url = new StringBuilder();
+    url.append("/c/");
+    url.append(changeId);
+    url.append("/");
+    url.append(patchSetId);
+    url.append("/");
+    url.append(path);
+    url.append(",edit");
+    return url.toString();
+  }
 }
