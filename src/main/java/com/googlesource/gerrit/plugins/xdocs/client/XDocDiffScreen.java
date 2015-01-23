@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.plugin.client.Plugin;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -193,12 +194,16 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     p.add(new InlineHyperlink(change.project(), "/admin/projects/" + change.project()));
     p.add(new Label("/"));
 
-    int s = path.lastIndexOf('/') + 1;
     SafeHtmlBuilder html = new SafeHtmlBuilder();
-    html.append(path.substring(0, s));
-    html.openElement("b");
-    html.append(path.substring(s));
-    html.closeElement("b");
+    if (Patch.COMMIT_MSG.equals(path)) {
+      html.append("Commit Message");
+    } else {
+      int s = path.lastIndexOf('/') + 1;
+      html.append(path.substring(0, s));
+      html.openElement("b");
+      html.append(path.substring(s));
+      html.closeElement("b");
+    }
     p.add(new InlineHTML(html.toSafeHtml()));
 
     return p;
