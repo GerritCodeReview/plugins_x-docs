@@ -46,6 +46,30 @@
       "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bffafb8_457d8a9b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-23T13:29:47Z",
+      "side": 1,
+      "message": "So the next question is then, does this work:\n\n  import com.google.gerrit.reviewdb.client.Change;\n\nand then try to use Change.Status that was re-introduced in previous change? Why it works is beyond me.",
+      "parentUuid": "4bffafb8_857a62a6",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 47
+      },
+      "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
