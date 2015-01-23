@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.plugin.client.Plugin;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.http.client.URL;
@@ -36,8 +37,6 @@ public class PatchSetSelectBox extends FlowPanel {
     SIDE_BY_SIDE,
     UNIFIED_DIFF
   }
-
-  private static final String COMMIT_MSG = "/COMMIT_MSG";
 
   private final DiffView diffView;
   private final DisplaySide side;
@@ -79,7 +78,7 @@ public class PatchSetSelectBox extends FlowPanel {
       add(createLink(list.get(i)));
     }
 
-    if (!COMMIT_MSG.equals(path)) {
+    if (!Patch.COMMIT_MSG.equals(path)) {
       add(createDownloadLink());
     }
 
