@@ -181,23 +181,24 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       }
       ObjectId objectId = tw.getObjectId(0);
       ObjectLoader loader = repo.open(objectId);
-      return getHtml(formatter, repo, loader, key.getProject(), revId);
+      return getHtml(formatter, repo, loader, key.getProject(),
+          key.getResource(), revId);
     } finally {
       tw.release();
     }
   }
 
   private String getHtml(FormatterProvider formatter, Repository repo,
-      ObjectLoader loader, Project.NameKey project, ObjectId revId)
+      ObjectLoader loader, Project.NameKey project, String path, ObjectId revId)
       throws MethodNotAllowedException, IOException, GitAPIException,
       ResourceNotFoundException {
     Formatter f = formatter.get();
     if (f instanceof StringFormatter) {
       return getHtml(formatter.getName(), (StringFormatter) f, repo, loader,
-          project, revId);
+          project, path, revId);
     } else if (f instanceof StreamFormatter) {
       return getHtml(formatter.getName(), (StreamFormatter) f, repo, loader,
-          project, revId);
+          project, path, revId);
     } else {
       log.error(String.format("Unsupported formatter: %s", formatter.getName()));
       throw new ResourceNotFoundException();
@@ -206,8 +207,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
 
   private String getHtml(String formatterName, StringFormatter f,
       Repository repo, ObjectLoader loader, Project.NameKey project,
-      ObjectId revId) throws MethodNotAllowedException, IOException,
-      GitAPIException {
+      String path, ObjectId revId) throws MethodNotAllowedException,
+      IOException, GitAPIException {
     byte[] bytes = loader.getBytes(Integer.MAX_VALUE);
     boolean isBinary = RawText.isBinary(bytes);
     if (formatterName.equals(Formatters.RAW_FORMATTER) && isBinary) {
@@ -218,15 +219,15 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     if (!isBinary) {
       raw = replaceMacros(repo, project, revId, abbrRevId, raw);
     }
-    return f.format(project.get(), abbrRevId,
+    return f.format(project.get(), path, abbrRevId, revId.getName(),
         getFormatterConfig(formatterName), raw);
   }
 
   private String getHtml(String formatterName, StreamFormatter f,
       Repository repo, ObjectLoader loader, Project.NameKey project,
-      ObjectId revId) throws IOException {
+      String path, ObjectId revId) throws IOException {
     try (InputStream raw = loader.openStream()) {
-      return ((StreamFormatter) f).format(project.get(),
+      return ((StreamFormatter) f).format(project.get(), path, revId.getName(),
           getAbbrRevId(repo, revId), getFormatterConfig(formatterName), raw);
     }
   }

@@ -76,6 +76,13 @@ The plugin includes several formatters for rendering documentation.
     </td>
   </tr>
   <tr>
+    <td><tt>ImageFormatter</tt></td>
+    <td><tt>IMAGE</tt></td>
+    <td>Formatter for images that were configured as safe.</td>
+    <td><a href="../../../Documentation/licenses.html#Apache2_0">Apache2.0</a></td>
+    <td><a href="http://commons.apache.org">http://commons.apache.org</a></td>
+  </tr>
+  <tr>
     <td><tt>MarkdownFormatter</tt></td>
     <td><tt>MARKDOWN</tt></td>
     <td>Formatter for documentation that is written in

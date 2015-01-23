@@ -22,8 +22,8 @@ public class PlainTextFormatter implements StringFormatter {
   public final static String NAME = "PLAIN_TEXT";
 
   @Override
-  public String format(String projectName, String revision, ConfigSection cfg,
-      String raw) {
+  public String format(String projectName, String path, String revision,
+      String abbrRev, ConfigSection cfg, String raw) {
     return "<pre>" + escapeHtml(raw) + "</pre>";
   }
 }

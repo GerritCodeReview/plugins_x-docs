@@ -25,12 +25,14 @@ public interface StringFormatter extends Formatter {
    *
    * @param projectName the name of the project that contains the file to be
    *        formatted
-   * @param revision the abbreviated revision from which the file is loaded
+   * @param path the file path
+   * @param revision the revision from which the file is loaded
+   * @param abbrRev the abbreviated revision from which the file is loaded
    * @param cfg the global configuration for this formatter
    * @param raw the raw text
    * @return the given text formatted as html
    * @throws IOException thrown if the formatting fails
    */
-  public String format(String projectName, String revision, ConfigSection cfg,
-      String raw) throws IOException;
+  public String format(String projectName, String path, String revision,
+      String abbrRev, ConfigSection cfg, String raw) throws IOException;
 }
