@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
