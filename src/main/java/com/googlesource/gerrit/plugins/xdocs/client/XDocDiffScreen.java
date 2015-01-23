@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.plugin.client.Plugin;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -195,7 +194,7 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     p.add(new Label("/"));
 
     SafeHtmlBuilder html = new SafeHtmlBuilder();
-    if (Patch.COMMIT_MSG.equals(path)) {
+    if (FileInfo.COMMIT_MSG.equals(path)) {
       html.append("Commit Message");
     } else {
       int s = path.lastIndexOf('/') + 1;

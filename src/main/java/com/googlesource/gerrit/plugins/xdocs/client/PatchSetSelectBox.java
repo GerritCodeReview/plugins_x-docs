@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.plugin.client.Plugin;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.http.client.URL;
@@ -78,7 +77,7 @@ public class PatchSetSelectBox extends FlowPanel {
       add(createLink(list.get(i)));
     }
 
-    if (!Patch.COMMIT_MSG.equals(path)) {
+    if (!FileInfo.COMMIT_MSG.equals(path)) {
       add(createDownloadLink());
     }
 

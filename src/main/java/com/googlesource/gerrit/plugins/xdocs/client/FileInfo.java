@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.xdocs.client;
 
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
@@ -23,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class FileInfo extends JavaScriptObject {
+  public static final String COMMIT_MSG = "/COMMIT_MSG";
   public final native String path() /*-{ return this.path; }-*/;
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
 
@@ -30,9 +30,9 @@ public class FileInfo extends JavaScriptObject {
     Collections.sort(Natives.asList(list), new Comparator<FileInfo>() {
       @Override
       public int compare(FileInfo a, FileInfo b) {
-        if (Patch.COMMIT_MSG.equals(a.path())) {
+        if (COMMIT_MSG.equals(a.path())) {
           return -1;
-        } else if (Patch.COMMIT_MSG.equals(b.path())) {
+        } else if (COMMIT_MSG.equals(b.path())) {
           return 1;
         }
         return a.path().compareTo(b.path());
@@ -41,7 +41,7 @@ public class FileInfo extends JavaScriptObject {
   }
 
   public static String getFileName(String path) {
-    String fileName = Patch.COMMIT_MSG.equals(path)
+    String fileName = COMMIT_MSG.equals(path)
         ? "Commit Message"
         : path;
     int s = fileName.lastIndexOf('/');
