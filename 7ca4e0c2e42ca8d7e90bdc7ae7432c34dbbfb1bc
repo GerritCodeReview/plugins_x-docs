@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4bffafb8_c5473a7f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-23T10:05:15Z",
+      "side": 1,
+      "message": "would be nice",
+      "parentUuid": "4bffafb8_65dc0676",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 57
+      },
+      "revId": "7ca4e0c2e42ca8d7e90bdc7ae7432c34dbbfb1bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b02b38e_a6d1e662",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/PatchSetSelectBox.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "OK, if it\u0027s known bug, than we can move forward here and fix it later.",
       "parentUuid": "4bffafb8_45d90a84",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 143,
+        "endChar": 85
+      },
+      "revId": "7ca4e0c2e42ca8d7e90bdc7ae7432c34dbbfb1bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bffafb8_e5423671",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-23T10:05:15Z",
+      "side": 1,
+      "message": "I\u0027ve uploaded a fix for this:\n  https://gerrit-review.googlesource.com/63591",
+      "parentUuid": "6b02b38e_a6ea0601",
       "range": {
         "startLine": 143,
         "startChar": 8,
