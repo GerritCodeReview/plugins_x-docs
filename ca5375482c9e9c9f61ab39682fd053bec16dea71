@@ -118,6 +118,30 @@
       "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bffafb8_45afca9f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-23T21:53:11Z",
+      "side": 1,
+      "message": "The bad news: it turned out it was bug in build tool chain. It shouldn\u0027t work, but in fact this did work in all three modes, Maven, Buck in tree and Buck standalone by chance. I fixed it in this change and it doesn\u0027t compile any more in tree. Will fix bucklets build later on. This would mean that this change need to be reverted.\n\nThe good news: ChangeState.java can be droped.\n\n* [1] https://gerrit-review.googlesource.com/#/c/63621",
+      "parentUuid": "4bffafb8_c5c29a68",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 47
+      },
+      "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
