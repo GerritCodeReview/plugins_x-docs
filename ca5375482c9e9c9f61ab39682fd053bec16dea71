@@ -166,6 +166,30 @@
       "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bffafb8_05b9d2e6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-23T22:05:29Z",
+      "side": 1,
+      "message": "Oh wait, already done, uploading ;-)",
+      "parentUuid": "6b02b38e_c6c2a268",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 47
+      },
+      "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
