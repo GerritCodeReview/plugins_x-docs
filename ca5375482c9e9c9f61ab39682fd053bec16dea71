@@ -22,6 +22,30 @@
       "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bffafb8_857a62a6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-23T13:13:04Z",
+      "side": 1,
+      "message": "Yes, I\u0027m surprised myself.\n\nThe same import is already in com.googlesource.gerrit.plugins.xdocs.client.FileInfo.",
+      "parentUuid": "4bffafb8_c5705acc",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 47
+      },
+      "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
