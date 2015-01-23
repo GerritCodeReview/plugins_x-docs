@@ -34,6 +34,24 @@
       "revId": "f14908055cc3d6dbd42dd3efa8c05756202cf033",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bffafb8_25316e09",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/ChangeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-23T11:26:14Z",
+      "side": 1,
+      "message": "Pity that this didn\u0027t work out. I really would like to get rid of some duplicated classes. Maybe we find a way to make it work later :)",
+      "parentUuid": "4bffafb8_25ff2ebe",
+      "revId": "f14908055cc3d6dbd42dd3efa8c05756202cf033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
