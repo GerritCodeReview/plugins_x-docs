@@ -70,6 +70,30 @@
       "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b02b38e_86538a30",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/client/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-23T17:21:41Z",
+      "side": 1,
+      "message": "Answering my own questions:\n\n* No, com.google.gerrit.reviewdb.client.Change cannot be used in client plugin code: no source is available.\n* Why Patch.COMMIT_MSG can be used is clear: It is only String constant. To use such a constant GWT doesn\u0027t need source code. You could also use RefNames.REFS_CHANGES and friends.",
+      "parentUuid": "4bffafb8_457d8a9b",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 47
+      },
+      "revId": "ca5375482c9e9c9f61ab39682fd053bec16dea71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
