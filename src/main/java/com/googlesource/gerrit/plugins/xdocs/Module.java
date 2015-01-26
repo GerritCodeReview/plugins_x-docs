@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
-import com.google.gerrit.extensions.webui.GerritTopMenu;
+import com.google.gerrit.extensions.client.GerritTopMenu;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.config.FactoryModule;
