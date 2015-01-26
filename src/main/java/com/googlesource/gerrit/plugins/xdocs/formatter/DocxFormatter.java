@@ -41,8 +41,8 @@ public class DocxFormatter implements StreamFormatter {
   }
 
   @Override
-  public String format(String projectName, String revision, ConfigSection cfg,
-      InputStream raw) throws IOException {
+  public String format(String projectName, String path, String revision,
+      String abbrRev, ConfigSection cfg, InputStream raw) throws IOException {
     // Docx4J tries to load some resources dynamically. This fails if the Gerrit
     // core classloader is used since it doesn't see the resources that are
     // contained in the plugin jar. To make the resource loading work we

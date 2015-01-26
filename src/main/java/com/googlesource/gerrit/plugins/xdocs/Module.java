@@ -31,6 +31,7 @@ import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidoctorFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.DocxFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatter;
+import com.googlesource.gerrit.plugins.xdocs.formatter.ImageFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.MarkdownFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.PlainTextFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.ZipFormatter;
@@ -60,6 +61,9 @@ public class Module extends FactoryModule {
     bind(Formatter.class)
         .annotatedWith(Exports.named(MarkdownFormatter.NAME))
         .to(MarkdownFormatter.class);
+    bind(Formatter.class)
+        .annotatedWith(Exports.named(ImageFormatter.NAME))
+        .to(ImageFormatter.class);
     bind(Formatter.class)
         .annotatedWith(Exports.named(PlainTextFormatter.NAME))
         .to(PlainTextFormatter.class);

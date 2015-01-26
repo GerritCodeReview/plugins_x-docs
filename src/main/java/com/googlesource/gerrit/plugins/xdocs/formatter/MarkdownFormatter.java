@@ -40,8 +40,8 @@ public class MarkdownFormatter implements StringFormatter {
   }
 
   @Override
-  public String format(String projectName, String revision,
-      ConfigSection globalCfg, String raw) throws IOException {
+  public String format(String projectName, String path, String revision,
+      String abbrRev, ConfigSection globalCfg, String raw) throws IOException {
     ConfigSection projectCfg =
         formatters.getFormatterConfig(NAME, projectName);
     com.google.gerrit.server.documentation.MarkdownFormatter f =

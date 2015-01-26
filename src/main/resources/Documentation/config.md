@@ -162,6 +162,8 @@ configuration.
     ext = docx
     ext = pptx
     ext = xlsx
+  [formatte "IMAGE"]
+    mimeType = image/*
   [formatter "MARKDOWN"]
     mimeType = text/x-markdown
   [formatter "PLAIN_TEXT"]
@@ -176,6 +178,7 @@ Supported formatters:
 
 * `ASCIIDOCTOR`
 * `DOCX`
+* `IMAGE`
 * `MARKDOWN`
 * `PLAIN_TEXT`
 * `ZIP`

@@ -65,8 +65,8 @@ public class AsciidoctorFormatter implements StringFormatter {
   }
 
   @Override
-  public String format(String projectName, String revision,
-      ConfigSection globalCfg, String raw) throws IOException {
+  public String format(String projectName, String path, String revision,
+      String abbrRev, ConfigSection globalCfg, String raw) throws IOException {
     if (!globalCfg.getBoolean(KEY_ALLOW_HTML, false)) {
       raw = suppressHtml(raw);
     }
@@ -79,7 +79,7 @@ public class AsciidoctorFormatter implements StringFormatter {
         new File(baseDir, "tmp/asciidoctor-" + TimeUtil.nowTs().getNanos() + ".tmp");
     try {
       Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
-          .render(raw, createOptions(projectCfg, revision, tmpFile));
+          .render(raw, createOptions(projectCfg, abbrRev, tmpFile));
       try (FileInputStream input = new FileInputStream(tmpFile)) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteStreams.copy(input, out);

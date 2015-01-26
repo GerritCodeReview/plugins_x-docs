@@ -41,8 +41,9 @@ public class ZipFormatter implements StreamFormatter {
   }
 
   @Override
-  public String format(String projectName, String revision, ConfigSection globalCfg,
-      InputStream raw) throws IOException {
+  public String format(String projectName, String path, String revision,
+      String abbrRev, ConfigSection globalCfg, InputStream raw)
+      throws IOException {
     html.startDocument()
         .openHead()
         .closeHead()

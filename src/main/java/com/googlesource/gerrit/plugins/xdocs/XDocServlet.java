@@ -127,11 +127,22 @@ public class XDocServlet extends HttpServlet {
       mimeType = new MimeType(FileContentUtil.resolveContentType(
           state, key.file, FileMode.FILE, mimeType.toString()));
       FormatterProvider formatter = getFormatter(req, key);
+      if (isSafeImage(mimeType)) {
+        if (key.diffMode == DiffMode.NO_DIFF) {
+          // always return plain images when no diff is requested,
+          // use formatter on images only for diff mode
+          formatter = null;
+        }
+      } else {
+        if (formatter == null) {
+          throw new ResourceNotFoundException();
+        }
+      }
       if (formatter == null && !isSafeImage(mimeType)) {
         throw new ResourceNotFoundException();
-      }
+      } else if (isSafeImage(mimeType))
 
-      validateDiffMode(key, mimeType);
+      validateDiffMode(key, formatter, mimeType);
 
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
       String rev = getRevision(cfg,
@@ -233,10 +244,11 @@ public class XDocServlet extends HttpServlet {
     }
   }
 
-  private static void validateDiffMode(ResourceKey key, MimeType mimeType)
+  private static void validateDiffMode(ResourceKey key,
+      FormatterProvider formatter, MimeType mimeType)
       throws ResourceNotFoundException {
     if (key.diffMode != DiffMode.NO_DIFF
-        && (key.revisionB == null || isImage(mimeType))) {
+        && (key.revisionB == null || (formatter == null && isImage(mimeType)))) {
       throw new ResourceNotFoundException();
     }
   }
