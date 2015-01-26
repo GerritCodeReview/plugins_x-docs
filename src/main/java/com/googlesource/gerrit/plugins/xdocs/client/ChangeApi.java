@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.xdocs.client;
 
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.plugin.client.rpc.RestApi;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
