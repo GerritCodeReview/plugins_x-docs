@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b727b91_54ff0cbc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/xdocs/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-26T10:21:53Z",
+      "side": 1,
+      "message": "This is now in the wrong ordering.",
+      "range": {
+        "startLine": 25,
+        "startChar": 36,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "8c69562616d2864c8412926e18436d1dc7451e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
