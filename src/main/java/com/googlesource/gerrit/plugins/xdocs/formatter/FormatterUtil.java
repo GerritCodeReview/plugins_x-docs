@@ -274,10 +274,10 @@ public class FormatterUtil {
       return html;
     }
 
-    int p = html.lastIndexOf("</head>");
+    int p = html.lastIndexOf("<body>");
     if (p > 0) {
       StringBuilder b = new StringBuilder();
-      b.append(html.substring(0, p));
+      b.append(html.substring(0, p + 6));
       if (css1 != null) {
         b.append("<style type=\"text/css\">\n");
         b.append(css1);
