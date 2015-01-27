@@ -14,7 +14,6 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
-import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.inject.Inject;
@@ -25,14 +24,14 @@ import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvi
 public class UnifiedDiffPreviewWebLink implements DiffWebLink {
   private static final String UNIFIED_PREVIEW_DIFF = "unified preview diff";
 
-  private final String pluginName;
+  private final PreviewDiffUrl previewDiffUrl;
   private final Formatters formatters;
 
   @Inject
   UnifiedDiffPreviewWebLink(
-      @PluginName String pluginName,
+      PreviewDiffUrl previewDiffUrl,
       Formatters formatters) {
-    this.pluginName = pluginName;
+    this.previewDiffUrl = previewDiffUrl;
     this.formatters = formatters;
   }
 
@@ -46,14 +45,8 @@ public class UnifiedDiffPreviewWebLink implements DiffWebLink {
     }
 
     return DiffWebLinkInfo.forUnifiedDiffView(UNIFIED_PREVIEW_DIFF,
-        "plugins/" + pluginName + "/static/unifiedDiffPreview.png",
-        getUrl(pluginName, changeId, patchSetIdA, patchSetIdB, pathB),
+        previewDiffUrl.getUnifiedIconUrl(),
+        previewDiffUrl.getUnifiedUrl(changeId, patchSetIdA, patchSetIdB, pathB),
         Target.SELF);
-  }
-
-  private static String getUrl(String pluginName, int changeId,
-      Integer patchSetIdA, int patchSetIdB, String path) {
-    return SideBySideDiffPreviewWebLink.getUrl(pluginName, changeId,
-        patchSetIdA, patchSetIdB, path) + ",unified";
   }
 }
