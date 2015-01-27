@@ -57,7 +57,7 @@ public class ImageFormatter implements StreamFormatter {
       url.append(Url.encode(revision));
     }
     url.append("/");
-    url.append(Url.encode(path));
+    url.append(path);
     return url.toString();
   }
 }

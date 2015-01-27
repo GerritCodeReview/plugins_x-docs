@@ -30,7 +30,7 @@ public class XDocScreen extends VerticalPanel {
     public void onLoad(Screen screen) {
       String projectName = URL.decode(screen.getToken(1));
       String revision = URL.decode(screen.getToken(2));
-      String path = URL.decode(screen.getToken(3));
+      String path = screen.getToken(3);
       screen.show(new XDocScreen(projectName, revision, path));
       screen.setWindowTitle(FileInfo.getFileName(path));
     }

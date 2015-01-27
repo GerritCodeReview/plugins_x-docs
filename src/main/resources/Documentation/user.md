@@ -41,8 +41,7 @@ side-by-side diff view and it is opened in a new tab.
 
 The URL scheme of the plugin allows to access the HTML of all project
 documentation files in the project from any revision (branch or
-commit). The project name, the revision and the file name must be URL
-encoded.
+commit). The project name and the revision must be URL encoded.
 
 ```
   /@PLUGIN@/project/<project>/rev/<revision>/<file>
@@ -51,7 +50,7 @@ encoded.
 E.g.:
 
 ```
-  /@PLUGIN@/project/dev%2Ftools%2Fcode-checks/rev/stable-1.3/docs%2Ffaq.md
+  /@PLUGIN@/project/dev%2Ftools%2Fcode-checks/rev/stable-1.3/docs/faq.md
 ```
 
 A project documentation file can contain links to other project

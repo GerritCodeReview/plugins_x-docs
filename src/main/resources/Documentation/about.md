@@ -2,15 +2,15 @@ This plugin serves project documentation as HTML pages.
 
 If projects contain documentation, e.g. as Markdown files, the plugin
 automatically serves the generated HTML under
-`/@PLUGIN@/project/<project-name>/<file-name>`. The project name and
-the file name must be URL encoded.
+`/@PLUGIN@/project/<project-name>/<file-name>`. The project name must
+be URL encoded.
 
 The file is served from the branch/commit to which `HEAD` points unless
 a revision is specified in the URL as
 `/@PLUGIN@/project/<project-name>/rev/<rev>/<file-name>`.
 
 ```
-  /@PLUGIN@/project/external%2Fopenssl/rev/stable-1.3/docs%2Ffaq.md
+  /@PLUGIN@/project/external%2Fopenssl/rev/stable-1.3/docs/faq.md
 ```
 
 `rev` can be any ref or commit that is visible to the calling user.
@@ -22,7 +22,7 @@ By setting the URL parameter `raw` the document will be returned as raw
 unformatted text.
 
 ```
-  /@PLUGIN@/project/external%2Fopenssl/rev/stable-1.3/docs%2Ffaq.md?raw
+  /@PLUGIN@/project/external%2Fopenssl/rev/stable-1.3/docs/faq.md?raw
 ```
 
 The `raw` parameter cannot be used for binary files.
