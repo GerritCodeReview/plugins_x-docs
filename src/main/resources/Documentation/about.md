@@ -69,7 +69,7 @@ The plugin includes several formatters for rendering documentation.
   <tr>
     <td><tt>DocxFormatter</tt></td>
     <td><tt>DOCX</tt></td>
-    <td>Formatter for <tt>.docx</tt>, <tt>.pptx</tt> and <tt>.xlsx</tt> files.</td>
+    <td>Formatter for <tt>.docx</tt> files.</td>
     <td><a href="../../../Documentation/licenses.html#Apache2_0">Apache2.0</a><br/></td>
     <td>
       <a href="http://www.docx4java.org/trac/docx4j">http://www.docx4java.org/trac/docx4j</a></br>
