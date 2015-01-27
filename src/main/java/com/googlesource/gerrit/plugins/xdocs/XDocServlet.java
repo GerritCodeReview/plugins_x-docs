@@ -127,8 +127,6 @@ public class XDocServlet extends HttpServlet {
       mimeType = new MimeType(FileContentUtil.resolveContentType(
           state, key.file, FileMode.FILE, mimeType.toString()));
       FormatterProvider formatter = getFormatter(req, key, mimeType);
-
-
       validateDiffMode(key, formatter, mimeType);
 
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
@@ -165,7 +163,7 @@ public class XDocServlet extends HttpServlet {
           rsc = docCache.get(formatter, key.project, key.file, revId,
               revIdB, key.diffMode);
         } else if (isImage(mimeType)) {
-          rsc = getImageResource(repo, revId, key.file);
+          rsc = getImageResource(repo, key.diffMode, revId, revIdB, key.file);
         } else {
           rsc = Resource.NOT_FOUND;
         }
@@ -189,10 +187,14 @@ public class XDocServlet extends HttpServlet {
     }
   }
 
-  private Resource getImageResource(Repository repo, ObjectId revId, String file) {
+  private Resource getImageResource(Repository repo, DiffMode diffMode,
+      ObjectId revId, ObjectId revIdB, String file) {
+    ObjectId id = diffMode == DiffMode.NO_DIFF || diffMode == DiffMode.SIDEBYSIDE_A
+        ? revId
+        : revIdB;
     RevWalk rw = new RevWalk(repo);
     try {
-      RevCommit commit = rw.parseCommit(revId);
+      RevCommit commit = rw.parseCommit(id);
       RevTree tree = commit.getTree();
       TreeWalk tw = new TreeWalk(repo);
       try {
@@ -234,8 +236,7 @@ public class XDocServlet extends HttpServlet {
   private static void validateDiffMode(ResourceKey key,
       FormatterProvider formatter, MimeType mimeType)
       throws ResourceNotFoundException {
-    if (key.diffMode != DiffMode.NO_DIFF
-        && (key.revisionB == null || (formatter == null && isImage(mimeType)))) {
+    if (key.diffMode != DiffMode.NO_DIFF && (key.revisionB == null)) {
       throw new ResourceNotFoundException();
     }
   }
@@ -258,9 +259,8 @@ public class XDocServlet extends HttpServlet {
       formatter = formatters.get(getProject(key), key.file);
     }
     if (isSafeImage(mimeType)) {
-      if (key.diffMode == DiffMode.NO_DIFF) {
-        // always return plain images when no diff is requested,
-        // use formatter on images only for diff mode
+      if (req.getParameter("formatImage") == null) {
+        // image formatting is not requested, return the plain image
         formatter = null;
       }
     } else {

@@ -37,6 +37,7 @@ public class XDocApi {
     }
     url.append("/");
     url.append(path);
+    url.append("?formatImage");
     return url.toString();
   }
 
