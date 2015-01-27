@@ -26,8 +26,8 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
   static class Factory implements Screen.EntryPoint {
     @Override
     public void onLoad(Screen screen) {
-      String change = URL.decode(screen.getToken(1));
-      String patchSet = URL.decode(screen.getToken(2));
+      String change = URL.decodeQueryString(screen.getToken(1));
+      String patchSet = URL.decodeQueryString(screen.getToken(2));
       String path = screen.getToken(4);
       screen.show(new XDocUnifiedDiffScreen(change, patchSet, path));
       screen.setWindowTitle(FileInfo.getFileName(path));

@@ -28,8 +28,8 @@ public class XDocScreen extends VerticalPanel {
   static class Factory implements Screen.EntryPoint {
     @Override
     public void onLoad(Screen screen) {
-      String projectName = URL.decode(screen.getToken(1));
-      String revision = URL.decode(screen.getToken(2));
+      String projectName = URL.decodeQueryString(screen.getToken(1));
+      String revision = URL.decodeQueryString(screen.getToken(2));
       String path = screen.getToken(3);
       screen.show(new XDocScreen(projectName, revision, path));
       screen.setWindowTitle(FileInfo.getFileName(path));
@@ -39,7 +39,7 @@ public class XDocScreen extends VerticalPanel {
   static class HeadFactory implements Screen.EntryPoint {
     @Override
     public void onLoad(Screen screen) {
-      String projectName = URL.decode(screen.getToken(1));
+      String projectName = URL.decodeQueryString(screen.getToken(1));
       String path = URL.decode(screen.getToken(2));
       screen.show(new XDocScreen(projectName, "HEAD", path));
       screen.setWindowTitle(FileInfo.getFileName(path));
