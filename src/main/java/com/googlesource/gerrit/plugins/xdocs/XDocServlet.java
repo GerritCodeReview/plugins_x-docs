@@ -370,7 +370,7 @@ public class XDocServlet extends HttpServlet {
       redirectUrl.append(key.revision);
       redirectUrl.append("/");
     }
-    redirectUrl.append(IdString.fromDecoded(cfg.getIndexFile()).encoded());
+    redirectUrl.append(cfg.getIndexFile());
     return redirectUrl.toString();
   }
 
@@ -406,13 +406,13 @@ public class XDocServlet extends HttpServlet {
             i = rest.indexOf('/');
             if (i != -1 && i != path.length() - 1) {
               revision = IdString.fromUrl(rest.substring(0, i)).get();
-              file = IdString.fromUrl(rest.substring(i + 1)).get();
+              file = rest.substring(i + 1);
             } else {
               revision = IdString.fromUrl(rest).get();
             }
           }
         } else {
-          file = IdString.fromUrl(rest).get();
+          file = rest;
         }
 
       } else {

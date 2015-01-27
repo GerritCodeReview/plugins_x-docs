@@ -136,7 +136,7 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
             url.append(Url.encode(revision));
           }
           url.append("/");
-          url.append(Url.encode(fileName));
+          url.append(fileName);
           return url.toString();
         } else {
           return null;

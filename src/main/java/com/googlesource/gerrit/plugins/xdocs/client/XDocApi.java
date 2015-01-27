@@ -36,7 +36,7 @@ public class XDocApi {
       url.append(URL.encodeQueryString(revision));
     }
     url.append("/");
-    url.append(URL.encodeQueryString(path));
+    url.append(path);
     return url.toString();
   }
 
