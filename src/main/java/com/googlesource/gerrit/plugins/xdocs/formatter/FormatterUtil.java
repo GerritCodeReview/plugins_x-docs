@@ -274,7 +274,7 @@ public class FormatterUtil {
       return html;
     }
 
-    int p = html.lastIndexOf("</head>");
+    int p = html.lastIndexOf("</body>");
     if (p > 0) {
       StringBuilder b = new StringBuilder();
       b.append(html.substring(0, p));
