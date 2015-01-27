@@ -126,21 +126,8 @@ public class XDocServlet extends HttpServlet {
       MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
       mimeType = new MimeType(FileContentUtil.resolveContentType(
           state, key.file, FileMode.FILE, mimeType.toString()));
-      FormatterProvider formatter = getFormatter(req, key);
-      if (isSafeImage(mimeType)) {
-        if (key.diffMode == DiffMode.NO_DIFF) {
-          // always return plain images when no diff is requested,
-          // use formatter on images only for diff mode
-          formatter = null;
-        }
-      } else {
-        if (formatter == null) {
-          throw new ResourceNotFoundException();
-        }
-      }
-      if (formatter == null && !isSafeImage(mimeType)) {
-        throw new ResourceNotFoundException();
-      }
+      FormatterProvider formatter = getFormatter(req, key, mimeType);
+
 
       validateDiffMode(key, formatter, mimeType);
 
@@ -262,13 +249,29 @@ public class XDocServlet extends HttpServlet {
     return state;
   }
 
-  private FormatterProvider getFormatter(HttpServletRequest req, ResourceKey key)
-      throws ResourceNotFoundException {
+  private FormatterProvider getFormatter(HttpServletRequest req,
+      ResourceKey key, MimeType mimeType) throws ResourceNotFoundException {
+    FormatterProvider formatter;
     if (req.getParameter("raw") != null) {
-      return formatters.getRawFormatter();
+      formatter = formatters.getRawFormatter();
     } else {
-      return formatters.get(getProject(key), key.file);
+      formatter = formatters.get(getProject(key), key.file);
     }
+    if (isSafeImage(mimeType)) {
+      if (key.diffMode == DiffMode.NO_DIFF) {
+        // always return plain images when no diff is requested,
+        // use formatter on images only for diff mode
+        formatter = null;
+      }
+    } else {
+      if (formatter == null) {
+        throw new ResourceNotFoundException();
+      }
+    }
+    if (formatter == null && !isSafeImage(mimeType)) {
+      throw new ResourceNotFoundException();
+    }
+    return formatter;
   }
 
   private boolean isSafeImage(MimeType mimeType) {
