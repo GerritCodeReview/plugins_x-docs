@@ -48,7 +48,7 @@ public class ZipFormatter implements StreamFormatter {
         .openHead()
         .closeHead()
         .openBody()
-        .openTable()
+        .openTable("xdoc-zip-table")
         .appendCellHeader("name")
         .appendCellHeader("size")
         .appendCellHeader("last modified");
