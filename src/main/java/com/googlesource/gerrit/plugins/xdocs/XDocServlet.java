@@ -140,7 +140,7 @@ public class XDocServlet extends HttpServlet {
       }
       if (formatter == null && !isSafeImage(mimeType)) {
         throw new ResourceNotFoundException();
-      } else if (isSafeImage(mimeType))
+      }
 
       validateDiffMode(key, formatter, mimeType);
 
