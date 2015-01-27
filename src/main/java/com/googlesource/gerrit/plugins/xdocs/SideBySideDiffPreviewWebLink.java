@@ -14,7 +14,6 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
-import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.inject.Inject;
@@ -25,14 +24,14 @@ import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvi
 public class SideBySideDiffPreviewWebLink implements DiffWebLink {
   private static final String SIDE_BY_SIDE_PREVIEW_DIFF = "side-by-side preview diff";
 
-  private final String pluginName;
+  private final PreviewDiffUrl previewDiffUrl;
   private final Formatters formatters;
 
   @Inject
   SideBySideDiffPreviewWebLink(
-      @PluginName String pluginName,
+      PreviewDiffUrl previewDiffUrl,
       Formatters formatters) {
-    this.pluginName = pluginName;
+    this.previewDiffUrl = previewDiffUrl;
     this.formatters = formatters;
   }
 
@@ -46,26 +45,8 @@ public class SideBySideDiffPreviewWebLink implements DiffWebLink {
     }
 
     return DiffWebLinkInfo.forSideBySideDiffView(SIDE_BY_SIDE_PREVIEW_DIFF,
-        "plugins/" + pluginName + "/static/sideBySideDiffPreview.png",
-        getUrl(pluginName, changeId, patchSetIdA, patchSetIdB, pathB),
+        previewDiffUrl.getSideBySideIconUrl(),
+        previewDiffUrl.getSideBySideUrl(changeId, patchSetIdA, patchSetIdB, pathB),
         Target.SELF);
-  }
-
-  public static String getUrl(String pluginName, int changeId,
-      Integer patchSetIdA, int patchSetIdB, String path) {
-    StringBuilder url = new StringBuilder();
-    url.append("#/x/");
-    url.append(pluginName);
-    url.append("/c/");
-    url.append(changeId);
-    url.append("/");
-    if (patchSetIdA != null) {
-      url.append(patchSetIdA);
-      url.append("..");
-    }
-    url.append(patchSetIdB);
-    url.append("/");
-    url.append(path);
-    return url.toString();
   }
 }
