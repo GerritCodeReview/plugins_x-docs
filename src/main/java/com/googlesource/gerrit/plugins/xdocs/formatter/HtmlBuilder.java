@@ -67,6 +67,10 @@ public class HtmlBuilder {
     return open("table");
   }
 
+  public HtmlBuilder openTable(String styleName) {
+    return open("table", styleName);
+  }
+
   public HtmlBuilder closeTable() {
     return close("table");
   }
@@ -97,6 +101,16 @@ public class HtmlBuilder {
 
   public HtmlBuilder open(String tag) {
     html.append("<").append(tag).append(">");
+    return this;
+  }
+
+  public HtmlBuilder open(String tag, String styleName) {
+    html.append("<")
+        .append(tag)
+        .append(" ")
+        .append("class=")
+        .append(styleName)
+        .append(">");
     return this;
   }
 
