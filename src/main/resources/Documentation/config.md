@@ -47,7 +47,7 @@ projects. Configuring any parameter for a formatter overrides the
 complete inherited/global formatter configuration.
 
 <a id="ext">
-formatter.<formatter>.ext
+formatter.\<formatter\>.ext
 :	Extension of files that should be rendered by this formatter.
 
 	If set to `*` all file extensions are handled by this formatter.
@@ -58,7 +58,7 @@ formatter.<formatter>.ext
 	for this formatter.
 
 <a id="mimeType">
-formatter.<formatter>.mimeType
+formatter.\<formatter\>.mimeType
 :	The mime type of files that should be rendered by this formatter.
 
 	Multiple mime types may be specified for a formatter.
@@ -67,7 +67,7 @@ formatter.<formatter>.mimeType
 	for this formatter.
 
 <a id="prefix">
-formatter.<formatter>.prefix
+formatter.\<formatter\>.prefix
 :	The prefix that a file must match to be handled by this formatter.
 
 	Multiple prefixes may be specified for a formatter.
@@ -76,7 +76,7 @@ formatter.<formatter>.prefix
 	for this formatter.
 
 <a id="includeToc">
-formatter.<formatter>.includeToc
+formatter.\<formatter\>.includeToc
 :	Whether a Table Of Contents should be included into each document.
 
 	Overrides the [global configuration of `includeToc`](#formatterIncludeToc)
@@ -87,7 +87,7 @@ formatter.<formatter>.includeToc
 	Default: `true`
 
 <a id="inheritCss">
-formatter.<formatter>.inheritCss
+formatter.\<formatter\>.inheritCss
 :	Whether the CSS should be inherited or overridden.
 
 	If `false` the default CSS is completely replaced by the
@@ -102,7 +102,7 @@ formatter.<formatter>.inheritCss
 	Default: `true` (CSS is inherited)
 
 <a id="cssTheme">
-formatter.<formatter>.cssTheme
+formatter.\<formatter\>.cssTheme
 :	The name of the CSS theme that should be used.
 
 	The theme name is included into the file name when loading a CSS
@@ -118,7 +118,7 @@ formatter.<formatter>.cssTheme
 	By default not set.
 
 <a id="prio">
-formatter.<formatter>.prio
+formatter.\<formatter\>.prio
 :	The priority of this formatter.
 
 	If several formatters can handle a file, the formatter with the
@@ -184,7 +184,7 @@ Supported formatters:
 * `ZIP`
 
 <a id="formatterExt">
-formatter.<formatter>.ext
+formatter.\<formatter\>.ext
 :	Extension of files that will be rendered by this formatter.
 
 	If set to `*` all file extensions are handled by this formatter.
@@ -194,7 +194,7 @@ formatter.<formatter>.ext
 	Can be overridden on [project-level](#ext).
 
 <a id="formatterMimeType">
-formatter.<formatter>.mimeType
+formatter.\<formatter\>.mimeType
 :	The mime type of files that will be rendered by this formatter.
 
 	Multiple mime types may be specified for a formatter.
@@ -202,7 +202,7 @@ formatter.<formatter>.mimeType
 	Can be overridden on [project-level](#mimeType).
 
 <a id="formatterPrefix">
-formatter.<formatter>.prefix
+formatter.\<formatter\>.prefix
 :	The prefix that a file must match to be handled by this formatter.
 
 	Multiple prefixes may be specified for a formatter.
@@ -210,7 +210,7 @@ formatter.<formatter>.prefix
 	Can be overridden on [project-level](#prefix).
 
 <a id="formatterAllowHtml">
-formatter.<formatter>.allowHtml
+formatter.\<formatter\>.allowHtml
 :	Whether inline HTML blocks and inline HTML tags are allowed for
     this formatter.
 
@@ -231,7 +231,7 @@ formatter.<formatter>.allowHtml
 	Default: `false`
 
 <a id="formatterEnabled">
-formatter.<formatter>.enabled
+formatter.\<formatter\>.enabled
 :	Whether this formatter is enabled.
 
 	When a formatter is disabled the `xdocs-x_doc_resources` cache must
@@ -242,7 +242,7 @@ formatter.<formatter>.enabled
 	Default: `true`
 
 <a id="formatterIncludeToc">
-formatter.<formatter>.includeToc
+formatter.\<formatter\>.includeToc
 :	Whether a Table Of Contents should be included into each document.
 
 	Can be overridden on [project-level](#includeToc).
@@ -252,7 +252,7 @@ formatter.<formatter>.includeToc
 	Default: `true`
 
 <a id="formatterInheritCss">
-formatter.<formatter>.inheritCss
+formatter.\<formatter\>.inheritCss
 :	Whether CSS should be inherited or overridden.
 
 	If `false` the default CSS is completely replaced by the
@@ -266,7 +266,7 @@ formatter.<formatter>.inheritCss
 	Default: `true` (CSS is inherited)
 
 <a id="formatterCssTheme">
-formatter.<formatter>.cssTheme
+formatter.\<formatter\>.cssTheme
 :	The name of the CSS theme that should be used.
 
 	The theme name is included into the file name when loading a CSS
@@ -280,7 +280,7 @@ formatter.<formatter>.cssTheme
 	By default not set.
 
 <a id="formatterPrio">
-formatter.<formatter>.prio
+formatter.\<formatter\>.prio
 :	The priority of this formatter.
 
 	If several formatters can handle a file, the formatter with the
