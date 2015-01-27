@@ -51,7 +51,7 @@ public class XDocGlobalConfig {
   static void initialize(Config cfg) {
     cfg.setString(SECTION_FORMATTER, AsciidoctorFormatter.NAME, KEY_EXT, "adoc");
     cfg.setStringList(SECTION_FORMATTER, DocxFormatter.NAME, KEY_EXT,
-        Arrays.asList("docx", "pptx", "xlsx"));
+        Arrays.asList("docx"));
     cfg.setString(SECTION_FORMATTER, ImageFormatter.NAME, KEY_MIME_TYPE,
         "image/*");
     cfg.setString(SECTION_FORMATTER, MarkdownFormatter.NAME, KEY_MIME_TYPE,
