@@ -273,7 +273,27 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     postProcess.endElement("", "diffreport", "diffreport");
     postProcess.endDocument();
 
-    return htmlDiff.toString(UTF_8.name());
+    return fixStyles(htmlDiff.toString(UTF_8.name()));
+  }
+
+  /**
+   * The daisydiff formatting may make inlined styles unparsable. Fix it:
+   * <ul>
+   *   <li>Remove span element to highlight addition/deletion inside style elements.</li>
+   *   <li>Replace '&gt;' with '>'.</li>
+   * </ul>
+   */
+  private String fixStyles(String html) {
+    Matcher m =
+        Pattern.compile("(<style[a-zA-Z -=/\"]+>\n)<[a-zA-Z -=\"]+>(.*)</[a-z]+>(\n</style>)")
+               .matcher(html);
+    StringBuffer sb = new StringBuffer();
+    while (m.find()) {
+      m.appendReplacement(sb, m.group(1) + m.group(2).replaceAll("&gt;", ">")
+          + m.group(3));
+    }
+    m.appendTail(sb);
+    return sb.toString();
   }
 
   private TextNodeComparator getComparator(String html) throws IOException,
