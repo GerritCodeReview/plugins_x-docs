@@ -172,7 +172,13 @@ public class XDocServlet extends HttpServlet {
           res.setHeader(HttpHeaders.ETAG,
               computeETag(key.project, revId, key.file, revIdB, key.diffMode));
         }
-        CacheHeaders.setCacheablePrivate(res, 7, TimeUnit.DAYS, false);
+        if (key.diffMode == DiffMode.NO_DIFF && rev == null) {
+          // file was loaded from HEAD, since HEAD is modifiable the document
+          // should only be cached for a short period
+          CacheHeaders.setCacheablePrivate(res, 15, TimeUnit.MINUTES, false);
+        } else {
+          CacheHeaders.setCacheablePrivate(res, 7, TimeUnit.DAYS, false);
+        }
         rsc.send(req, res);
         return;
       } finally {
