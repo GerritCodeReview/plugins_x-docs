@@ -7,7 +7,8 @@ be URL encoded.
 
 The file is served from the branch/commit to which `HEAD` points unless
 a revision is specified in the URL as
-`/@PLUGIN@/project/<project-name>/rev/<rev>/<file-name>`.
+`/@PLUGIN@/project/<project-name>/rev/<rev>/<file-name>`. The revision
+must be URL encoded.
 
 ```
   /@PLUGIN@/project/external%2Fopenssl/rev/stable-1.3/docs/faq.md
