@@ -219,7 +219,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     if (!isBinary) {
       raw = replaceMacros(repo, project, revId, abbrRevId, raw);
     }
-    return f.format(project.get(), path, abbrRevId, revId.getName(),
+    return f.format(project.get(), path, revId.getName(), abbrRevId,
         getFormatterConfig(formatterName), raw);
   }
 
