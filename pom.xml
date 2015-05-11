@@ -70,7 +70,7 @@ limitations under the License.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>2.6.1</version>
+        <version>2.7.0</version>
         <configuration>
           <module>com.googlesource.gerrit.plugins.xdocs.XDocs</module>
           <disableClassMetadata>true</disableClassMetadata>
@@ -122,7 +122,7 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
-      <version>2.6.1</version>
+      <version>2.7.0</version>
       <scope>provided</scope>
     </dependency>
 
