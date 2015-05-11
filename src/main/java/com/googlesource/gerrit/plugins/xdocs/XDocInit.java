@@ -44,7 +44,8 @@ public class XDocInit implements InitStep {
 
   @Override
   public void run() throws Exception {
-    File pluginConfig = new File(sitePaths.etc_dir, pluginName + ".config");
+    File pluginConfig = new File(
+        sitePaths.etc_dir.toFile(), pluginName + ".config");
     if (!pluginConfig.exists()) {
       ui.message("\n");
       ui.header("%s plugin", pluginName);
@@ -57,11 +58,14 @@ public class XDocInit implements InitStep {
           pluginConfig.getAbsolutePath());
     }
 
-    extract(new File(sitePaths.static_dir, "xdocs/css/unified.css"),
+    extract(new File(sitePaths.static_dir.toFile(),
+        "xdocs/css/unified.css").toPath(),
         XDocInit.class, "diff/unified.css");
-    extract(new File(sitePaths.static_dir, "xdocs/css/sidebyside-a.css"),
+    extract(new File(sitePaths.static_dir.toFile(),
+        "xdocs/css/sidebyside-a.css").toPath(),
         XDocInit.class, "diff/sidebyside-a.css");
-    extract(new File(sitePaths.static_dir, "xdocs/css/sidebyside-b.css"),
+    extract(new File(sitePaths.static_dir.toFile(),
+        "xdocs/css/sidebyside-b.css").toPath(),
         XDocInit.class, "diff/sidebyside-b.css");
   }
 
