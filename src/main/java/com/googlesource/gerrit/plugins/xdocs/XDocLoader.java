@@ -216,7 +216,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       Repository repo, ObjectLoader loader, Project.NameKey project,
       String path, ObjectId revId) throws IOException {
     try (InputStream raw = loader.openStream()) {
-      return ((StreamFormatter) f).format(project.get(), path, revId.getName(),
+      return f.format(project.get(), path, revId.getName(),
           getAbbrRevId(repo, revId), getFormatterConfig(formatterName), raw);
     }
   }
