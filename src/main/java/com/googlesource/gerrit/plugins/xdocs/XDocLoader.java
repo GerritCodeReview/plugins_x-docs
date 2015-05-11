@@ -322,9 +322,10 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     macros.put("PROJECT", project.get());
     macros.put("PROJECT_URL", url + "#/admin/projects/" + project.get());
     macros.put("REVISION", abbrRevId);
-    macros.put("GIT_DESCRIPTION", MoreObjects.firstNonNull(
-        (new Git(repo)).describe().setTarget(revId).call(), abbrRevId));
-
+    try (Git git = new Git(repo)) {
+      macros.put("GIT_DESCRIPTION", MoreObjects.firstNonNull(
+          git.describe().setTarget(revId).call(), abbrRevId));
+    }
 
     Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@").matcher(raw);
     StringBuffer sb = new StringBuffer();
