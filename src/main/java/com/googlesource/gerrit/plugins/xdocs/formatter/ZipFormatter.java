@@ -33,7 +33,6 @@ public class ZipFormatter implements StreamFormatter {
 
   @Inject
   ZipFormatter(
-      Formatters formatters,
       FormatterUtil formatterUtil,
       HtmlBuilder html) {
     this.util = formatterUtil;

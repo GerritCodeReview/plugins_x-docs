@@ -127,15 +127,15 @@ public class XDocServlet extends HttpServlet {
       mimeType = new MimeType(FileContentUtil.resolveContentType(
           state, key.file, FileMode.FILE, mimeType.toString()));
       FormatterProvider formatter = getFormatter(req, key, mimeType);
-      validateDiffMode(key, formatter, mimeType);
+      validateDiffMode(key);
 
       ProjectControl projectControl = projectControlFactory.validateFor(key.project);
-      String rev = getRevision(cfg,
+      String rev = getRevision(
           key.diffMode == DiffMode.NO_DIFF
               ? MoreObjects.firstNonNull(key.revision, cfg.getIndexRef())
               : key.revision,
           projectControl);
-      String revB = getRevision(cfg, key.revisionB, projectControl);
+      String revB = getRevision(key.revisionB, projectControl);
 
       Repository repo = repoManager.openRepository(key.project);
       try {
@@ -233,8 +233,7 @@ public class XDocServlet extends HttpServlet {
     }
   }
 
-  private static void validateDiffMode(ResourceKey key,
-      FormatterProvider formatter, MimeType mimeType)
+  private static void validateDiffMode(ResourceKey key)
       throws ResourceNotFoundException {
     if (key.diffMode != DiffMode.NO_DIFF && (key.revisionB == null)) {
       throw new ResourceNotFoundException();
@@ -282,7 +281,7 @@ public class XDocServlet extends HttpServlet {
     return "image".equals(mimeType.getMediaType());
   }
 
-  private String getRevision(XDocProjectConfig cfg, String revision,
+  private String getRevision(String revision,
       ProjectControl projectControl) throws ResourceNotFoundException,
       AuthException, IOException {
     if (revision == null) {
