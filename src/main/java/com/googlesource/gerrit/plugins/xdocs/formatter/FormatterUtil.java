@@ -304,38 +304,27 @@ public class FormatterUtil {
    * @return the file content, <code>null</code> if the file doesn't exist
    */
   public String getMetaConfigFile(String projectName, String fileName) {
-    try {
-      Repository repo =
-          repoManager.openRepository(new Project.NameKey(projectName));
-      try {
-        RevWalk rw = new RevWalk(repo);
-        try {
-          ObjectId id = repo.resolve(RefNames.REFS_CONFIG);
-          if (id == null) {
+    try (Repository repo = repoManager.openRepository(
+        new Project.NameKey(projectName))) {
+      try (RevWalk rw = new RevWalk(repo)) {
+        ObjectId id = repo.resolve(RefNames.REFS_CONFIG);
+        if (id == null) {
+          return null;
+        }
+        RevCommit commit = rw.parseCommit(id);
+        RevTree tree = commit.getTree();
+        try (TreeWalk tw = new TreeWalk(repo)) {
+          tw.addTree(tree);
+          tw.setRecursive(true);
+          tw.setFilter(PathFilter.create(pluginName + "/" + fileName));
+          if (!tw.next()) {
             return null;
           }
-          RevCommit commit = rw.parseCommit(id);
-          RevTree tree = commit.getTree();
-          TreeWalk tw = new TreeWalk(repo);
-          try {
-            tw.addTree(tree);
-            tw.setRecursive(true);
-            tw.setFilter(PathFilter.create(pluginName + "/" + fileName));
-            if (!tw.next()) {
-              return null;
-            }
-            ObjectId objectId = tw.getObjectId(0);
-            ObjectLoader loader = repo.open(objectId);
-            byte[] raw = loader.getBytes(Integer.MAX_VALUE);
-            return new String(raw, UTF_8);
-          } finally {
-            tw.release();
-          }
-        } finally {
-          rw.release();
+          ObjectId objectId = tw.getObjectId(0);
+          ObjectLoader loader = repo.open(objectId);
+          byte[] raw = loader.getBytes(Integer.MAX_VALUE);
+          return new String(raw, UTF_8);
         }
-      } finally {
-        repo.close();
       }
     } catch (IOException e) {
       return null;

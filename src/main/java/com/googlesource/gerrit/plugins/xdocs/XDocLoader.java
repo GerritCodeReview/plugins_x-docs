@@ -109,38 +109,30 @@ public class XDocLoader extends CacheLoader<String, Resource> {
   @Override
   public Resource load(String strKey) throws Exception {
     XDocResourceKey key = XDocResourceKey.fromString(strKey);
-    try {
+    try (Repository repo = repoManager.openRepository(key.getProject())) {
       FormatterProvider formatter = getFormatter(key.getFormatter());
-      Repository repo = repoManager.openRepository(key.getProject());
-      try {
-        RevWalk rw = new RevWalk(repo);
-        try {
-          String html = null;
-          if (key.getRevId() != null) {
-            html = loadHtml(formatter, repo, rw, key, key.getRevId());
-          }
-
-          if (key.getDiffMode() != DiffMode.NO_DIFF) {
-            String htmlB =
-                loadHtml(formatter, repo, rw, key, checkRevId(key.getRevIdB()));
-            if (html == null && htmlB == null) {
-              throw new ResourceNotFoundException();
-            }
-            html = diffHtml(html, htmlB, key.getDiffMode());
-          } else {
-            if (html == null) {
-              throw new ResourceNotFoundException();
-            }
-          }
-
-          RevCommit commit = rw.parseCommit(
-              MoreObjects.firstNonNull(key.getRevIdB(), key.getRevId()));
-          return getAsHtmlResource(html, commit.getCommitTime());
-        } finally {
-          rw.release();
+      try (RevWalk rw = new RevWalk(repo)) {
+        String html = null;
+        if (key.getRevId() != null) {
+          html = loadHtml(formatter, repo, rw, key, key.getRevId());
         }
-      } finally {
-        repo.close();
+
+        if (key.getDiffMode() != DiffMode.NO_DIFF) {
+          String htmlB =
+              loadHtml(formatter, repo, rw, key, checkRevId(key.getRevIdB()));
+          if (html == null && htmlB == null) {
+            throw new ResourceNotFoundException();
+          }
+          html = diffHtml(html, htmlB, key.getDiffMode());
+        } else {
+          if (html == null) {
+            throw new ResourceNotFoundException();
+          }
+        }
+
+        RevCommit commit = rw.parseCommit(
+            MoreObjects.firstNonNull(key.getRevIdB(), key.getRevId()));
+        return getAsHtmlResource(html, commit.getCommitTime());
       }
     } catch (ResourceNotFoundException e) {
       return Resource.NOT_FOUND;
@@ -171,8 +163,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       ResourceNotFoundException, MethodNotAllowedException, GitAPIException {
     RevCommit commit = rw.parseCommit(revId);
     RevTree tree = commit.getTree();
-    TreeWalk tw = new TreeWalk(repo);
-    try {
+    try (TreeWalk tw = new TreeWalk(repo)) {
       tw.addTree(tree);
       tw.setRecursive(true);
       tw.setFilter(PathFilter.create(key.getResource()));
@@ -183,8 +174,6 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       ObjectLoader loader = repo.open(objectId);
       return getHtml(formatter, repo, loader, key.getProject(),
           key.getResource(), revId);
-    } finally {
-      tw.release();
     }
   }
 
@@ -314,11 +303,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
 
   private static String getAbbrRevId(Repository repo, ObjectId revId)
       throws IOException {
-    ObjectReader reader = repo.newObjectReader();
-    try {
+    try (ObjectReader reader = repo.newObjectReader()) {
       return reader.abbreviate(revId).name();
-    } finally {
-      reader.release();
     }
   }
 

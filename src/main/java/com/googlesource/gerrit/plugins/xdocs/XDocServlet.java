@@ -198,12 +198,10 @@ public class XDocServlet extends HttpServlet {
     ObjectId id = diffMode == DiffMode.NO_DIFF || diffMode == DiffMode.SIDEBYSIDE_A
         ? revId
         : revIdB;
-    RevWalk rw = new RevWalk(repo);
-    try {
+    try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(id);
       RevTree tree = commit.getTree();
-      TreeWalk tw = new TreeWalk(repo);
-      try {
+      try (TreeWalk tw = new TreeWalk(repo)) {
         tw.addTree(tree);
         tw.setRecursive(true);
         tw.setFilter(PathFilter.create(file));
@@ -222,13 +220,9 @@ public class XDocServlet extends HttpServlet {
             .setContentType(mimeType.toString())
             .setCharacterEncoding(UTF_8.name())
             .setLastModified(commit.getCommitTime());
-      } finally {
-        tw.release();
       }
     } catch (IOException e) {
       return Resource.NOT_FOUND;
-    } finally {
-      rw.release();
     }
   }
 
@@ -329,14 +323,11 @@ public class XDocServlet extends HttpServlet {
   private void validateCanReadCommit(Repository repo,
       ProjectControl projectControl, ObjectId revId)
       throws ResourceNotFoundException, IOException {
-    RevWalk rw = new RevWalk(repo);
-    try {
+    try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revId);
       if (!projectControl.canReadCommit(db.get(), rw, commit)) {
         throw new ResourceNotFoundException();
       }
-    } finally {
-      rw.release();
     }
   }
 
