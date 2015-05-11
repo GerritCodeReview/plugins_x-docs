@@ -129,6 +129,7 @@ public class HtmlBuilder {
     return this;
   }
 
+  @Override
   public String toString() {
     return html.toString();
   }

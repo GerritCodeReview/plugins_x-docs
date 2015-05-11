@@ -46,6 +46,7 @@ public class XDocApi {
     RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
     try {
       builder.sendRequest(null, new RequestCallback() {
+        @Override
         public void onResponseReceived(Request request, Response response) {
           int status = response.getStatusCode();
           if (200 <= status && status < 300) {
@@ -56,6 +57,7 @@ public class XDocApi {
           }
         }
 
+        @Override
         public void onError(Request request, Throwable caught) {
           callback.onFailure(caught);
         }
