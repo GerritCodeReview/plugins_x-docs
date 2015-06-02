@@ -17,7 +17,6 @@ gerrit_plugin(
   resources = glob(['src/main/**/*']),
   gwt_module = MODULE,
   manifest_entries = [
-    'Gerrit-PluginName: xdocs',
     'Gerrit-ApiType: plugin',
     'Gerrit-ApiVersion: 2.12-SNAPSHOT',
     'Gerrit-HttpModule: com.googlesource.gerrit.plugins.xdocs.HttpModule',
