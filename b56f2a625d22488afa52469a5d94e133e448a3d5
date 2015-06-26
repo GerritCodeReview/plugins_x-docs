@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3927912_ddc8eb9a",
+        "filename": "lib/docx4j/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-06-26T21:17:28Z",
+      "side": 1,
+      "message": "Line 5 is not strictly necessary, as gerrit core already\nprovides a slf4j license. Gerrit core\u0027s variant matches\nthis plugin\u0027s local variant (when ignoring whitespace and\nyear changes).\n\nHowever, since this plugin provides the license in a separate\nfile, I figured this plugin\u0027s variant of it should get used,\nhence defined the license.",
+      "revId": "b56f2a625d22488afa52469a5d94e133e448a3d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3927912_fdc5a77f",
+        "filename": "lib/docx4j/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2015-06-26T21:17:28Z",
+      "side": 1,
+      "message": "See comment on line 5.",
+      "revId": "b56f2a625d22488afa52469a5d94e133e448a3d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
