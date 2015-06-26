@@ -1,5 +1,7 @@
 include_defs('//bucklets/maven_jar.bucklet')
 
+define_license('jruby')
+
 java_library(
   name = 'asciidoc_lib',
   exported_deps = [
