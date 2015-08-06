@@ -6,10 +6,12 @@ if STANDALONE_MODE:
   ASCIIDOCTOR = '//lib/asciidoctor:asciidoc_lib'
   DAISYDIFF = '//lib/daisydiff:daisydiff_lib'
   DOCX4J = '//lib/docx4j:docx4j_lib'
+  COMMONS_IO = '//lib/commons:io'
 else:
   ASCIIDOCTOR = '//plugins/x-docs/lib/asciidoctor:asciidoc_lib'
   DAISYDIFF = '//plugins/x-docs/lib/daisydiff:daisydiff_lib'
   DOCX4J = '//plugins/x-docs/lib/docx4j:docx4j_lib'
+  COMMONS_IO = '//plugins/x-docs/lib/commons:io'
 
 gerrit_plugin(
   name = 'x-docs',
@@ -26,6 +28,7 @@ gerrit_plugin(
     ASCIIDOCTOR,
     DAISYDIFF,
     DOCX4J,
+    COMMONS_IO,
   ],
 )
 
