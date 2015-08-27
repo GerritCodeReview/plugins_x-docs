@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.client.GerritTopMenu;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
@@ -25,7 +26,6 @@ import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.inject.Inject;
 
 import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidoctorFormatter;
