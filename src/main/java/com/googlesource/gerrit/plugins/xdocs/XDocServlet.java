@@ -137,8 +137,7 @@ public class XDocServlet extends HttpServlet {
           projectControl);
       String revB = getRevision(key.revisionB, projectControl);
 
-      Repository repo = repoManager.openRepository(key.project);
-      try {
+      try (Repository repo = repoManager.openRepository(key.project)) {
         ObjectId revId =
             resolveRevision(repo,
                 key.diffMode == DiffMode.NO_DIFF
@@ -181,8 +180,6 @@ public class XDocServlet extends HttpServlet {
         }
         rsc.send(req, res);
         return;
-      } finally {
-        repo.close();
       }
     } catch (RepositoryNotFoundException | NoSuchProjectException
         | ResourceNotFoundException | AuthException | RevisionSyntaxException e) {

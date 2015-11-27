@@ -113,36 +113,31 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
     }
 
     Project.NameKey p = new Project.NameKey(projectName);
-    try {
-      Repository repo = repoManager.openRepository(p);
-      try {
-        ObjectId revId = repo.resolve(revision);
-        if (revId == null) {
-          return null;
-        }
-        Resource rsc = docCache.get(formatter, p, fileName, revId, null, null);
-        if (rsc != Resource.NOT_FOUND) {
-          StringBuilder url = new StringBuilder();
-          if (framed) {
-            url.append("#/x/");
-          } else {
-            url.append("plugins/");
-          }
-          url.append(pluginName);
-          url.append(XDocServlet.PATH_PREFIX);
-          url.append(Url.encode(projectName));
-          if (revision != null && !Constants.HEAD.equals(revision)) {
-            url.append("/rev/");
-            url.append(Url.encode(revision));
-          }
-          url.append("/");
-          url.append(fileName);
-          return url.toString();
+    try (Repository repo = repoManager.openRepository(p)) {
+      ObjectId revId = repo.resolve(revision);
+      if (revId == null) {
+        return null;
+      }
+      Resource rsc = docCache.get(formatter, p, fileName, revId, null, null);
+      if (rsc != Resource.NOT_FOUND) {
+        StringBuilder url = new StringBuilder();
+        if (framed) {
+          url.append("#/x/");
         } else {
-          return null;
+          url.append("plugins/");
         }
-      } finally {
-        repo.close();
+        url.append(pluginName);
+        url.append(XDocServlet.PATH_PREFIX);
+        url.append(Url.encode(projectName));
+        if (revision != null && !Constants.HEAD.equals(revision)) {
+          url.append("/rev/");
+          url.append(Url.encode(revision));
+        }
+        url.append("/");
+        url.append(fileName);
+        return url.toString();
+      } else {
+        return null;
       }
     } catch (IOException e) {
       log.error("Failed to check for project documentation", e);
