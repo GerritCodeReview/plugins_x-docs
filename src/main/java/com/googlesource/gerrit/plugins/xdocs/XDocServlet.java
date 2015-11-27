@@ -24,6 +24,7 @@ import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -76,6 +77,7 @@ public class XDocServlet extends HttpServlet {
 
   public  static final String PATH_PREFIX = "/project/";
 
+  private final String pluginName;
   private final Provider<ReviewDb> db;
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
@@ -88,6 +90,7 @@ public class XDocServlet extends HttpServlet {
 
   @Inject
   XDocServlet(
+      @PluginName String pluginName,
       Provider<ReviewDb> db,
       ProjectControl.Factory projectControlFactory,
       ProjectCache projectCache,
@@ -97,6 +100,7 @@ public class XDocServlet extends HttpServlet {
       FileTypeRegistry fileTypeRegistry,
       XDocProjectConfig.Factory cfgFactory,
       Formatters formatters) {
+    this.pluginName = pluginName;
     this.db = db;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
@@ -114,7 +118,7 @@ public class XDocServlet extends HttpServlet {
     try {
       validateRequestMethod(req);
 
-      ResourceKey key = ResourceKey.fromPath(req.getPathInfo());
+      ResourceKey key = ResourceKey.fromPath(getPath(req));
       ProjectState state = getProject(key);
       XDocProjectConfig cfg = cfgFactory.create(state);
 
@@ -191,6 +195,15 @@ public class XDocServlet extends HttpServlet {
       CacheHeaders.setNotCacheable(res);
       res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
     }
+  }
+
+  private String getPath(HttpServletRequest req) {
+    String path = req.getRequestURI();
+    String prefix = "/plugins/" + pluginName;
+    if (path.startsWith(prefix)) {
+      path = path.substring(prefix.length());
+    }
+    return path;
   }
 
   private Resource getImageResource(Repository repo, DiffMode diffMode,
