@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.client.GerritTopMenu;
+import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
