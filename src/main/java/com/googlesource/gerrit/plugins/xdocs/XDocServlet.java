@@ -196,10 +196,8 @@ public class XDocServlet extends HttpServlet {
 
   private String getEncodedPath(HttpServletRequest req) {
     String path = req.getRequestURI();
-    String prefix = "/plugins/" + pluginName;
-    if (path.startsWith(prefix)) {
-      path = path.substring(prefix.length());
-    }
+    String prefix = req.getContextPath();
+    path = path.substring(prefix.length());
     return path;
   }
 
