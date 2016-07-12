@@ -334,7 +334,7 @@ public class XDocServlet extends HttpServlet {
       throws ResourceNotFoundException, IOException {
     try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revId);
-      if (!projectControl.canReadCommit(db.get(), rw, commit)) {
+      if (!projectControl.canReadCommit(db.get(), repo, commit)) {
         throw new ResourceNotFoundException();
       }
     }
