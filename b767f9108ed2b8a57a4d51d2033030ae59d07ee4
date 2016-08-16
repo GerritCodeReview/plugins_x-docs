@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b5ad369_9ae16dc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1015513
+      },
+      "writtenOn": "2016-08-16T12:15:00Z",
+      "side": 1,
+      "message": "Could you please add the details here *why*? What does it break for you?",
+      "revId": "b767f9108ed2b8a57a4d51d2033030ae59d07ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
