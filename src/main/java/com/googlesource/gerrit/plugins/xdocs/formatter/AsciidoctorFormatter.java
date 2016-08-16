@@ -75,9 +75,8 @@ public class AsciidoctorFormatter implements StringFormatter {
         formatters.getFormatterConfig(NAME, projectName);
     // asciidoctor ignores all attributes if no output file is specified,
     // this is why we must specify an output file and then read its content
-    File tmpDir = new File(baseDir, "tmp");
-    tmpDir.mkdirs();
-    File tmpFile = File.createTempFile("asciidoctor-", null, tmpDir);
+    File tmpFile =
+        new File(baseDir, "tmp/asciidoctor-" + TimeUtil.nowTs().getNanos() + ".tmp");
     try {
       Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
           .render(raw, createOptions(projectCfg, abbrRev, tmpFile));
