@@ -16,10 +16,7 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_ALLOW_HTML;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INCLUDE_TOC;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.io.ByteStreams;
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -27,16 +24,12 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 
 import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.Attributes;
 import org.asciidoctor.AttributesBuilder;
-import org.asciidoctor.Options;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -73,25 +66,9 @@ public class AsciidoctorFormatter implements StringFormatter {
 
     ConfigSection projectCfg =
         formatters.getFormatterConfig(NAME, projectName);
-    // asciidoctor ignores all attributes if no output file is specified,
-    // this is why we must specify an output file and then read its content
-    File tmpDir = new File(baseDir, "tmp");
-    tmpDir.mkdirs();
-    File tmpFile = File.createTempFile("asciidoctor-", null, tmpDir);
-    try {
-      Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
-          .render(raw, createOptions(projectCfg, abbrRev, tmpFile));
-      try (FileInputStream input = new FileInputStream(tmpFile)) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ByteStreams.copy(input, out);
-        String html = out.toString(UTF_8.name());
-        return util.applyCss(html, NAME, projectName);
-      }
-    } finally {
-      if (!tmpFile.delete()) {
-        tmpFile.deleteOnExit();
-      }
-    }
+    String html = Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
+        .convert(raw, createOptions(projectCfg, abbrRev));
+    return util.applyCss(html, NAME, projectName);
   }
 
   private String suppressHtml(String raw) throws IOException {
@@ -112,19 +89,17 @@ public class AsciidoctorFormatter implements StringFormatter {
     }
   }
 
-  private Options createOptions(ConfigSection cfg, String revision, File out) {
+  private OptionsBuilder createOptions(ConfigSection cfg, String revision) {
     return OptionsBuilder.options()
         .backend(BACKEND)
         .docType(DOCTYPE)
         .eruby(ERUBY)
         .safe(SafeMode.SECURE)
         .attributes(getAttributes(cfg, revision))
-        .mkDirs(true)
-        .toFile(out)
-        .get();
+        .mkDirs(true);
   }
 
-  private Attributes getAttributes(ConfigSection cfg, String revision) {
+  private AttributesBuilder getAttributes(ConfigSection cfg, String revision) {
     AttributesBuilder ab = AttributesBuilder.attributes()
         .tableOfContents(cfg.getBoolean(KEY_INCLUDE_TOC, true))
         .sourceHighlighter("prettify");
@@ -133,7 +108,7 @@ public class AsciidoctorFormatter implements StringFormatter {
     }
     ab.attribute("last-update-label!");
     ab.attribute("revnumber", revision);
-    return ab.get();
+    return ab;
   }
 
   private static Properties readAttributes() throws IOException {
