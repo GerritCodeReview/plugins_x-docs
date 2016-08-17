@@ -29,14 +29,12 @@ public class MarkdownFormatterTest {
   private static final String PROLOG = "<html><head><style type=\"text/css\">\n\n</style></head><body>\n<p>";
   private static final String EPILOG = "</p>\n</body></html>";
 
-  private FormatterUtil util;
   private ConfigSection cfg;
-  private Formatters formatters;
   private MarkdownFormatter formatter;
 
   @Before
   public void setUp() throws IOException {
-    util = createNiceMock(FormatterUtil.class);
+    FormatterUtil util = createNiceMock(FormatterUtil.class);
 
     // For easier result comparison, avoid the internal MarkdownFormatter to apply the default CSS.
     expect(util.getInheritedCss(anyString(), anyString(), anyString(), anyString())).andReturn("");
@@ -48,7 +46,7 @@ public class MarkdownFormatterTest {
     // Do not expect any behavior from the ConfigSection itself.
     replay(cfg);
 
-    formatters = createNiceMock(Formatters.class);
+    Formatters formatters = createNiceMock(Formatters.class);
 
     // Avoid a NPE by just returning the ConfigSection mock object.
     expect(formatters.getFormatterConfig(anyString(), anyString())).andReturn(cfg);
