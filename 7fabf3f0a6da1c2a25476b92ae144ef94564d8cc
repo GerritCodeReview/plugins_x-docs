@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb1b23b6_46f0b291",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/x-docs/MarkdownFormatterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-17T14:00:12Z",
+      "side": 1,
+      "message": "The licence header is still missing in this file.",
+      "revId": "7fabf3f0a6da1c2a25476b92ae144ef94564d8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
