@@ -13,16 +13,16 @@ java_library(
 
 maven_jar(
   name = 'asciidoctor',
-  id = 'org.asciidoctor:asciidoctorj:1.5.1',
-  sha1 = 'f31c95e557ee185c935fd3764e83b01c81a3b41f',
+  id = 'org.asciidoctor:asciidoctorj:1.5.4.1',
+  sha1 = 'f7ddfb2bbed2f8da3f9ad0d1a5514f04b4274a5a',
   license = 'Apache2.0',
   attach_source = False,
 )
 
 maven_jar(
   name = 'jruby',
-  id = 'org.jruby:jruby-complete:1.7.16',
-  sha1 = '8ef6c848cc5491c5f22ddad4532c68fe778421f6',
+  id = 'org.jruby:jruby-complete:1.7.25',
+  sha1 = '8eb234259ec88edc05eedab05655f458a84bfcab',
   license = 'jruby',
   local_license = True,
   attach_source = False,
