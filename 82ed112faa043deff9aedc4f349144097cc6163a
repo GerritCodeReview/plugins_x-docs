@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb1b23b6_26f13699",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/x-docs/MarkdownFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-17T13:53:23Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "82ed112faa043deff9aedc4f349144097cc6163a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
