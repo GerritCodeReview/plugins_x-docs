@@ -38,3 +38,12 @@ java_library(
   deps = [':x-docs__plugin'],
 )
 
+java_test(
+  name = 'x-docs_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  labels = ['xdocs'],
+  source_under_test = [':x-docs__plugin'],
+  deps = GERRIT_PLUGIN_API + GERRIT_TESTS + [
+    ':x-docs__plugin',
+  ],
+)
