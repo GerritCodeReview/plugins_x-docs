@@ -60,6 +60,6 @@ public class MarkdownFormatterTest {
   public void basicTextFormattingWorks() throws IOException {
     String raw = "*italic* **bold** `monospace`";
     String formatted = PROLOG + "<em>italic</em> <strong>bold</strong> <code>monospace</code>" + EPILOG;
-    assertEquals(formatter.format(null, null, null, null, cfg, raw), formatted);
+    assertEquals(formatted, formatter.format(null, null, null, null, cfg, raw));
   }
 }
