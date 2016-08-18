@@ -21,13 +21,14 @@ import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 
 import java.io.IOException;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 public class MarkdownFormatterTest {
 
-  private static final String PROLOG = "<html><head><style type=\"text/css\">\n\n</style></head><body>\n<p>";
-  private static final String EPILOG = "</p>\n</body></html>";
+  private static final String PROLOG = "<html><head><style type=\"text/css\">\n\n</style></head><body>\n";
+  private static final String EPILOG = "\n</body></html>";
 
   private ConfigSection cfg;
   private MarkdownFormatter formatter;
@@ -57,9 +58,14 @@ public class MarkdownFormatterTest {
   }
 
   @Test
+  public void emptyInputRendersNothing() throws IOException {
+    assertEquals(PROLOG + EPILOG, formatter.format(null, null, null, null, cfg, StringUtils.EMPTY));
+  }
+
+  @Test
   public void basicTextFormattingWorks() throws IOException {
     String raw = "*italic* **bold** `monospace`";
-    String formatted = PROLOG + "<em>italic</em> <strong>bold</strong> <code>monospace</code>" + EPILOG;
+    String formatted = PROLOG + "<p><em>italic</em> <strong>bold</strong> <code>monospace</code></p>" + EPILOG;
     assertEquals(formatted, formatter.format(null, null, null, null, cfg, raw));
   }
 }
