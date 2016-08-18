@@ -68,6 +68,6 @@ public class AsciidoctorFormatterTest {
   public void basicTextFormattingWorks() throws IOException {
     String raw = "_italic_ *bold* `monospace`";
     String formatted = "<em>italic</em> <strong>bold</strong> <code>monospace</code>";
-    assertEquals(StringUtils.countMatches(formatter.format(null, null, null, null, cfg, raw), formatted), 1);
+    assertEquals(1, StringUtils.countMatches(formatter.format(null, null, null, null, cfg, raw), formatted));
   }
 }
