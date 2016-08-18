@@ -25,17 +25,12 @@ import java.io.IOException;
 import org.apache.commons.lang.StringUtils;
 import org.easymock.IAnswer;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
 public class AsciidoctorFormatterTest {
 
   private ConfigSection cfg;
   private AsciidoctorFormatter formatter;
-
-  @Rule
-  public TemporaryFolder tmp = new TemporaryFolder();
 
   @Before
   public void setUp() throws IOException {
@@ -66,7 +61,7 @@ public class AsciidoctorFormatterTest {
 
     replay(formatters);
 
-    formatter = new AsciidoctorFormatter(tmp.newFolder(), util, formatters);
+    formatter = new AsciidoctorFormatter(util, formatters);
   }
 
   @Test
