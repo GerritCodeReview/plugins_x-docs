@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68c1271d_09d5c9eb",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/x-docs/MarkdownFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-08-19T07:54:58Z",
+      "side": 1,
+      "message": "Wrong order, expected value should come first.",
+      "range": {
+        "startLine": 62,
+        "startChar": 17,
+        "endLine": 62,
+        "endChar": 97
+      },
+      "revId": "9bca6f234ae815b217d7b0c6fb8c5820bd9dce34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
