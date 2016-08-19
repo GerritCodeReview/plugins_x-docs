@@ -1,5 +1,6 @@
 include_defs('//bucklets/maven_jar.bucklet')
 
+define_license('asciidoctor')
 define_license('jruby')
 
 java_library(
@@ -15,7 +16,7 @@ maven_jar(
   name = 'asciidoctor',
   id = 'org.asciidoctor:asciidoctorj:1.5.4.1',
   sha1 = 'f7ddfb2bbed2f8da3f9ad0d1a5514f04b4274a5a',
-  license = 'Apache2.0',
+  license = 'asciidoctor',
   attach_source = False,
 )
 
