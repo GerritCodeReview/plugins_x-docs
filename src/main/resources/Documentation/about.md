@@ -59,7 +59,7 @@ The plugin includes several formatters for rendering documentation.
       <a href="http://www.methods.co.nz/asciidoc/userguide.html">Aciidoc</a>
     </td>
     <td>
-      asciidoctorj: <a href="../../../Documentation/licenses.html#Apache2_0">Apache2.0</a><br/>
+      asciidoctorj: <a href="licenses.html#MIT-asciidoctor">MIT License</a><br/>
       jruby: <a href="licenses.html#EPL1_0">Eclipse Public License 1.0</a>
     </td>
     <td>
