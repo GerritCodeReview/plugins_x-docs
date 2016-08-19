@@ -75,4 +75,19 @@ public class AsciidoctorFormatterTest {
     String formatted = "<div class=\"paragraph\">\n<p><em>italic</em> <strong>bold</strong> <code>monospace</code></p>\n</div>";
     assertEquals(formatted, formatter.format(null, null, null, null, cfg, raw));
   }
+
+  @Test
+  public void documentTitleIsNotRenderedAsPartOfSections() throws IOException {
+    String raw = "= Document Title (Level 0)\n\n== Level 1 Section Title\n\n=== Level 2 Section Title";
+    String formatted =
+      "<div class=\"sect1\">\n" +
+      "<h2 id=\"_level_1_section_title\">Level 1 Section Title</h2>\n" +
+      "<div class=\"sectionbody\">\n" +
+      "<div class=\"sect2\">\n" +
+      "<h3 id=\"_level_2_section_title\">Level 2 Section Title</h3>\n\n" +
+      "</div>\n" +
+      "</div>\n" +
+      "</div>";
+    assertEquals(formatted, formatter.format(null, null, null, null, cfg, raw));
+  }
 }
