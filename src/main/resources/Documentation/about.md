@@ -29,7 +29,7 @@ unformatted text.
 The `raw` parameter cannot be used for binary files.
 
 *WARNING:* By default inline HTML blocks as well as inline HTML tags
-may be [suppressed](config.html#formatterAllowHtml) by formatters. If
+may be [suppressed](config.md#formatterAllowHtml) by formatters. If
 suppressed both will be accepted in the input but not be contained in
 the output.
 
@@ -59,8 +59,8 @@ The plugin includes several formatters for rendering documentation.
       <a href="http://www.methods.co.nz/asciidoc/userguide.html">Aciidoc</a>
     </td>
     <td>
-      asciidoctorj: <a href="licenses.html#MIT-asciidoctor">MIT License</a><br/>
-      jruby: <a href="licenses.html#EPL1_0">Eclipse Public License 1.0</a>
+      asciidoctorj: <a href="licenses.md#MIT-asciidoctor">MIT License</a><br/>
+      jruby: <a href="licenses.md#EPL1_0">Eclipse Public License 1.0</a>
     </td>
     <td>
       <a href="http://asciidoctor.org/docs/asciidoctorj/">http://asciidoctor.org/docs/asciidoctorj/</a></br>

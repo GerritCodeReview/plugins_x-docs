@@ -8,7 +8,7 @@ documentation can be written in different syntaxes, e.g. as
 
 By default the entry point to the project documentation is a
 `README.md` file in the root directory of a project. Another index file
-may be [configured](config.html#webIndexFile).
+may be [configured](config.md#webIndexFile).
 
 If a project contains the index file in its root directory then a link
 to the project documentation is displayed for it in the
@@ -70,7 +70,7 @@ configured on the Gerrit server as a
 ```
 
 By default inline HTML blocks as well as inline HTML tags may be
-[suppressed](config.html#formatterAllowHtml) by formatters. If
+[suppressed](config.md#formatterAllowHtml) by formatters. If
 suppressed both will be accepted in the input but not be contained in
 the output.
 
@@ -85,7 +85,7 @@ automatically replaced when the HTML pages are generated.
   from which the documentation is shown, or the abbreviated ID of the
   revision if no names are found.
 
-The plugin provides several [formatters](about.html#formatters) for
+The plugin provides several [formatters](about.md#formatters) for
 different project documentation syntaxes. The formatters can be
-[configured](config.html#projectConfig) on project level and for some
-formatters the CSS can be [customized](config.html#projectCss).
+[configured](config.md#projectConfig) on project level and for some
+formatters the CSS can be [customized](config.md#projectCss).
