@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2912ffcf_dc847a42",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T20:23:01Z",
+      "side": 1,
+      "message": "In gerrit we use: 3.5.2. se we get again collision. We cannot mix different versions. remove, and use one from gerrit with never link.",
+      "range": {
+        "startLine": 6,
+        "startChar": 32,
+        "endLine": 6,
+        "endChar": 35
+      },
+      "revId": "09754a3ee1a0249010a3691ddf68b5065ce115d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcdd6665_406837a0",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T20:23:01Z",
+      "side": 1,
+      "message": "this char is not allowed in this context. And we do have this in gerrit core, right?",
+      "range": {
+        "startLine": 15,
+        "startChar": 17,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "09754a3ee1a0249010a3691ddf68b5065ce115d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22eb05b0_b21ea487",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T20:23:01Z",
+      "side": 1,
+      "message": "Here and below, no \u0027-\u0027, only \u0027_\u0027 here.",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 42,
+        "endChar": 19
+      },
+      "revId": "09754a3ee1a0249010a3691ddf68b5065ce115d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7c8b99_164cc301",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T20:23:01Z",
+      "side": 1,
+      "message": "exists in gerrit core.",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 3
+      },
+      "revId": "09754a3ee1a0249010a3691ddf68b5065ce115d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4366b3f_b7551dc1",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T20:23:01Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 3
+      },
+      "revId": "09754a3ee1a0249010a3691ddf68b5065ce115d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81806ced_be6ce857",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T20:23:01Z",
+      "side": 1,
+      "message": "same here: \"commons-lang:commons-lang:2.6\".",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 3
+      },
+      "revId": "09754a3ee1a0249010a3691ddf68b5065ce115d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79297c8c_b97d11c3",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T20:23:01Z",
+      "side": 1,
+      "message": "in core we use 20.0, remove.",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 3
+      },
+      "revId": "09754a3ee1a0249010a3691ddf68b5065ce115d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e90677ee_1be5ba42",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T20:23:01Z",
+      "side": 1,
+      "message": "use from core.",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 119,
+        "endChar": 3
+      },
+      "revId": "09754a3ee1a0249010a3691ddf68b5065ce115d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f11ab925_2eb0d6f3",
+        "filename": "lib/antlr/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T20:23:01Z",
+      "side": 1,
+      "message": "Why do we need all these wrappers? Just use direct from external package.",
+      "revId": "09754a3ee1a0249010a3691ddf68b5065ce115d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
