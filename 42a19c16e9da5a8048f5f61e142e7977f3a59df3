@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "476f9bc3_d26f83b8",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-13T23:33:55Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9126b0fd_c353bba3",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 26
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dc4cf6b_7ffb0cca",
         "filename": "BUILD",
         "patchSetId": 8
@@ -153,6 +177,30 @@
       "writtenOn": "2017-02-13T06:36:51Z",
       "side": 1,
       "message": "\"-\" cannot be used in this context. Do tests work?",
+      "range": {
+        "startLine": 64,
+        "startChar": 12,
+        "endLine": 64,
+        "endChar": 14
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "033d1b26_ba7d0565",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-13T23:33:55Z",
+      "side": 1,
+      "message": "Woops, thanks, done.",
+      "parentUuid": "1dc4cf6b_7ffb0cca",
       "range": {
         "startLine": 64,
         "startChar": 12,
