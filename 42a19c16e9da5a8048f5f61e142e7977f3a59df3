@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "08d04e67_871cb3ac",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-13T23:33:31Z",
+      "side": 1,
+      "message": "I tryed that but it failed with neverlinks not allowed in runtime_deps",
+      "parentUuid": "7992d069_3523e084",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "788fafb5_d460bbde",
         "filename": "BUILD",
         "patchSetId": 8
@@ -59,6 +83,30 @@
       "writtenOn": "2017-02-13T06:36:51Z",
       "side": 1,
       "message": "\"@log_api//jar:neverlink\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 7,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0199621_114f2337",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-13T23:33:31Z",
+      "side": 1,
+      "message": "Same reason as above.",
+      "parentUuid": "788fafb5_d460bbde",
       "range": {
         "startLine": 38,
         "startChar": 7,
