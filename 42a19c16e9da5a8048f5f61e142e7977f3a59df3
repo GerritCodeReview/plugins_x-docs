@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6fcbd91_84a7009a",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-13T06:36:51Z",
+      "side": 1,
+      "message": "This lib is not sorted.",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 12
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7992d069_3523e084",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-13T06:36:51Z",
+      "side": 1,
+      "message": "\"@org_antlr//jar:neverlink\"",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "788fafb5_d460bbde",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-13T06:36:51Z",
+      "side": 1,
+      "message": "\"@log_api//jar:neverlink\"",
+      "range": {
+        "startLine": 38,
+        "startChar": 7,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9126b0fd_c353bba3",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-13T06:36:51Z",
+      "side": 1,
+      "message": "Why add the all as singel deps? Borrow the approach from Buck build and new maven_jar() rule feature to supply deps directly to external package:\n\n  java_library(\n    name \u003d \u0027xmlgraphics_lib\u0027,\n    exported_deps \u003d [\n      \u0027:batik-anim\u0027,\n      \u0027:batik-awt-util\u0027,\n      \u0027:batik-bridge\u0027,\n      \u0027:batik-css\u0027,\n      \u0027:batik-dom\u0027,\n      \u0027:batik-ext\u0027,\n      \u0027:batik-extension\u0027,\n      \u0027:batik-gvt\u0027,\n      \u0027:batik-js\u0027,\n      \u0027:batik-parser\u0027,\n      \u0027:batik-script\u0027,\n      \u0027:batik-svg-dom\u0027,\n      \u0027:batik-svggen\u0027,\n      \u0027:batik-transcoder\u0027,\n      \u0027:batik-util\u0027,\n      \u0027:batik-xml\u0027,\n      \u0027:fop\u0027,\n      \u0027:xmlgraphics-commons\u0027,\n    ],\n    visibility \u003d [\u0027PUBLIC\u0027],\n  )",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 26
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dc4cf6b_7ffb0cca",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-13T06:36:51Z",
+      "side": 1,
+      "message": "\"-\" cannot be used in this context. Do tests work?",
+      "range": {
+        "startLine": 64,
+        "startChar": 12,
+        "endLine": 64,
+        "endChar": 14
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
