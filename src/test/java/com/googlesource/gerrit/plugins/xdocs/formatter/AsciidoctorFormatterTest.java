@@ -37,7 +37,7 @@ public class AsciidoctorFormatterTest {
     FormatterUtil util = createNiceMock(FormatterUtil.class);
 
     // To simplify things, make applyCss() a no-op and return the HTML code as-is.
-    expect(util.applyCss(anyString(), anyString(), anyString())).andAnswer(
+    expect(util.applyCss(anyObject(), anyObject(), anyObject())).andAnswer(
       new IAnswer<String>() {
         @Override
         public String answer() throws Throwable {
@@ -57,7 +57,7 @@ public class AsciidoctorFormatterTest {
     Formatters formatters = createNiceMock(Formatters.class);
 
     // Avoid a NPE by just returning the ConfigSection mock object.
-    expect(formatters.getFormatterConfig(anyString(), anyString())).andReturn(cfg);
+    expect(formatters.getFormatterConfig((String) anyObject(), (String) anyObject())).andReturn(cfg);
 
     replay(formatters);
 

@@ -38,7 +38,7 @@ public class MarkdownFormatterTest {
     FormatterUtil util = createNiceMock(FormatterUtil.class);
 
     // For easier result comparison, avoid the internal MarkdownFormatter to apply the default CSS.
-    expect(util.getInheritedCss(anyString(), anyString(), anyString(), anyString())).andReturn("");
+    expect(util.getInheritedCss(anyObject(), anyObject(), anyObject(), anyObject())).andReturn("");
 
     replay(util);
 
@@ -50,7 +50,7 @@ public class MarkdownFormatterTest {
     Formatters formatters = createNiceMock(Formatters.class);
 
     // Avoid a NPE by just returning the ConfigSection mock object.
-    expect(formatters.getFormatterConfig(anyString(), anyString())).andReturn(cfg);
+    expect(formatters.getFormatterConfig((String) anyObject(), (String) anyObject())).andReturn(cfg);
 
     replay(formatters);
 
