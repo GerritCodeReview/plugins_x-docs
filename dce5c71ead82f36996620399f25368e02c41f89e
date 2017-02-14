@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f40a73b_2a5026c0",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/xdocs/formatter/AsciidoctorFormatterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-14T01:26:08Z",
+      "side": 1,
+      "message": "need to cast this to String\n\ndone in the PS that I will push.",
+      "range": {
+        "startLine": 60,
+        "startChar": 41,
+        "endLine": 60,
+        "endChar": 50
+      },
+      "revId": "dce5c71ead82f36996620399f25368e02c41f89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
