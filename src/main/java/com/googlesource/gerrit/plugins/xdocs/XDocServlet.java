@@ -36,6 +36,10 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.CommitsCollection;
 import com.google.gerrit.server.project.GetHead;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -87,6 +91,8 @@ public class XDocServlet extends HttpServlet {
   private final FileTypeRegistry fileTypeRegistry;
   private final XDocProjectConfig.Factory cfgFactory;
   private final Formatters formatters;
+  private final CommitsCollection commits;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   XDocServlet(
@@ -99,7 +105,9 @@ public class XDocServlet extends HttpServlet {
       XDocCache cache,
       FileTypeRegistry fileTypeRegistry,
       XDocProjectConfig.Factory cfgFactory,
-      Formatters formatters) {
+      Formatters formatters,
+      CommitsCollection commits,
+      PermissionBackend permissionBackend) {
     this.pluginName = pluginName;
     this.db = db;
     this.projectControlFactory = projectControlFactory;
@@ -110,6 +118,8 @@ public class XDocServlet extends HttpServlet {
     this.fileTypeRegistry = fileTypeRegistry;
     this.cfgFactory = cfgFactory;
     this.formatters = formatters;
+    this.commits = commits;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -127,13 +137,13 @@ public class XDocServlet extends HttpServlet {
         return;
       }
 
-      MimeType mimeType = fileTypeRegistry.getMimeType(key.file, null);
+      MimeType mimeType = fileTypeRegistry.getMimeType(key.file, (byte[])null);
       mimeType = new MimeType(FileContentUtil.resolveContentType(
           state, key.file, FileMode.FILE, mimeType.toString()));
       FormatterProvider formatter = getFormatter(req, key, mimeType);
       validateDiffMode(key);
 
-      ProjectControl projectControl = projectControlFactory.validateFor(key.project);
+      ProjectControl projectControl = projectControlFactory.controlFor(key.project);
       String rev = getRevision(
           key.diffMode == DiffMode.NO_DIFF
               ? MoreObjects.firstNonNull(key.revision, cfg.getIndexRef())
@@ -191,6 +201,8 @@ public class XDocServlet extends HttpServlet {
     } catch (MethodNotAllowedException e) {
       CacheHeaders.setNotCacheable(res);
       res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+    } catch (PermissionBackendException e) {
+      //
     }
   }
 
@@ -293,7 +305,7 @@ public class XDocServlet extends HttpServlet {
 
   private String getRevision(String revision,
       ProjectControl projectControl) throws ResourceNotFoundException,
-      AuthException, IOException {
+      AuthException, IOException, PermissionBackendException {
     if (revision == null) {
       return null;
     }
@@ -309,7 +321,14 @@ public class XDocServlet extends HttpServlet {
       if (!rev.startsWith(Constants.R_REFS)) {
         rev = Constants.R_HEADS + rev;
       }
-      if (!projectControl.controlForRef(rev).isVisible()) {
+      try {
+        permissionBackend
+            .user(projectControl.getUser())
+            .project(projectControl.getProject().getNameKey())
+            .ref(rev)
+            .check(RefPermission.READ);
+      } catch (AuthException e) {
+        // Don't leak the project's existence
         throw new ResourceNotFoundException();
       }
       return rev;
@@ -334,7 +353,8 @@ public class XDocServlet extends HttpServlet {
       throws ResourceNotFoundException, IOException {
     try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revId);
-      if (!projectControl.canReadCommit(db.get(), repo, commit)) {
+      ProjectState state = projectControl.getProjectState();
+      if (!commits.canRead(state, repo, commit)) {
         throw new ResourceNotFoundException();
       }
     }

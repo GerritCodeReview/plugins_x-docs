@@ -84,7 +84,7 @@ public class Formatters {
   public FormatterProvider get(ProjectState project, String fileName) {
     XDocGlobalConfig globalCfg = new XDocGlobalConfig(
         pluginCfgFactory.getGlobalPluginConfig(pluginName));
-    MimeType mimeType = fileTypeRegistry.getMimeType(fileName, null);
+    MimeType mimeType = fileTypeRegistry.getMimeType(fileName, (byte[])null);
     mimeType = new MimeType(FileContentUtil.resolveContentType(
         project, fileName, FileMode.FILE, mimeType.toString()));
     String extension = FilenameUtils.getExtension(fileName);
