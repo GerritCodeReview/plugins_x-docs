@@ -24,6 +24,14 @@ def external_plugin_deps():
   )
 
   maven_jar(
+    name = 'eclipse_runtime',
+    artifact = 'org.eclipse.core:runtime:20070801',
+    sha1 = '474e99ed838d5721569d658b68025134f920278f',
+    repository = 'https://maven.atlassian.com/content/repositories/atlassian-3rdparty',
+    attach_source = False,
+  )
+
+  maven_jar(
     name = 'docx4j',
     artifact = 'org.docx4j:docx4j:3.2.1',
     sha1 = '35b2ef9f7eb12efe9708b986ecf6e86cfd77a162',

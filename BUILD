@@ -31,6 +31,7 @@ gerrit_plugin(
         "@commons_io//jar",
         "@daisydiff//jar",
         "@docx4j//jar",
+        "@eclipse_runtime//jar",
         "@jaxb_svg11//jar",
         "@jaxb_xmldsig_core//jar",
         "@jaxb_xslfo//jar",
