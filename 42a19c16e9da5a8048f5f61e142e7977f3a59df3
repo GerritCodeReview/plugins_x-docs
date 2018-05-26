@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b4ff857f_c966b1fb",
+        "filename": "BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-26T04:58:49Z",
+      "side": 1,
+      "message": "Well, the correct fix would be to use provided_deps, here and for other artifacts from gerrit core. Fixed in: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/plugins/x-docs/+/181051",
+      "parentUuid": "08d04e67_871cb3ac",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "42a19c16e9da5a8048f5f61e142e7977f3a59df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "788fafb5_d460bbde",
         "filename": "BUILD",
         "patchSetId": 8
