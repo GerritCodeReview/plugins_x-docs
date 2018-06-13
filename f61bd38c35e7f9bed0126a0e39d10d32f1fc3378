@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3df1da3e_fcb729d3",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-13T11:21:43Z",
+      "side": 1,
+      "message": "While you on it, change the plugins own libs and external repositories to consistently use hyphen char?",
+      "range": {
+        "startLine": 29,
+        "startChar": 10,
+        "endLine": 29,
+        "endChar": 25
+      },
+      "revId": "f61bd38c35e7f9bed0126a0e39d10d32f1fc3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
