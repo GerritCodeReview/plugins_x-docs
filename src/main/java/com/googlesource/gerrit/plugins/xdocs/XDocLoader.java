@@ -252,6 +252,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       case UNIFIED:
         htmlHeader += "unified.xsl";
         break;
+      case NO_DIFF:
       default:
         log.error(String.format("Unsupported diff mode: %s", diffMode.name()));
         throw new ResourceNotFoundException();
