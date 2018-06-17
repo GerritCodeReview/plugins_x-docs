@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mime.FileTypeRegistry;
@@ -77,7 +76,6 @@ public class XDocServlet extends HttpServlet {
   public static final String PATH_PREFIX = "/project/";
 
   private final String pluginName;
-  private final Provider<ReviewDb> db;
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
   private final Provider<GetHead> getHead;
@@ -92,7 +90,6 @@ public class XDocServlet extends HttpServlet {
   @Inject
   XDocServlet(
       @PluginName String pluginName,
-      Provider<ReviewDb> db,
       ProjectControl.Factory projectControlFactory,
       ProjectCache projectCache,
       Provider<GetHead> getHead,
@@ -104,7 +101,6 @@ public class XDocServlet extends HttpServlet {
       CommitsCollection commits,
       PermissionBackend permissionBackend) {
     this.pluginName = pluginName;
-    this.db = db;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.getHead = getHead;
