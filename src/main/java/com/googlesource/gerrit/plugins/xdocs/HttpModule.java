@@ -22,10 +22,8 @@ import com.google.inject.servlet.ServletModule;
 class HttpModule extends ServletModule {
   @Override
   protected void configureServlets() {
-    serveRegex("^" + XDocServlet.PATH_PREFIX + "(.+)?$")
-        .with(XDocServlet.class);
+    serveRegex("^" + XDocServlet.PATH_PREFIX + "(.+)?$").with(XDocServlet.class);
 
-    DynamicSet.bind(binder(), WebUiPlugin.class)
-        .toInstance(new GwtPlugin("xdocs"));
+    DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(new GwtPlugin("xdocs"));
   }
 }

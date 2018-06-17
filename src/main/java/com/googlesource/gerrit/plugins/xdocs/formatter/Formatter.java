@@ -17,5 +17,4 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
 @ExtensionPoint
-public interface Formatter {
-}
+public interface Formatter {}

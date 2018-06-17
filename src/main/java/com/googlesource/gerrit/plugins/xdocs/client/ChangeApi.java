@@ -17,16 +17,13 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.plugin.client.rpc.RestApi;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.EditInfo;
-
 import java.util.EnumSet;
 
 public class ChangeApi {
   public static void getChangeInfo(String id, AsyncCallback<ChangeInfo> callback) {
     RestApi call = ChangeApi.detail(id);
-    addOptions(call, EnumSet.of(
-      ListChangesOption.ALL_REVISIONS));
+    addOptions(call, EnumSet.of(ListChangesOption.ALL_REVISIONS));
     call.get(callback);
   }
 

@@ -17,37 +17,37 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-
 import java.util.Collections;
 import java.util.Comparator;
 
 public class FileInfo extends JavaScriptObject {
   public static final String COMMIT_MSG = "/COMMIT_MSG";
+
   public final native String path() /*-{ return this.path; }-*/;
+
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
 
   public static void sortFileInfoByPath(JsArray<FileInfo> list) {
-    Collections.sort(Natives.asList(list), new Comparator<FileInfo>() {
-      @Override
-      public int compare(FileInfo a, FileInfo b) {
-        if (COMMIT_MSG.equals(a.path())) {
-          return -1;
-        } else if (COMMIT_MSG.equals(b.path())) {
-          return 1;
-        }
-        return a.path().compareTo(b.path());
-      }
-    });
+    Collections.sort(
+        Natives.asList(list),
+        new Comparator<FileInfo>() {
+          @Override
+          public int compare(FileInfo a, FileInfo b) {
+            if (COMMIT_MSG.equals(a.path())) {
+              return -1;
+            } else if (COMMIT_MSG.equals(b.path())) {
+              return 1;
+            }
+            return a.path().compareTo(b.path());
+          }
+        });
   }
 
   public static String getFileName(String path) {
-    String fileName = COMMIT_MSG.equals(path)
-        ? "Commit Message"
-        : path;
+    String fileName = COMMIT_MSG.equals(path) ? "Commit Message" : path;
     int s = fileName.lastIndexOf('/');
     return s >= 0 ? fileName.substring(s + 1) : fileName;
   }
 
-  protected FileInfo() {
-  }
+  protected FileInfo() {}
 }
