@@ -308,23 +308,22 @@ public class XDocServlet extends HttpServlet {
 
     if (Constants.HEAD.equals(revision)) {
       return getHead.get().apply(new ProjectResource(projectControl));
-    } else {
-      String rev = revision;
-      if (!rev.startsWith(Constants.R_REFS)) {
-        rev = Constants.R_HEADS + rev;
-      }
-      try {
-        permissionBackend
-            .user(projectControl.getUser())
-            .project(projectControl.getProject().getNameKey())
-            .ref(rev)
-            .check(RefPermission.READ);
-      } catch (AuthException e) {
-        // Don't leak the project's existence
-        throw new ResourceNotFoundException();
-      }
-      return rev;
     }
+    String rev = revision;
+    if (!rev.startsWith(Constants.R_REFS)) {
+      rev = Constants.R_HEADS + rev;
+    }
+    try {
+      permissionBackend
+          .user(projectControl.getUser())
+          .project(projectControl.getProject().getNameKey())
+          .ref(rev)
+          .check(RefPermission.READ);
+    } catch (AuthException e) {
+      // Don't leak the project's existence
+      throw new ResourceNotFoundException();
+    }
+    return rev;
   }
 
   private static ObjectId resolveRevision(Repository repo, String revision)

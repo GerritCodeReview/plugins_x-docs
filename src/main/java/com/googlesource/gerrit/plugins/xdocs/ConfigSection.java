@@ -44,9 +44,8 @@ public class ConfigSection {
   public String getString(String name, String defaultValue) {
     if (defaultValue == null) {
       return cfg.getString(section, subsection, name);
-    } else {
-      return MoreObjects.firstNonNull(cfg.getString(section, subsection, name), defaultValue);
     }
+    return MoreObjects.firstNonNull(cfg.getString(section, subsection, name), defaultValue);
   }
 
   public String[] getStringList(String name) {

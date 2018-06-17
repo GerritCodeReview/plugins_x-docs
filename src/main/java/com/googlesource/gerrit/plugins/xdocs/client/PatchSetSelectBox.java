@@ -162,9 +162,8 @@ public class PatchSetSelectBox extends FlowPanel {
 
     if (change.has_edit()) {
       return patchSet == 0;
-    } else {
-      return patchSet == change.revision(change.current_revision())._number();
     }
+    return patchSet == change.revision(change.current_revision())._number();
   }
 
   private Anchor createEditIcon() {

@@ -123,9 +123,8 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
         url.append("/");
         url.append(fileName);
         return url.toString();
-      } else {
-        return null;
       }
+      return null;
     } catch (IOException e) {
       log.error("Failed to check for project documentation", e);
       return null;
