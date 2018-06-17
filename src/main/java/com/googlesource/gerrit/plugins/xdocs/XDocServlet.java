@@ -361,6 +361,7 @@ public class XDocServlet extends HttpServlet {
 
   private static String computeETag(
       Project.NameKey project, ObjectId revId, String file, ObjectId revIdB, DiffMode diffMode) {
+    @SuppressWarnings("deprecation")
     Hasher hasher = Hashing.md5().newHasher();
     hasher.putUnencodedChars(project.get());
     if (revId != null) {
