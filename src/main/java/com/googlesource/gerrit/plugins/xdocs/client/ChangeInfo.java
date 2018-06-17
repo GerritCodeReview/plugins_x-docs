@@ -39,12 +39,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public final boolean isOpen() {
-    switch (getStatus()) {
-      case NEW:
-        return true;
-      default:
-        return false;
-    }
+    return getStatus() == ChangeStatus.NEW;
   }
 
   protected ChangeInfo() {
