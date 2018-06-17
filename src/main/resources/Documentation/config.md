@@ -162,7 +162,7 @@ configuration.
     ext = docx
     ext = pptx
     ext = xlsx
-  [formatte "IMAGE"]
+  [formatter "IMAGE"]
     mimeType = image/*
   [formatter "MARKDOWN"]
     mimeType = text/x-markdown
