@@ -41,7 +41,6 @@ public class ChangeInfo extends JavaScriptObject {
   public final boolean isOpen() {
     switch (getStatus()) {
       case NEW:
-      case DRAFT:
         return true;
       default:
         return false;
