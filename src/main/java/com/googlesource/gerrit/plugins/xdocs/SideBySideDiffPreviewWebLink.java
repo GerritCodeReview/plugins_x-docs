@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.xdocs;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.inject.Inject;
-
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
 
@@ -28,23 +27,28 @@ public class SideBySideDiffPreviewWebLink implements DiffWebLink {
   private final Formatters formatters;
 
   @Inject
-  SideBySideDiffPreviewWebLink(
-      PreviewDiffUrl previewDiffUrl,
-      Formatters formatters) {
+  SideBySideDiffPreviewWebLink(PreviewDiffUrl previewDiffUrl, Formatters formatters) {
     this.previewDiffUrl = previewDiffUrl;
     this.formatters = formatters;
   }
 
   @Override
-  public DiffWebLinkInfo getDiffLink(String projectName, int changeId,
-      Integer patchSetIdA, String revisionA, String pathA, int patchSetIdB,
-      String revisionB, String pathB) {
+  public DiffWebLinkInfo getDiffLink(
+      String projectName,
+      int changeId,
+      Integer patchSetIdA,
+      String revisionA,
+      String pathA,
+      int patchSetIdB,
+      String revisionB,
+      String pathB) {
     FormatterProvider formatter = formatters.get(projectName, pathB);
     if (formatter == null) {
       return null;
     }
 
-    return DiffWebLinkInfo.forSideBySideDiffView(SIDE_BY_SIDE_PREVIEW_DIFF,
+    return DiffWebLinkInfo.forSideBySideDiffView(
+        SIDE_BY_SIDE_PREVIEW_DIFF,
         previewDiffUrl.getSideBySideIconUrl(),
         previewDiffUrl.getSideBySideUrl(changeId, patchSetIdA, patchSetIdB, pathB),
         Target.SELF);

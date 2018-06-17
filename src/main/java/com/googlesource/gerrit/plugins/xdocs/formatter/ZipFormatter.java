@@ -15,15 +15,12 @@
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import com.google.inject.Inject;
-
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
-
-import org.apache.commons.io.FileUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.apache.commons.io.FileUtils;
 
 public class ZipFormatter implements StreamFormatter {
   public static final String NAME = "ZIP";
@@ -32,16 +29,19 @@ public class ZipFormatter implements StreamFormatter {
   private final HtmlBuilder html;
 
   @Inject
-  ZipFormatter(
-      FormatterUtil formatterUtil,
-      HtmlBuilder html) {
+  ZipFormatter(FormatterUtil formatterUtil, HtmlBuilder html) {
     this.util = formatterUtil;
     this.html = html;
   }
 
   @Override
-  public String format(String projectName, String path, String revision,
-      String abbrRev, ConfigSection globalCfg, InputStream raw)
+  public String format(
+      String projectName,
+      String path,
+      String revision,
+      String abbrRev,
+      ConfigSection globalCfg,
+      InputStream raw)
       throws IOException {
     html.startDocument()
         .openHead()
@@ -52,9 +52,8 @@ public class ZipFormatter implements StreamFormatter {
         .appendCellHeader("size")
         .appendCellHeader("last modified");
     try (ZipInputStream zip = new ZipInputStream(raw)) {
-      for (ZipEntry entry; (entry = zip.getNextEntry()) != null;) {
-        html.openRow()
-            .appendCell(entry.getName());
+      for (ZipEntry entry; (entry = zip.getNextEntry()) != null; ) {
+        html.openRow().appendCell(entry.getName());
         if (!entry.isDirectory()) {
           if (entry.getSize() != -1) {
             html.appendCell(FileUtils.byteCountToDisplaySize(entry.getSize()));
@@ -64,13 +63,10 @@ public class ZipFormatter implements StreamFormatter {
         } else {
           html.appendCell();
         }
-        html.appendDateCell(entry.getTime())
-            .closeRow();
+        html.appendDateCell(entry.getTime()).closeRow();
       }
     }
-    html.closeTable()
-        .closeBody()
-        .endDocument();
+    html.closeTable().closeBody().endDocument();
 
     return util.applyCss(html.toString(), NAME, projectName);
   }

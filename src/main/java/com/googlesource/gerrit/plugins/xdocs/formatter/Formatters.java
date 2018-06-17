@@ -26,26 +26,22 @@ import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 import com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig;
-
 import eu.medsea.mimeutil.MimeType;
-
+import java.util.Map.Entry;
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map.Entry;
 
 @Singleton
 public class Formatters {
@@ -82,19 +78,19 @@ public class Formatters {
   }
 
   public FormatterProvider get(ProjectState project, String fileName) {
-    XDocGlobalConfig globalCfg = new XDocGlobalConfig(
-        pluginCfgFactory.getGlobalPluginConfig(pluginName));
+    XDocGlobalConfig globalCfg =
+        new XDocGlobalConfig(pluginCfgFactory.getGlobalPluginConfig(pluginName));
     MimeType mimeType = fileTypeRegistry.getMimeType(fileName, null);
-    mimeType = new MimeType(FileContentUtil.resolveContentType(
-        project, fileName, FileMode.FILE, mimeType.toString()));
+    mimeType =
+        new MimeType(
+            FileContentUtil.resolveContentType(
+                project, fileName, FileMode.FILE, mimeType.toString()));
     String extension = FilenameUtils.getExtension(fileName);
     FormatterProvider formatter = null;
     int formatterPrio = 0;
     for (String pluginName : formatters.plugins()) {
-      for (Entry<String, Provider<Formatter>> e :
-          formatters.byPlugin(pluginName).entrySet()) {
-        if (!globalCfg.getFormatterConfig(e.getKey())
-            .getBoolean(KEY_ENABLED, true)) {
+      for (Entry<String, Provider<Formatter>> e : formatters.byPlugin(pluginName).entrySet()) {
+        if (!globalCfg.getFormatterConfig(e.getKey()).getBoolean(KEY_ENABLED, true)) {
           continue;
         }
         ConfigSection formatterCfg = getFormatterConfig(e.getKey(), project);
@@ -123,8 +119,7 @@ public class Formatters {
             }
           }
         }
-        for (String ext :
-          formatterCfg.getStringList(KEY_EXT)) {
+        for (String ext : formatterCfg.getStringList(KEY_EXT)) {
           if (extension.equals(ext) || "*".equals(ext)) {
             int prio = formatterCfg.getInt(KEY_PRIO, 0);
             if (formatter == null || prio > formatterPrio) {
@@ -138,8 +133,7 @@ public class Formatters {
     return formatter;
   }
 
-  public ConfigSection getFormatterConfig(String formatterName,
-      String projectName) {
+  public ConfigSection getFormatterConfig(String formatterName, String projectName) {
     ProjectState project = projectCache.get(new Project.NameKey(projectName));
     if (project == null) {
       return null;
@@ -147,8 +141,7 @@ public class Formatters {
     return getFormatterConfig(formatterName, project);
   }
 
-  public ConfigSection getFormatterConfig(String formatterName,
-      ProjectState project) {
+  public ConfigSection getFormatterConfig(String formatterName, ProjectState project) {
     for (ProjectState p : project.tree()) {
       Config cfg = pluginCfgFactory.getProjectPluginConfig(p, pluginName);
       if (cfg.getSubsections(SECTION_FORMATTER).contains(formatterName)) {
@@ -156,8 +149,7 @@ public class Formatters {
       }
     }
 
-    return new XDocGlobalConfig(
-        pluginCfgFactory.getGlobalPluginConfig(pluginName))
+    return new XDocGlobalConfig(pluginCfgFactory.getGlobalPluginConfig(pluginName))
         .getFormatterConfig(formatterName);
   }
 
@@ -167,8 +159,7 @@ public class Formatters {
     }
 
     for (String pluginName : formatters.plugins()) {
-      for (Entry<String, Provider<Formatter>> e :
-          formatters.byPlugin(pluginName).entrySet()) {
+      for (Entry<String, Provider<Formatter>> e : formatters.byPlugin(pluginName).entrySet()) {
         if (formatterName.equals(e.getKey())) {
           return new FormatterProvider(formatterName, e.getValue());
         }
@@ -185,19 +176,22 @@ public class Formatters {
     XDocGlobalConfig globalCfg =
         new XDocGlobalConfig(pluginCfgFactory.getGlobalPluginConfig(pluginName));
     String formatterName =
-        globalCfg.getFormatterConfig(RAW_FORMATTER)
+        globalCfg
+            .getFormatterConfig(RAW_FORMATTER)
             .getString(KEY_FORMATTER, PlainTextFormatter.NAME);
     if (formatterName.equals(RAW_FORMATTER)) {
-      log.warn(String.format(
-          "%s plugin: Invalid '%s' formatter configuration, '%s' formatter cannot be set to '%s', using '%s' formatter",
-          pluginName, RAW_FORMATTER, RAW_FORMATTER, formatterName, PlainTextFormatter.NAME));
+      log.warn(
+          String.format(
+              "%s plugin: Invalid '%s' formatter configuration, '%s' formatter cannot be set to '%s', using '%s' formatter",
+              pluginName, RAW_FORMATTER, RAW_FORMATTER, formatterName, PlainTextFormatter.NAME));
       formatterName = PlainTextFormatter.NAME;
     }
     FormatterProvider formatter = getByName(formatterName);
     if (formatter == null) {
-      log.warn(String.format(
-          "%s plugin: Invalid '%s' formatter configuration, formatter '%s' not found, using '%s' formatter",
-          pluginName, RAW_FORMATTER, formatterName, PlainTextFormatter.NAME));
+      log.warn(
+          String.format(
+              "%s plugin: Invalid '%s' formatter configuration, formatter '%s' not found, using '%s' formatter",
+              pluginName, RAW_FORMATTER, formatterName, PlainTextFormatter.NAME));
       formatter = getByName(PlainTextFormatter.NAME);
     }
     return new FormatterProvider(RAW_FORMATTER, formatter.formatter);

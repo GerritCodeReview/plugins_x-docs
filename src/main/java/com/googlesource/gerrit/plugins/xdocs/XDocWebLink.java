@@ -27,22 +27,18 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 @Singleton
 public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
-  private static final Logger log = LoggerFactory
-      .getLogger(XDocWebLink.class);
+  private static final Logger log = LoggerFactory.getLogger(XDocWebLink.class);
 
   private static final String README = "readme";
   private static final String PREVIEW = "preview";
@@ -73,26 +69,19 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
   @Override
   public WebLinkInfo getBranchWebLink(String projectName, String branchName) {
     String url = getBranchUrl(projectName, branchName);
-    return url == null
-        ? null
-        : new WebLinkInfo(README, getImageUrl(), url, Target.SELF);
+    return url == null ? null : new WebLinkInfo(README, getImageUrl(), url, Target.SELF);
   }
 
   @Override
   public WebLinkInfo getProjectWeblink(String projectName) {
     String url = getBranchUrl(projectName, Constants.HEAD);
-    return url == null
-        ? null
-        : new WebLinkInfo(README, getImageUrl(), url, Target.SELF);
+    return url == null ? null : new WebLinkInfo(README, getImageUrl(), url, Target.SELF);
   }
 
   @Override
-  public WebLinkInfo getFileWebLink(String projectName, String revision,
-      String fileName) {
+  public WebLinkInfo getFileWebLink(String projectName, String revision, String fileName) {
     String url = getFileUrl(projectName, revision, fileName, false);
-    return url == null
-        ? null
-        : new WebLinkInfo(PREVIEW, getImageUrl(), url, Target.BLANK);
+    return url == null ? null : new WebLinkInfo(PREVIEW, getImageUrl(), url, Target.BLANK);
   }
 
   private String getBranchUrl(String projectName, String branchName) {
@@ -101,12 +90,10 @@ public class XDocWebLink implements ProjectWebLink, BranchWebLink, FileWebLink {
       // project not found -> no link
       return null;
     }
-    return getFileUrl(projectName, branchName,
-        cfgFactory.create(state).getIndexFile(), true);
+    return getFileUrl(projectName, branchName, cfgFactory.create(state).getIndexFile(), true);
   }
 
-  public String getFileUrl(String projectName, String revision,
-      String fileName, boolean framed) {
+  public String getFileUrl(String projectName, String revision, String fileName, boolean framed) {
     FormatterProvider formatter = formatters.get(projectName, fileName);
     if (formatter == null) {
       return null;

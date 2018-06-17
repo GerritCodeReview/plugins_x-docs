@@ -30,10 +30,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.EditInfo;
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.RevisionInfo;
-
 import java.util.List;
 
 public abstract class XDocDiffScreen extends VerticalPanel {
@@ -52,70 +50,79 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     this.changeId = changeId;
     this.path = path;
 
-    ChangeApi.getChangeInfo(changeId, new AsyncCallback<ChangeInfo>() {
+    ChangeApi.getChangeInfo(
+        changeId,
+        new AsyncCallback<ChangeInfo>() {
 
-      @Override
-      public void onSuccess(final ChangeInfo change) {
-        change.revisions().copyKeysIntoChildren("name");
-        if (Plugin.get().isSignedIn()) {
-          ChangeApi.edit(change._number(), new AsyncCallback<EditInfo>() {
-            @Override
-            public void onSuccess(EditInfo edit) {
-              if (edit != null) {
-                change.set_edit(edit);
-                change.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
-              }
+          @Override
+          public void onSuccess(final ChangeInfo change) {
+            change.revisions().copyKeysIntoChildren("name");
+            if (Plugin.get().isSignedIn()) {
+              ChangeApi.edit(
+                  change._number(),
+                  new AsyncCallback<EditInfo>() {
+                    @Override
+                    public void onSuccess(EditInfo edit) {
+                      if (edit != null) {
+                        change.set_edit(edit);
+                        change.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
+                      }
+                      initRevisionsAndShow(change);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                      // never invoked
+                    }
+                  });
+            } else {
               initRevisionsAndShow(change);
             }
+          }
 
-            @Override
-            public void onFailure(Throwable caught) {
-              // never invoked
-            }
-          });
-        } else {
-          initRevisionsAndShow(change);
-        }
-      }
-
-      private void initRevisionsAndShow(final ChangeInfo change) {
-        parseRevisions(change, patchSet);
-        if (revisionA == null) {
-          ProjectApi.getCommitInfo(change.project(), change.current_revision(),
-              new AsyncCallback<CommitInfo>() {
-                @Override
-                public void onSuccess(CommitInfo commit) {
-                  if (commit.parents() != null) {
-                    List<CommitInfo> parents = Natives.asList(commit.parents());
-                    if (!parents.isEmpty()) {
-                      revisionA = parents.get(0).commit();
+          private void initRevisionsAndShow(final ChangeInfo change) {
+            parseRevisions(change, patchSet);
+            if (revisionA == null) {
+              ProjectApi.getCommitInfo(
+                  change.project(),
+                  change.current_revision(),
+                  new AsyncCallback<CommitInfo>() {
+                    @Override
+                    public void onSuccess(CommitInfo commit) {
+                      if (commit.parents() != null) {
+                        List<CommitInfo> parents = Natives.asList(commit.parents());
+                        if (!parents.isEmpty()) {
+                          revisionA = parents.get(0).commit();
+                        }
+                      }
+                      show(change);
                     }
-                  }
-                  show(change);
-                }
 
-                @Override
-                public void onFailure(Throwable caught) {
-                  // never invoked
-                }
-              });
-        } else {
-          show(change);
-        }
-      }
+                    @Override
+                    public void onFailure(Throwable caught) {
+                      // never invoked
+                    }
+                  });
+            } else {
+              show(change);
+            }
+          }
 
-      private void show(ChangeInfo change) {
-        addHeader(change);
-        init();
-        display(change);
-      }
+          private void show(ChangeInfo change) {
+            addHeader(change);
+            init();
+            display(change);
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        showError("Unable to load change " + XDocDiffScreen.this.changeId
-            + ": " + caught.getMessage());
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            showError(
+                "Unable to load change "
+                    + XDocDiffScreen.this.changeId
+                    + ": "
+                    + caught.getMessage());
+          }
+        });
   }
 
   protected abstract void display(ChangeInfo change);
@@ -184,8 +191,7 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     add(p);
   }
 
-  protected void init() {
-  }
+  protected void init() {}
 
   private Widget getPathHeader(ChangeInfo change) {
     HorizontalPanel p = new HorizontalPanel();
@@ -209,71 +215,71 @@ public abstract class XDocDiffScreen extends VerticalPanel {
   }
 
   private void addNavigationButtons(final ChangeInfo change) {
-    DiffApi.list(changeId, patchSet, base,
+    DiffApi.list(
+        changeId,
+        patchSet,
+        base,
         new AsyncCallback<NativeMap<FileInfo>>() {
-      @Override
-      public void onSuccess(NativeMap<FileInfo> result) {
-        JsArray<FileInfo> files = result.values();
-        FileInfo.sortFileInfoByPath(files);
-        int index = 0;
-        for (int i = 0; i < files.length(); i++) {
-          if (path.equals(files.get(i).path())) {
-            index = i;
-            break;
+          @Override
+          public void onSuccess(NativeMap<FileInfo> result) {
+            JsArray<FileInfo> files = result.values();
+            FileInfo.sortFileInfoByPath(files);
+            int index = 0;
+            for (int i = 0; i < files.length(); i++) {
+              if (path.equals(files.get(i).path())) {
+                index = i;
+                break;
+              }
+            }
+
+            FileInfo prevInfo = index == 0 ? null : files.get(index - 1);
+            if (prevInfo != null) {
+              iconPanel.add(
+                  createNavLink(XDocsPlugin.RESOURCES.goPrev(), change, patchSet, base, prevInfo));
+            }
+
+            iconPanel.add(
+                createIcon(XDocsPlugin.RESOURCES.goUp(), "Up to change", toChange(change)));
+
+            FileInfo nextInfo = index == files.length() - 1 ? null : files.get(index + 1);
+            if (nextInfo != null) {
+              iconPanel.add(
+                  createNavLink(XDocsPlugin.RESOURCES.goNext(), change, patchSet, base, nextInfo));
+            }
           }
-        }
 
-        FileInfo prevInfo = index == 0 ? null : files.get(index - 1);
-        if (prevInfo != null) {
-          iconPanel.add(createNavLink(XDocsPlugin.RESOURCES.goPrev(),
-              change, patchSet, base, prevInfo));
-        }
-
-        iconPanel.add(createIcon(XDocsPlugin.RESOURCES.goUp(),
-            "Up to change", toChange(change)));
-
-        FileInfo nextInfo = index == files.length() - 1
-            ? null
-            : files.get(index + 1);
-        if (nextInfo != null) {
-          iconPanel.add(createNavLink(XDocsPlugin.RESOURCES.goNext(),
-              change, patchSet, base, nextInfo));
-        }
-      }
-
-      @Override
-      public void onFailure(Throwable caught) {
-        showError("Unable to load files of change " + changeId + ": "
-            + caught.getMessage());
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            showError("Unable to load files of change " + changeId + ": " + caught.getMessage());
+          }
+        });
   }
 
-  private InlineHyperlink createNavLink(ImageResource res,
-      final ChangeInfo change, final int patchSet, final Integer base,
+  private InlineHyperlink createNavLink(
+      ImageResource res,
+      final ChangeInfo change,
+      final int patchSet,
+      final Integer base,
       final FileInfo file) {
-    final InlineHyperlink link = createIcon(
-        res, FileInfo.getFileName(file.path()),
-        toFile(change, patchSet, base, file));
-    XDocApi.checkHtml(XDocApi.getUrl(change.project(),
-        getRevision(change, patchSet), file.path()),
+    final InlineHyperlink link =
+        createIcon(res, FileInfo.getFileName(file.path()), toFile(change, patchSet, base, file));
+    XDocApi.checkHtml(
+        XDocApi.getUrl(change.project(), getRevision(change, patchSet), file.path()),
         new AsyncCallback<VoidResult>() {
-      @Override
-      public void onSuccess(VoidResult result) {
-        link.setTargetHistoryToken(
-            toPreview(change, patchSet, base, file));
-      }
+          @Override
+          public void onSuccess(VoidResult result) {
+            link.setTargetHistoryToken(toPreview(change, patchSet, base, file));
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {}
+        });
     return link;
   }
 
   protected static InlineHyperlink createIcon(ImageResource res, String tooltip, String target) {
-    InlineHyperlink l = new InlineHyperlink(
-        AbstractImagePrototype.create(res).getHTML(), true, target);
+    InlineHyperlink l =
+        new InlineHyperlink(AbstractImagePrototype.create(res).getHTML(), true, target);
     if (tooltip != null) {
       l.setTitle(tooltip);
     }
@@ -284,21 +290,18 @@ public abstract class XDocDiffScreen extends VerticalPanel {
     additionalIconPanel.add(icon);
   }
 
-  private String toPreview(ChangeInfo change, int patchSet,
-      Integer base, FileInfo file) {
+  private String toPreview(ChangeInfo change, int patchSet, Integer base, FileInfo file) {
     String panel = getPanel();
-    return "/x/" + Plugin.get().getName()
+    return "/x/"
+        + Plugin.get().getName()
         + toPatchSet(change, patchSet, base)
         + file.path()
         + (panel != null ? "," + panel : "");
   }
 
-  private String toFile(ChangeInfo change, int patchSet, Integer base,
-      FileInfo file) {
+  private String toFile(ChangeInfo change, int patchSet, Integer base, FileInfo file) {
     String panel = file.binary() ? "unified" : getPanel();
-    return toPatchSet(change, patchSet, base)
-        + file.path()
-        + (panel != null ? "," + panel : "");
+    return toPatchSet(change, patchSet, base) + file.path() + (panel != null ? "," + panel : "");
   }
 
   protected String getPanel() {
@@ -306,8 +309,7 @@ public abstract class XDocDiffScreen extends VerticalPanel {
   }
 
   private static String toPatchSet(ChangeInfo change, int patchSet, Integer base) {
-    return toChange(change)
-        + (base != null ? patchSet + ".." + base : patchSet) + "/";
+    return toChange(change) + (base != null ? patchSet + ".." + base : patchSet) + "/";
   }
 
   private static String toChange(ChangeInfo change) {

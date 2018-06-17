@@ -19,19 +19,16 @@ import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INCLUDE
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
-
-import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.AttributesBuilder;
-import org.asciidoctor.OptionsBuilder;
-import org.asciidoctor.SafeMode;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Properties;
+import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.AttributesBuilder;
+import org.asciidoctor.OptionsBuilder;
+import org.asciidoctor.SafeMode;
 
 @Singleton
 public class AsciidoctorFormatter implements StringFormatter {
@@ -46,25 +43,30 @@ public class AsciidoctorFormatter implements StringFormatter {
   private final Formatters formatters;
 
   @Inject
-  public AsciidoctorFormatter(
-      FormatterUtil formatterUtil,
-      Formatters formatters) throws IOException {
+  public AsciidoctorFormatter(FormatterUtil formatterUtil, Formatters formatters)
+      throws IOException {
     this.attributes = readAttributes();
     this.util = formatterUtil;
     this.formatters = formatters;
   }
 
   @Override
-  public String format(String projectName, String path, String revision,
-      String abbrRev, ConfigSection globalCfg, String raw) throws IOException {
+  public String format(
+      String projectName,
+      String path,
+      String revision,
+      String abbrRev,
+      ConfigSection globalCfg,
+      String raw)
+      throws IOException {
     if (!globalCfg.getBoolean(KEY_ALLOW_HTML, false)) {
       raw = suppressHtml(raw);
     }
 
-    ConfigSection projectCfg =
-        formatters.getFormatterConfig(NAME, projectName);
-    String html = Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
-        .convert(raw, createOptions(projectCfg, abbrRev));
+    ConfigSection projectCfg = formatters.getFormatterConfig(NAME, projectName);
+    String html =
+        Asciidoctor.Factory.create(AsciidoctorFormatter.class.getClassLoader())
+            .convert(raw, createOptions(projectCfg, abbrRev));
     return util.applyCss(html, NAME, projectName);
   }
 
@@ -97,9 +99,10 @@ public class AsciidoctorFormatter implements StringFormatter {
   }
 
   private AttributesBuilder getAttributes(ConfigSection cfg, String revision) {
-    AttributesBuilder ab = AttributesBuilder.attributes()
-        .tableOfContents(cfg.getBoolean(KEY_INCLUDE_TOC, true))
-        .sourceHighlighter("prettify");
+    AttributesBuilder ab =
+        AttributesBuilder.attributes()
+            .tableOfContents(cfg.getBoolean(KEY_INCLUDE_TOC, true))
+            .sourceHighlighter("prettify");
     for (String name : attributes.stringPropertyNames()) {
       ab.attribute(name, attributes.getProperty(name));
     }
@@ -110,8 +113,8 @@ public class AsciidoctorFormatter implements StringFormatter {
 
   private static Properties readAttributes() throws IOException {
     Properties attributes = new Properties();
-    try (InputStream in = AsciidoctorFormatter.class
-        .getResourceAsStream("asciidoctor.properties")) {
+    try (InputStream in =
+        AsciidoctorFormatter.class.getResourceAsStream("asciidoctor.properties")) {
       attributes.load(in);
     }
     return attributes;

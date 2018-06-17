@@ -24,9 +24,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
-
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
@@ -42,16 +40,29 @@ public class XDocCache {
     this.projectCache = projectCache;
   }
 
-  public Resource get(FormatterProvider formatter, Project.NameKey project,
-      String file, ObjectId revId, ObjectId revIdB, DiffMode diffMode) {
+  public Resource get(
+      FormatterProvider formatter,
+      Project.NameKey project,
+      String file,
+      ObjectId revId,
+      ObjectId revIdB,
+      DiffMode diffMode) {
     ProjectState p = projectCache.get(project);
     ObjectId metaConfigRevId =
         p != null && p.getConfig().getRevision() != null
             ? p.getConfig().getRevision()
             : ObjectId.zeroId();
-    return cache.getUnchecked((new XDocResourceKey(formatter.getName(),
-        project, file, revId, metaConfigRevId, getParentsHash(project),
-        revIdB, diffMode)).asString());
+    return cache.getUnchecked(
+        (new XDocResourceKey(
+                formatter.getName(),
+                project,
+                file,
+                revId,
+                metaConfigRevId,
+                getParentsHash(project),
+                revIdB,
+                diffMode))
+            .asString());
   }
 
   private String getParentsHash(Project.NameKey project) {

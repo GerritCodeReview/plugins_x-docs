@@ -20,14 +20,11 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
 import com.googlesource.gerrit.plugins.xdocs.XDocServlet;
-
-import org.eclipse.jgit.lib.Constants;
-
 import java.io.IOException;
 import java.io.InputStream;
+import org.eclipse.jgit.lib.Constants;
 
 @Singleton
 public class ImageFormatter implements StreamFormatter {
@@ -41,8 +38,14 @@ public class ImageFormatter implements StreamFormatter {
   }
 
   @Override
-  public String format(String projectName, String path, String revision,
-      String abbrRev, ConfigSection cfg, InputStream raw) throws IOException {
+  public String format(
+      String projectName,
+      String path,
+      String revision,
+      String abbrRev,
+      ConfigSection cfg,
+      InputStream raw)
+      throws IOException {
     return "<img src=\"" + escapeHtml(getUrl(projectName, path, revision)) + "\"/>";
   }
 
