@@ -141,9 +141,8 @@ public class FormatterUtil {
       ConfigSection cfg = formatters.getFormatterConfig(formatterName, parent);
       if (cfg.getBoolean(KEY_INHERIT_CSS, true)) {
         return joinCss(getInheritedCss(parent, formatterName, name, theme), css);
-      } else {
-        return css;
       }
+      return css;
     }
     return getGlobalCss(name, theme);
   }
@@ -201,11 +200,10 @@ public class FormatterUtil {
     String projectCss = getCss(projectName, cssName, cssTheme);
     if (projectCfg.getBoolean(KEY_INHERIT_CSS, true)) {
       return insertCss(html, MoreObjects.firstNonNull(inheritedCss, defaultCss), projectCss);
-    } else {
-      return insertCss(
-          html,
-          MoreObjects.firstNonNull(projectCss, MoreObjects.firstNonNull(inheritedCss, defaultCss)));
     }
+    return insertCss(
+        html,
+        MoreObjects.firstNonNull(projectCss, MoreObjects.firstNonNull(inheritedCss, defaultCss)));
   }
 
   private String getDefaultCss(String formatterName) throws IOException {
@@ -271,9 +269,8 @@ public class FormatterUtil {
       }
       b.append(html.substring(p));
       return b.toString();
-    } else {
-      return html;
     }
+    return html;
   }
 
   /**

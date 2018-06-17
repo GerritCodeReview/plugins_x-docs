@@ -300,16 +300,15 @@ public class XDocServlet extends HttpServlet {
 
     if (Constants.HEAD.equals(revision)) {
       return getHead.get().apply(new ProjectResource(projectControl));
-    } else {
-      String rev = revision;
-      if (!rev.startsWith(Constants.R_REFS)) {
-        rev = Constants.R_HEADS + rev;
-      }
-      if (!projectControl.controlForRef(rev).isVisible()) {
-        throw new ResourceNotFoundException();
-      }
-      return rev;
     }
+    String rev = revision;
+    if (!rev.startsWith(Constants.R_REFS)) {
+      rev = Constants.R_HEADS + rev;
+    }
+    if (!projectControl.controlForRef(rev).isVisible()) {
+      throw new ResourceNotFoundException();
+    }
+    return rev;
   }
 
   private static ObjectId resolveRevision(Repository repo, String revision)
