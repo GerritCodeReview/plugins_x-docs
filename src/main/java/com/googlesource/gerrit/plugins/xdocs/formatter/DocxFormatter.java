@@ -17,18 +17,15 @@ package com.googlesource.gerrit.plugins.xdocs.formatter;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.inject.Inject;
-
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
-
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import org.docx4j.Docx4J;
 import org.docx4j.Docx4jProperties;
 import org.docx4j.convert.out.HTMLSettings;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class DocxFormatter implements StreamFormatter {
   public static final String NAME = "DOCX";
@@ -41,8 +38,14 @@ public class DocxFormatter implements StreamFormatter {
   }
 
   @Override
-  public String format(String projectName, String path, String revision,
-      String abbrRev, ConfigSection cfg, InputStream raw) throws IOException {
+  public String format(
+      String projectName,
+      String path,
+      String revision,
+      String abbrRev,
+      ConfigSection cfg,
+      InputStream raw)
+      throws IOException {
     // Docx4J tries to load some resources dynamically. This fails if the Gerrit
     // core classloader is used since it doesn't see the resources that are
     // contained in the plugin jar. To make the resource loading work we

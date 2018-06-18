@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.xdocs.formatter;
 
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -23,8 +22,7 @@ public interface StreamFormatter extends Formatter {
   /**
    * Formats the given raw text as html.
    *
-   * @param projectName the name of the project that contains the file to be
-   *        formatted
+   * @param projectName the name of the project that contains the file to be formatted
    * @param path the file path
    * @param revision the revision from which the file is loaded
    * @param abbrRev the abbreviated revision from which the file is loaded
@@ -33,6 +31,12 @@ public interface StreamFormatter extends Formatter {
    * @return the content from the given stream formatted as html
    * @throws IOException thrown if the formatting fails
    */
-  public String format(String projectName, String path, String revision,
-      String abbrRev, ConfigSection cfg, InputStream raw) throws IOException;
+  public String format(
+      String projectName,
+      String path,
+      String revision,
+      String abbrRev,
+      ConfigSection cfg,
+      InputStream raw)
+      throws IOException;
 }

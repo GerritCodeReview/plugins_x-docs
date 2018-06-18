@@ -20,8 +20,8 @@ import com.google.gwt.core.client.JsArray;
 public class CommitInfo extends JavaScriptObject {
 
   public final native String commit() /*-{ return this.commit; }-*/;
+
   public final native JsArray<CommitInfo> parents() /*-{ return this.parents; }-*/;
 
-  protected CommitInfo() {
-  }
+  protected CommitInfo() {}
 }

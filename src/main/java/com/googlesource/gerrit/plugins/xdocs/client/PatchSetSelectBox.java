@@ -23,13 +23,13 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.Label;
-
 import com.googlesource.gerrit.plugins.xdocs.client.ChangeInfo.RevisionInfo;
 
 public class PatchSetSelectBox extends FlowPanel {
 
   public enum DisplaySide {
-    A, B
+    A,
+    B
   }
 
   public static enum DiffView {
@@ -44,8 +44,13 @@ public class PatchSetSelectBox extends FlowPanel {
   private final int patchSet;
   private final String path;
 
-  public PatchSetSelectBox(DiffView diffView, DisplaySide side,
-      ChangeInfo change, Integer basePatchSet, int patchSet, String path) {
+  public PatchSetSelectBox(
+      DiffView diffView,
+      DisplaySide side,
+      ChangeInfo change,
+      Integer basePatchSet,
+      int patchSet,
+      String path) {
     this.diffView = diffView;
     this.side = side;
     this.change = change;
@@ -108,8 +113,8 @@ public class PatchSetSelectBox extends FlowPanel {
   }
 
   private InlineHyperlink createBaseLink() {
-    InlineHyperlink link = new InlineHyperlink("Base",
-        getUrl(change._number(), null, patchSet, path, diffView));
+    InlineHyperlink link =
+        new InlineHyperlink("Base", getUrl(change._number(), null, patchSet, path, diffView));
     if (isBaseSelected()) {
       link.setStyleName("xdocs-patch-set-select-box-selected");
     }
@@ -126,8 +131,9 @@ public class PatchSetSelectBox extends FlowPanel {
     String label = r.is_edit() ? "edit" : Integer.toString(r._number());
     Integer patchSetIdA = sideA() ? Integer.valueOf(r._number()) : basePatchSet;
     int patchSetIdB = sideA() ? patchSet : r._number();
-    InlineHyperlink link = new InlineHyperlink(label,
-        getUrl(change._number(), patchSetIdA, patchSetIdB, path, diffView));
+    InlineHyperlink link =
+        new InlineHyperlink(
+            label, getUrl(change._number(), patchSetIdA, patchSetIdB, path, diffView));
     if (isSelected(r._number())) {
       link.setStyleName("xdocs-patch-set-select-box-selected");
     }
@@ -137,12 +143,14 @@ public class PatchSetSelectBox extends FlowPanel {
   private Anchor createDownloadLink() {
     String base = GWT.getHostPageBaseURL() + "cat/";
     String sideUrl = isBaseSelected() ? "1" : "0";
-    int ps = isBaseSelected()
-        ? change.revision(change.current_revision())._number()
-        : getSelectedPatchSet();
-    Anchor anchor = new Anchor(
-        new ImageResourceRenderer().render(XDocsPlugin.RESOURCES.downloadIcon()),
-        base + URL.encode(change._number() + "," + ps + "," + path) + "^" + sideUrl);
+    int ps =
+        isBaseSelected()
+            ? change.revision(change.current_revision())._number()
+            : getSelectedPatchSet();
+    Anchor anchor =
+        new Anchor(
+            new ImageResourceRenderer().render(XDocsPlugin.RESOURCES.downloadIcon()),
+            base + URL.encode(change._number() + "," + ps + "," + path) + "^" + sideUrl);
     anchor.setTitle("Download");
     return anchor;
   }
@@ -154,15 +162,15 @@ public class PatchSetSelectBox extends FlowPanel {
 
     if (change.has_edit()) {
       return patchSet == 0;
-    } else {
-      return patchSet == change.revision(change.current_revision())._number();
     }
+    return patchSet == change.revision(change.current_revision())._number();
   }
 
   private Anchor createEditIcon() {
-    Anchor anchor = new Anchor(
-        new ImageResourceRenderer().render(XDocsPlugin.RESOURCES.edit()),
-        "#" + getEditUrl(change._number(), patchSet, path));
+    Anchor anchor =
+        new Anchor(
+            new ImageResourceRenderer().render(XDocsPlugin.RESOURCES.edit()),
+            "#" + getEditUrl(change._number(), patchSet, path));
     anchor.setTitle("Edit");
     return anchor;
   }
@@ -176,12 +184,11 @@ public class PatchSetSelectBox extends FlowPanel {
   }
 
   private boolean isSelected(int ps) {
-    return getSelectedPatchSet() != null
-        && getSelectedPatchSet().intValue() == ps;
+    return getSelectedPatchSet() != null && getSelectedPatchSet().intValue() == ps;
   }
 
-  private static String getUrl(int changeId, Integer patchSetIdA,
-      int patchSetIdB, String path, DiffView diffView) {
+  private static String getUrl(
+      int changeId, Integer patchSetIdA, int patchSetIdB, String path, DiffView diffView) {
     StringBuilder url = new StringBuilder();
     url.append("/x/");
     url.append(Plugin.get().getName());

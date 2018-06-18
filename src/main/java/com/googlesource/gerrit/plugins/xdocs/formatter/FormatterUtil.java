@@ -31,9 +31,17 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
@@ -45,17 +53,6 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
 @Singleton
 public class FormatterUtil {
@@ -69,7 +66,8 @@ public class FormatterUtil {
   private final Map<String, String> defaultCss;
 
   @Inject
-  FormatterUtil(@PluginName String pluginName,
+  FormatterUtil(
+      @PluginName String pluginName,
       @PluginData File baseDir,
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
@@ -83,18 +81,18 @@ public class FormatterUtil {
   }
 
   /**
-   * Returns the CSS from the file "<plugin-name>/<name>-<theme>.css" in the
-   * refs/meta/config branch of the project.
+   * Returns the CSS from the file "<plugin-name>/<name>-<theme>.css" in the refs/meta/config branch
+   * of the project.
    *
-   * If theme is <code>null</code> or empty, the CSS from the file
-   * "<plugin-name>/<name>.css" is returned.
+   * <p>If theme is <code>null</code> or empty, the CSS from the file "<plugin-name>/<name>.css" is
+   * returned.
    *
-   * @param name the name of the file in the "<plugin-name>/" folder without
-   *        theme and without the ".css" file extension
-   * @param theme the name of the CSS theme, may be <code>null</code>, if given
-   *        it is included into the CSS file name: '<name>-<theme>.css'
-   * @return the CSS from the file; HTML characters are escaped;
-   *         <code>null</code> if the file doesn't exist
+   * @param name the name of the file in the "<plugin-name>/" folder without theme and without the
+   *     ".css" file extension
+   * @param theme the name of the CSS theme, may be <code>null</code>, if given it is included into
+   *     the CSS file name: '<name>-<theme>.css'
+   * @return the CSS from the file; HTML characters are escaped; <code>null</code> if the file
+   *     doesn't exist
    */
   public String getCss(String projectName, String name, String theme) {
     return Strings.isNullOrEmpty(theme)
@@ -103,13 +101,13 @@ public class FormatterUtil {
   }
 
   /**
-   * Returns the CSS from the file "<plugin-name>/<name>.css" in the
-   * refs/meta/config branch of the project.
+   * Returns the CSS from the file "<plugin-name>/<name>.css" in the refs/meta/config branch of the
+   * project.
    *
-   * @param name the name of the file in the "<plugin-name>/" folder without the
-   *        ".css" file extension
-   * @return the CSS from the file; HTML characters are escaped;
-   *         <code>null</code> if the file doesn't exist
+   * @param name the name of the file in the "<plugin-name>/" folder without the ".css" file
+   *     extension
+   * @return the CSS from the file; HTML characters are escaped; <code>null</code> if the file
+   *     doesn't exist
    */
   public String getCss(String projectName, String name) {
     return escapeHtml(getMetaConfigFile(projectName, name + ".css"));
@@ -118,38 +116,33 @@ public class FormatterUtil {
   /**
    * Returns the inherited CSS.
    *
-   * If the project has a parent project the CSS of the parent project is
-   * returned; if there is no parent project the global CSS is returned.
+   * <p>If the project has a parent project the CSS of the parent project is returned; if there is
+   * no parent project the global CSS is returned.
    *
    * @param projectName the name of the project
-   * @param formatterName the name of the formatter for which the CSS should be
-   *        returned
-   * @param name the name of the CSS file without theme and without the ".css"
-   *        file extension
-   * @param theme the name of the CSS theme, may be <code>null</code>, if given
-   *        it is included into the CSS file name: '<name>-<theme>.css'
-   * @return the inherited CSS; HTML characters are escaped; <code>null</code>
-   *         if there is no inherited CSS
-   * @throws IOException thrown in case of an I/O Error while reading the global
-   *         CSS file
+   * @param formatterName the name of the formatter for which the CSS should be returned
+   * @param name the name of the CSS file without theme and without the ".css" file extension
+   * @param theme the name of the CSS theme, may be <code>null</code>, if given it is included into
+   *     the CSS file name: '<name>-<theme>.css'
+   * @return the inherited CSS; HTML characters are escaped; <code>null</code> if there is no
+   *     inherited CSS
+   * @throws IOException thrown in case of an I/O Error while reading the global CSS file
    */
-  public String getInheritedCss(String projectName, String formatterName,
-      String name, String theme) throws IOException {
-    return getInheritedCss(projectCache.get(new Project.NameKey(projectName)),
-        formatterName, name, theme);
+  public String getInheritedCss(String projectName, String formatterName, String name, String theme)
+      throws IOException {
+    return getInheritedCss(
+        projectCache.get(new Project.NameKey(projectName)), formatterName, name, theme);
   }
 
-  private String getInheritedCss(ProjectState project, String formatterName,
-    String name, String theme) throws IOException {
+  private String getInheritedCss(
+      ProjectState project, String formatterName, String name, String theme) throws IOException {
     for (ProjectState parent : project.parents()) {
       String css = getCss(parent.getProject().getName(), name, theme);
-      ConfigSection cfg =
-          formatters.getFormatterConfig(formatterName, parent);
+      ConfigSection cfg = formatters.getFormatterConfig(formatterName, parent);
       if (cfg.getBoolean(KEY_INHERIT_CSS, true)) {
         return joinCss(getInheritedCss(parent, formatterName, name, theme), css);
-      } else {
-        return css;
       }
+      return css;
     }
     return getGlobalCss(name, theme);
   }
@@ -165,36 +158,29 @@ public class FormatterUtil {
   }
 
   /**
-   * Returns the CSS from the file
-   * "<review-site>/data/<plugin-name>/css/<name>-<theme>.css".
+   * Returns the CSS from the file "<review-site>/data/<plugin-name>/css/<name>-<theme>.css".
    *
-   * If theme is <code>null</code> or empty, the CSS from the file
+   * <p>If theme is <code>null</code> or empty, the CSS from the file
    * "<review-site>/data/<plugin-name>/css/<name>.css" is returned.
    *
-   * @param name the name of the CSS file without theme and without the ".css"
-   *        file extension
-   * @param theme the name of the CSS theme, may be <code>null</code>, if given
-   *        it is included into the CSS file name: '<name>-<theme>.css'
-   * @return the CSS from the file; HTML characters are escaped;
-   *         <code>null</code> if the file doesn't exist
-   * @throws IOException thrown in case of an I/O Error while reading the CSS
-   *         file
+   * @param name the name of the CSS file without theme and without the ".css" file extension
+   * @param theme the name of the CSS theme, may be <code>null</code>, if given it is included into
+   *     the CSS file name: '<name>-<theme>.css'
+   * @return the CSS from the file; HTML characters are escaped; <code>null</code> if the file
+   *     doesn't exist
+   * @throws IOException thrown in case of an I/O Error while reading the CSS file
    */
   public String getGlobalCss(String name, String theme) throws IOException {
-    return Strings.isNullOrEmpty(theme)
-        ? getGlobalCss(name)
-        : getGlobalCss(name + "-" + theme);
+    return Strings.isNullOrEmpty(theme) ? getGlobalCss(name) : getGlobalCss(name + "-" + theme);
   }
 
   /**
-   * Returns the CSS from the file
-   * "<review-site>/data/<plugin-name>/css/<name>.css".
+   * Returns the CSS from the file "<review-site>/data/<plugin-name>/css/<name>.css".
    *
    * @param name the name of the CSS file without the ".css" file extension
-   * @return the CSS from the file; HTML characters are escaped;
-   *         <code>null</code> if the file doesn't exist
-   * @throws IOException thrown in case of an I/O Error while reading the CSS
-   *         file
+   * @return the CSS from the file; HTML characters are escaped; <code>null</code> if the file
+   *     doesn't exist
+   * @throws IOException thrown in case of an I/O Error while reading the CSS file
    */
   public String getGlobalCss(String name) throws IOException {
     Path p = Paths.get(baseDir.getAbsolutePath(), "css", name + ".css");
@@ -205,31 +191,25 @@ public class FormatterUtil {
     return null;
   }
 
-  public String applyCss(String html, String formatterName, String projectName)
-      throws IOException {
-    ConfigSection projectCfg =
-        formatters.getFormatterConfig(formatterName, projectName);
+  public String applyCss(String html, String formatterName, String projectName) throws IOException {
+    ConfigSection projectCfg = formatters.getFormatterConfig(formatterName, projectName);
     String cssName = formatterName.toLowerCase(Locale.US);
     String cssTheme = projectCfg.getString(KEY_CSS_THEME);
     String defaultCss = getDefaultCss(formatterName);
-    String inheritedCss =
-        getInheritedCss(projectName, formatterName, cssName, cssTheme);
+    String inheritedCss = getInheritedCss(projectName, formatterName, cssName, cssTheme);
     String projectCss = getCss(projectName, cssName, cssTheme);
     if (projectCfg.getBoolean(KEY_INHERIT_CSS, true)) {
-      return insertCss(html,
-          MoreObjects.firstNonNull(inheritedCss, defaultCss), projectCss);
-    } else {
-      return insertCss(html,
-          MoreObjects.firstNonNull(projectCss,
-              MoreObjects.firstNonNull(inheritedCss, defaultCss)));
+      return insertCss(html, MoreObjects.firstNonNull(inheritedCss, defaultCss), projectCss);
     }
+    return insertCss(
+        html,
+        MoreObjects.firstNonNull(projectCss, MoreObjects.firstNonNull(inheritedCss, defaultCss)));
   }
 
   private String getDefaultCss(String formatterName) throws IOException {
-    String css = defaultCss.get(formatterName) ;
+    String css = defaultCss.get(formatterName);
     if (css == null) {
-      URL url = FormatterUtil.class.getResource(
-          formatterName.toLowerCase(Locale.US) + ".css");
+      URL url = FormatterUtil.class.getResource(formatterName.toLowerCase(Locale.US) + ".css");
       if (url != null) {
         try (InputStream in = url.openStream();
             TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(128 * 1024)) {
@@ -237,8 +217,7 @@ public class FormatterUtil {
           css = new String(tmp.toByteArray(), UTF_8);
         }
       } else {
-        log.info(String.format("No default CSS for formatter '%s' found.",
-            formatterName));
+        log.info(String.format("No default CSS for formatter '%s' found.", formatterName));
         css = "";
       }
       defaultCss.put(formatterName, css);
@@ -290,22 +269,20 @@ public class FormatterUtil {
       }
       b.append(html.substring(p));
       return b.toString();
-    } else {
-      return html;
     }
+    return html;
   }
 
   /**
-   * Returns the content of the specified file from the "<plugin-name>/" folder
-   * of the ref/meta/config branch.
+   * Returns the content of the specified file from the "<plugin-name>/" folder of the
+   * ref/meta/config branch.
    *
    * @param projectName the name of the project
    * @param fileName the name of the file in the "<plugin-name>/" folder
    * @return the file content, <code>null</code> if the file doesn't exist
    */
   public String getMetaConfigFile(String projectName, String fileName) {
-    try (Repository repo = repoManager.openRepository(
-        new Project.NameKey(projectName))) {
+    try (Repository repo = repoManager.openRepository(new Project.NameKey(projectName))) {
       try (RevWalk rw = new RevWalk(repo)) {
         ObjectId id = repo.resolve(RefNames.REFS_CONFIG);
         if (id == null) {

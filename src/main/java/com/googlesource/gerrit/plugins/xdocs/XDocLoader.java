@@ -34,13 +34,24 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
 import com.googlesource.gerrit.plugins.xdocs.formatter.StreamFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.StringFormatter;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.RawText;
@@ -66,21 +77,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
-import javax.xml.transform.stream.StreamResult;
-
 @Singleton
 public class XDocLoader extends CacheLoader<String, Resource> {
   private static final Logger log = LoggerFactory.getLogger(XDocLoader.class);
@@ -94,7 +90,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
   private final Formatters formatters;
 
   @Inject
-  XDocLoader(GitRepositoryManager repoManager,
+  XDocLoader(
+      GitRepositoryManager repoManager,
       @CanonicalWebUrl Provider<String> webUrl,
       @PluginName String pluginName,
       PluginConfigFactory cfgFactory,
@@ -118,8 +115,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
         }
 
         if (key.getDiffMode() != DiffMode.NO_DIFF) {
-          String htmlB =
-              loadHtml(formatter, repo, rw, key, checkRevId(key.getRevIdB()));
+          String htmlB = loadHtml(formatter, repo, rw, key, checkRevId(key.getRevIdB()));
           if (html == null && htmlB == null) {
             throw new ResourceNotFoundException();
           }
@@ -130,8 +126,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
           }
         }
 
-        RevCommit commit = rw.parseCommit(
-            MoreObjects.firstNonNull(key.getRevIdB(), key.getRevId()));
+        RevCommit commit =
+            rw.parseCommit(MoreObjects.firstNonNull(key.getRevIdB(), key.getRevId()));
         return getAsHtmlResource(html, commit.getCommitTime());
       }
     } catch (ResourceNotFoundException e) {
@@ -141,8 +137,7 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     }
   }
 
-  private FormatterProvider getFormatter(String formatterName)
-      throws ResourceNotFoundException {
+  private FormatterProvider getFormatter(String formatterName) throws ResourceNotFoundException {
     FormatterProvider formatter = formatters.getByName(formatterName);
     if (formatter == null) {
       throw new ResourceNotFoundException();
@@ -150,17 +145,16 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     return formatter;
   }
 
-  private static ObjectId checkRevId(ObjectId revId)
-      throws ResourceNotFoundException {
+  private static ObjectId checkRevId(ObjectId revId) throws ResourceNotFoundException {
     if (revId == null) {
       throw new ResourceNotFoundException();
     }
     return revId;
   }
 
-  private String loadHtml(FormatterProvider formatter, Repository repo,
-      RevWalk rw, XDocResourceKey key, ObjectId revId) throws IOException,
-      ResourceNotFoundException, MethodNotAllowedException, GitAPIException {
+  private String loadHtml(
+      FormatterProvider formatter, Repository repo, RevWalk rw, XDocResourceKey key, ObjectId revId)
+      throws IOException, ResourceNotFoundException, MethodNotAllowedException, GitAPIException {
     RevCommit commit = rw.parseCommit(revId);
     RevTree tree = commit.getTree();
     try (TreeWalk tw = new TreeWalk(repo)) {
@@ -172,32 +166,38 @@ public class XDocLoader extends CacheLoader<String, Resource> {
       }
       ObjectId objectId = tw.getObjectId(0);
       ObjectLoader loader = repo.open(objectId);
-      return getHtml(formatter, repo, loader, key.getProject(),
-          key.getResource(), revId);
+      return getHtml(formatter, repo, loader, key.getProject(), key.getResource(), revId);
     }
   }
 
-  private String getHtml(FormatterProvider formatter, Repository repo,
-      ObjectLoader loader, Project.NameKey project, String path, ObjectId revId)
-      throws MethodNotAllowedException, IOException, GitAPIException,
-      ResourceNotFoundException {
+  private String getHtml(
+      FormatterProvider formatter,
+      Repository repo,
+      ObjectLoader loader,
+      Project.NameKey project,
+      String path,
+      ObjectId revId)
+      throws MethodNotAllowedException, IOException, GitAPIException, ResourceNotFoundException {
     Formatter f = formatter.get();
     if (f instanceof StringFormatter) {
-      return getHtml(formatter.getName(), (StringFormatter) f, repo, loader,
-          project, path, revId);
+      return getHtml(formatter.getName(), (StringFormatter) f, repo, loader, project, path, revId);
     } else if (f instanceof StreamFormatter) {
-      return getHtml(formatter.getName(), (StreamFormatter) f, repo, loader,
-          project, path, revId);
+      return getHtml(formatter.getName(), (StreamFormatter) f, repo, loader, project, path, revId);
     } else {
       log.error(String.format("Unsupported formatter: %s", formatter.getName()));
       throw new ResourceNotFoundException();
     }
   }
 
-  private String getHtml(String formatterName, StringFormatter f,
-      Repository repo, ObjectLoader loader, Project.NameKey project,
-      String path, ObjectId revId) throws MethodNotAllowedException,
-      IOException, GitAPIException {
+  private String getHtml(
+      String formatterName,
+      StringFormatter f,
+      Repository repo,
+      ObjectLoader loader,
+      Project.NameKey project,
+      String path,
+      ObjectId revId)
+      throws MethodNotAllowedException, IOException, GitAPIException {
     byte[] bytes = loader.getBytes(Integer.MAX_VALUE);
     boolean isBinary = RawText.isBinary(bytes);
     if (formatterName.equals(Formatters.RAW_FORMATTER) && isBinary) {
@@ -208,26 +208,36 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     if (!isBinary) {
       raw = replaceMacros(repo, project, revId, abbrRevId, raw);
     }
-    return f.format(project.get(), path, revId.getName(), abbrRevId,
-        getFormatterConfig(formatterName), raw);
+    return f.format(
+        project.get(), path, revId.getName(), abbrRevId, getFormatterConfig(formatterName), raw);
   }
 
-  private String getHtml(String formatterName, StreamFormatter f,
-      Repository repo, ObjectLoader loader, Project.NameKey project,
-      String path, ObjectId revId) throws IOException {
+  private String getHtml(
+      String formatterName,
+      StreamFormatter f,
+      Repository repo,
+      ObjectLoader loader,
+      Project.NameKey project,
+      String path,
+      ObjectId revId)
+      throws IOException {
     try (InputStream raw = loader.openStream()) {
-      return f.format(project.get(), path, revId.getName(),
-          getAbbrRevId(repo, revId), getFormatterConfig(formatterName), raw);
+      return f.format(
+          project.get(),
+          path,
+          revId.getName(),
+          getAbbrRevId(repo, revId),
+          getFormatterConfig(formatterName),
+          raw);
     }
   }
 
   private String diffHtml(String htmlA, String htmlB, DiffMode diffMode)
       throws IOException, TransformerConfigurationException, SAXException,
-      ResourceNotFoundException {
+          ResourceNotFoundException {
     ByteArrayOutputStream htmlDiff = new ByteArrayOutputStream();
 
-    SAXTransformerFactory tf =
-        (SAXTransformerFactory) TransformerFactory.newInstance();
+    SAXTransformerFactory tf = (SAXTransformerFactory) TransformerFactory.newInstance();
     TransformerHandler result = tf.newTransformerHandler();
     result.setResult(new StreamResult(htmlDiff));
 
@@ -249,10 +259,8 @@ public class XDocLoader extends CacheLoader<String, Resource> {
 
     ContentHandler postProcess = new XslFilter().xsl(result, htmlHeader);
     postProcess.startDocument();
-    postProcess.startElement("", "diffreport", "diffreport",
-            new AttributesImpl());
-    postProcess.startElement("", "diff", "diff",
-            new AttributesImpl());
+    postProcess.startElement("", "diffreport", "diffreport", new AttributesImpl());
+    postProcess.startElement("", "diff", "diff", new AttributesImpl());
 
     HtmlSaxDiffOutput output = new HtmlSaxDiffOutput(postProcess, "diff");
     HTMLDiffer differ = new HTMLDiffer(output);
@@ -267,50 +275,46 @@ public class XDocLoader extends CacheLoader<String, Resource> {
 
   /**
    * The daisydiff formatting may make inlined styles unparsable. Fix it:
+   *
    * <ul>
-   *   <li>Remove span element to highlight addition/deletion inside style elements.</li>
-   *   <li>Replace '&gt;' with '>'.</li>
+   *   <li>Remove span element to highlight addition/deletion inside style elements.
+   *   <li>Replace '&gt;' with '>'.
    * </ul>
    */
   private String fixStyles(String html) {
     Matcher m =
         Pattern.compile("(<style[a-zA-Z -=/\"]+>\n)<[a-zA-Z -=\"]+>(.*)</[a-z]+>(\n</style>)")
-               .matcher(html);
+            .matcher(html);
     StringBuffer sb = new StringBuffer();
     while (m.find()) {
-      m.appendReplacement(sb, m.group(1) + m.group(2).replaceAll("&gt;", ">")
-          + m.group(3));
+      m.appendReplacement(sb, m.group(1) + m.group(2).replaceAll("&gt;", ">") + m.group(3));
     }
     m.appendTail(sb);
     return sb.toString();
   }
 
-  private TextNodeComparator getComparator(String html) throws IOException,
-      SAXException {
+  private TextNodeComparator getComparator(String html) throws IOException, SAXException {
     InputSource source =
-        new InputSource(new ByteArrayInputStream(
-            Strings.nullToEmpty(html).getBytes(UTF_8)));
+        new InputSource(new ByteArrayInputStream(Strings.nullToEmpty(html).getBytes(UTF_8)));
     DomTreeBuilder handler = new DomTreeBuilder();
     new HtmlCleaner().cleanAndParse(source, handler);
     return new TextNodeComparator(handler, Locale.US);
   }
 
   private ConfigSection getFormatterConfig(String formatterName) {
-    XDocGlobalConfig cfg =
-        new XDocGlobalConfig(cfgFactory.getGlobalPluginConfig(pluginName));
+    XDocGlobalConfig cfg = new XDocGlobalConfig(cfgFactory.getGlobalPluginConfig(pluginName));
     return cfg.getFormatterConfig(formatterName);
   }
 
-  private static String getAbbrRevId(Repository repo, ObjectId revId)
-      throws IOException {
+  private static String getAbbrRevId(Repository repo, ObjectId revId) throws IOException {
     try (ObjectReader reader = repo.newObjectReader()) {
       return reader.abbreviate(revId).name();
     }
   }
 
-  private String replaceMacros(Repository repo, Project.NameKey project,
-      ObjectId revId, String abbrRevId, String raw) throws GitAPIException,
-      IOException {
+  private String replaceMacros(
+      Repository repo, Project.NameKey project, ObjectId revId, String abbrRevId, String raw)
+      throws GitAPIException, IOException {
     Map<String, String> macros = Maps.newHashMap();
 
     String url = webUrl.get();
@@ -323,8 +327,9 @@ public class XDocLoader extends CacheLoader<String, Resource> {
     macros.put("PROJECT_URL", url + "#/admin/projects/" + project.get());
     macros.put("REVISION", abbrRevId);
     try (Git git = new Git(repo)) {
-      macros.put("GIT_DESCRIPTION", MoreObjects.firstNonNull(
-          git.describe().setTarget(revId).call(), abbrRevId));
+      macros.put(
+          "GIT_DESCRIPTION",
+          MoreObjects.firstNonNull(git.describe().setTarget(revId).call(), abbrRevId));
     }
 
     Matcher m = Pattern.compile("(\\\\)?@([A-Z_]+)@").matcher(raw);
@@ -354,20 +359,20 @@ public class XDocLoader extends CacheLoader<String, Resource> {
 
     @Override
     protected void configure() {
-      install(new CacheModule() {
-        @Override
-        protected void configure() {
-          persist(X_DOC_RESOURCES, String.class, Resource.class)
-            .maximumWeight(2 << 20)
-            .weigher(XDocResourceWeigher.class)
-            .loader(XDocLoader.class);
-        }
-      });
+      install(
+          new CacheModule() {
+            @Override
+            protected void configure() {
+              persist(X_DOC_RESOURCES, String.class, Resource.class)
+                  .maximumWeight(2 << 20)
+                  .weigher(XDocResourceWeigher.class)
+                  .loader(XDocLoader.class);
+            }
+          });
     }
   }
 
-  private static class XDocResourceWeigher implements
-      Weigher<String, Resource> {
+  private static class XDocResourceWeigher implements Weigher<String, Resource> {
     @Override
     public int weigh(String key, Resource value) {
       return key.length() * 2 + value.weigh();

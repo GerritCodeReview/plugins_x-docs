@@ -20,38 +20,38 @@ import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_INHERIT
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.inject.Inject;
-
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
-
 import java.io.IOException;
 
 public class MarkdownFormatter implements StringFormatter {
-  public final static String NAME = "MARKDOWN";
+  public static final String NAME = "MARKDOWN";
 
   private final FormatterUtil util;
   private final Formatters formatters;
 
   @Inject
-  MarkdownFormatter(
-      FormatterUtil formatterUtil,
-      Formatters formatters) {
+  MarkdownFormatter(FormatterUtil formatterUtil, Formatters formatters) {
     this.util = formatterUtil;
     this.formatters = formatters;
   }
 
   @Override
-  public String format(String projectName, String path, String revision,
-      String abbrRev, ConfigSection globalCfg, String raw) throws IOException {
-    ConfigSection projectCfg =
-        formatters.getFormatterConfig(NAME, projectName);
+  public String format(
+      String projectName,
+      String path,
+      String revision,
+      String abbrRev,
+      ConfigSection globalCfg,
+      String raw)
+      throws IOException {
+    ConfigSection projectCfg = formatters.getFormatterConfig(NAME, projectName);
     com.google.gerrit.server.documentation.MarkdownFormatter f =
         new com.google.gerrit.server.documentation.MarkdownFormatter();
     if (!globalCfg.getBoolean(KEY_ALLOW_HTML, false)) {
       f.suppressHtml();
     }
     String cssTheme = projectCfg.getString(KEY_CSS_THEME);
-    String inheritedCss =
-        util.getInheritedCss(projectName, NAME, "markdown", cssTheme);
+    String inheritedCss = util.getInheritedCss(projectName, NAME, "markdown", cssTheme);
     String projectCss = util.getCss(projectName, "markdown", cssTheme);
     if (projectCfg.getBoolean(KEY_INHERIT_CSS, true)) {
       // if there is no inherited CSS and f.setCss(null) is invoked
@@ -60,17 +60,16 @@ public class MarkdownFormatter implements StringFormatter {
       f.setCss(inheritedCss);
       byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
       return util.insertCss(new String(b, UTF_8), projectCss);
-    } else {
-      if (projectCss != null) {
-        f.setCss(projectCss);
-      } else {
-        // if there is no inherited CSS and f.setCss(null) is invoked
-        // com.google.gerrit.server.documentation.MarkdownFormatter applies the
-        // default CSS
-        f.setCss(inheritedCss);
-      }
-      byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
-      return new String(b, UTF_8);
     }
+    if (projectCss != null) {
+      f.setCss(projectCss);
+    } else {
+      // if there is no inherited CSS and f.setCss(null) is invoked
+      // com.google.gerrit.server.documentation.MarkdownFormatter applies the
+      // default CSS
+      f.setCss(inheritedCss);
+    }
+    byte[] b = f.markdownToDocHtml(raw, UTF_8.name());
+    return new String(b, UTF_8);
   }
 }

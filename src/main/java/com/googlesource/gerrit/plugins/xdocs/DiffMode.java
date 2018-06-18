@@ -15,5 +15,8 @@
 package com.googlesource.gerrit.plugins.xdocs;
 
 public enum DiffMode {
-  NO_DIFF, UNIFIED, SIDEBYSIDE_A, SIDEBYSIDE_B;
+  NO_DIFF,
+  UNIFIED,
+  SIDEBYSIDE_A,
+  SIDEBYSIDE_B;
 }

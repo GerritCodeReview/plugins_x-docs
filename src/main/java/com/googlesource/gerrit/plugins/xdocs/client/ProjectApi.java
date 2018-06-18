@@ -18,8 +18,7 @@ import com.google.gerrit.plugin.client.rpc.RestApi;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class ProjectApi {
-  public static void getCommitInfo(String project, String ref,
-      AsyncCallback<CommitInfo> callback) {
+  public static void getCommitInfo(String project, String ref, AsyncCallback<CommitInfo> callback) {
     project(project).view("commits").id(ref).get(callback);
   }
 
