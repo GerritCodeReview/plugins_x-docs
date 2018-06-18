@@ -66,6 +66,7 @@ public class XDocCache {
   }
 
   private String getParentsHash(Project.NameKey project) {
+    @SuppressWarnings("deprecation")
     Hasher h = Hashing.md5().newHasher();
     ProjectState p = projectCache.get(project);
     if (p != null) {
