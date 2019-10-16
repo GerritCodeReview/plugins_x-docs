@@ -58,21 +58,23 @@ public class XDocScreen extends VerticalPanel {
     add(p);
 
     final String url = XDocApi.getUrl(projectName, revision, path);
-    XDocApi.checkHtml(url, new AsyncCallback<VoidResult>() {
-      @Override
-      public void onSuccess(VoidResult result) {
-        String frameId = "xdoc_iframe";
-        Frame frame = new Frame(url);
-        frame.getElement().setId(frameId);
-        resize(frame, frameId);
-        add(frame);
-      }
+    XDocApi.checkHtml(
+        url,
+        new AsyncCallback<VoidResult>() {
+          @Override
+          public void onSuccess(VoidResult result) {
+            String frameId = "xdoc_iframe";
+            Frame frame = new Frame(url);
+            frame.getElement().setId(frameId);
+            resize(frame, frameId);
+            add(frame);
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        showError(caught.getMessage());
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            showError(caught.getMessage());
+          }
+        });
   }
 
   private void showError(String message) {

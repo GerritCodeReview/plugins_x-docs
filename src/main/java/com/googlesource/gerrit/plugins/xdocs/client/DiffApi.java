@@ -20,7 +20,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class DiffApi {
 
-  public static void list(String changeId, int patchSetId, Integer basePatchSetId,
+  public static void list(
+      String changeId,
+      int patchSetId,
+      Integer basePatchSetId,
       AsyncCallback<NativeMap<FileInfo>> cb) {
     RestApi api = ChangeApi.revision(changeId, patchSetId).view("files");
     if (basePatchSetId != null) {

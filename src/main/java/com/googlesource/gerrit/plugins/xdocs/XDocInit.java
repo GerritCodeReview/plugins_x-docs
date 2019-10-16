@@ -22,11 +22,9 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.File;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-
-import java.io.File;
 
 @Singleton
 public class XDocInit implements InitStep {
@@ -35,8 +33,7 @@ public class XDocInit implements InitStep {
   private final ConsoleUI ui;
 
   @Inject
-  XDocInit(@PluginName String pluginName, SitePaths sitePaths,
-      ConsoleUI ui) {
+  XDocInit(@PluginName String pluginName, SitePaths sitePaths, ConsoleUI ui) {
     this.pluginName = pluginName;
     this.sitePaths = sitePaths;
     this.ui = ui;
@@ -44,8 +41,7 @@ public class XDocInit implements InitStep {
 
   @Override
   public void run() throws Exception {
-    File pluginConfig = new File(
-        sitePaths.etc_dir.toFile(), pluginName + ".config");
+    File pluginConfig = new File(sitePaths.etc_dir.toFile(), pluginName + ".config");
     if (!pluginConfig.exists()) {
       ui.message("\n");
       ui.header("%s plugin", pluginName);
@@ -54,22 +50,23 @@ public class XDocInit implements InitStep {
       XDocGlobalConfig.initialize(cfg);
       cfg.save();
 
-      ui.message("Initialized %s plugin: %s", pluginName,
-          pluginConfig.getAbsolutePath());
+      ui.message("Initialized %s plugin: %s", pluginName, pluginConfig.getAbsolutePath());
     }
 
-    extract(new File(sitePaths.static_dir.toFile(),
-        "xdocs/css/unified.css").toPath(),
-        XDocInit.class, "diff/unified.css");
-    extract(new File(sitePaths.static_dir.toFile(),
-        "xdocs/css/sidebyside-a.css").toPath(),
-        XDocInit.class, "diff/sidebyside-a.css");
-    extract(new File(sitePaths.static_dir.toFile(),
-        "xdocs/css/sidebyside-b.css").toPath(),
-        XDocInit.class, "diff/sidebyside-b.css");
+    extract(
+        new File(sitePaths.static_dir.toFile(), "xdocs/css/unified.css").toPath(),
+        XDocInit.class,
+        "diff/unified.css");
+    extract(
+        new File(sitePaths.static_dir.toFile(), "xdocs/css/sidebyside-a.css").toPath(),
+        XDocInit.class,
+        "diff/sidebyside-a.css");
+    extract(
+        new File(sitePaths.static_dir.toFile(), "xdocs/css/sidebyside-b.css").toPath(),
+        XDocInit.class,
+        "diff/sidebyside-b.css");
   }
 
   @Override
-  public void postRun() throws Exception {
-  }
+  public void postRun() throws Exception {}
 }

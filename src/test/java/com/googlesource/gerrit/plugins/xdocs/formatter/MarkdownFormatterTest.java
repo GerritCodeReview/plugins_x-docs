@@ -18,16 +18,15 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 
 import com.googlesource.gerrit.plugins.xdocs.ConfigSection;
-
 import java.io.IOException;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 public class MarkdownFormatterTest {
 
-  private static final String PROLOG = "<html><head><style type=\"text/css\">\n\n</style></head><body>\n";
+  private static final String PROLOG =
+      "<html><head><style type=\"text/css\">\n\n</style></head><body>\n";
   private static final String EPILOG = "\n</body></html>";
 
   private ConfigSection cfg;
@@ -50,7 +49,8 @@ public class MarkdownFormatterTest {
     Formatters formatters = createNiceMock(Formatters.class);
 
     // Avoid a NPE by just returning the ConfigSection mock object.
-    expect(formatters.getFormatterConfig((String) anyObject(), (String) anyObject())).andReturn(cfg);
+    expect(formatters.getFormatterConfig((String) anyObject(), (String) anyObject()))
+        .andReturn(cfg);
 
     replay(formatters);
 
@@ -65,7 +65,8 @@ public class MarkdownFormatterTest {
   @Test
   public void basicTextFormattingWorks() throws IOException {
     String raw = "*italic* **bold** `monospace`";
-    String formatted = PROLOG + "<p><em>italic</em> <strong>bold</strong> <code>monospace</code></p>" + EPILOG;
+    String formatted =
+        PROLOG + "<p><em>italic</em> <strong>bold</strong> <code>monospace</code></p>" + EPILOG;
     assertEquals(formatted, formatter.format(null, null, null, null, cfg, raw));
   }
 }

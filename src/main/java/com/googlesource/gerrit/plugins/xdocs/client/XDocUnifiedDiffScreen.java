@@ -18,7 +18,6 @@ import com.google.gerrit.plugin.client.screen.Screen;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Frame;
-
 import com.googlesource.gerrit.plugins.xdocs.client.PatchSetSelectBox.DiffView;
 import com.googlesource.gerrit.plugins.xdocs.client.PatchSetSelectBox.DisplaySide;
 
@@ -41,18 +40,21 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
   @Override
   protected void display(ChangeInfo change) {
     String frameId = "xdoc_unified_diff_iframe";
-    Frame frame =
-        new Frame(XDocApi.getUrl(change.project(), getRevision(), getPath()));
+    Frame frame = new Frame(XDocApi.getUrl(change.project(), getRevision(), getPath()));
     frame.getElement().setId(frameId);
     XDocScreen.resize(frame, frameId);
 
     FlexTable t = new FlexTable();
     t.setStyleName("xdocs-diff-table");
     t.addStyleName("xdocs-unified-diff-table");
-    t.setWidget(addRow(t), 0, new PatchSetSelectBox(
-        DiffView.UNIFIED_DIFF, DisplaySide.A, change, base, patchSet, path));
-    t.setWidget(addRow(t), 0, new PatchSetSelectBox(
-        DiffView.UNIFIED_DIFF, DisplaySide.B, change, base, patchSet, path));
+    t.setWidget(
+        addRow(t),
+        0,
+        new PatchSetSelectBox(DiffView.UNIFIED_DIFF, DisplaySide.A, change, base, patchSet, path));
+    t.setWidget(
+        addRow(t),
+        0,
+        new PatchSetSelectBox(DiffView.UNIFIED_DIFF, DisplaySide.B, change, base, patchSet, path));
     t.setWidget(addRow(t), 0, frame);
     add(t);
   }
@@ -68,13 +70,15 @@ public class XDocUnifiedDiffScreen extends XDocDiffScreen {
 
   @Override
   protected void init() {
-    addIcon(createIcon(
-        XDocsPlugin.RESOURCES.unifiedDiff(),
-        "unified text diff",
-        XDocsPlugin.getUnifiedDiffUrl(changeId, base, patchSet, path)));
-    addIcon(createIcon(
-        XDocsPlugin.RESOURCES.sideBySideDiffPreview(),
-        "side-by-side preview diff",
-        XDocsPlugin.getSideBySidePreviewDiffUrl(changeId, base, patchSet, path)));
+    addIcon(
+        createIcon(
+            XDocsPlugin.RESOURCES.unifiedDiff(),
+            "unified text diff",
+            XDocsPlugin.getUnifiedDiffUrl(changeId, base, patchSet, path)));
+    addIcon(
+        createIcon(
+            XDocsPlugin.RESOURCES.sideBySideDiffPreview(),
+            "side-by-side preview diff",
+            XDocsPlugin.getSideBySidePreviewDiffUrl(changeId, base, patchSet, path)));
   }
 }

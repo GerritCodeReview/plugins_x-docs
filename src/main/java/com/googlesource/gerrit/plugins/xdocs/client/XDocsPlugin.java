@@ -24,18 +24,18 @@ public class XDocsPlugin extends PluginEntryPoint {
 
   @Override
   public void onPluginLoad() {
-    Plugin.get().screenRegex("project/([^/]*)/rev/([^/]*)/(.*)",
-        new XDocScreen.Factory());
-    Plugin.get().screenRegex("project/([^/]*)/(.*)",
-        new XDocScreen.HeadFactory());
-    Plugin.get().screenRegex("c/([^/]*)/([0-9]+(\\.{2}[0-9]+)?)/(.*),unified",
-        new XDocUnifiedDiffScreen.Factory());
-    Plugin.get().screenRegex("c/([^/]*)/([0-9]+(\\.{2}[0-9]+)?)/(.*)",
-        new XDocSideBySideDiffScreen.Factory());
+    Plugin.get().screenRegex("project/([^/]*)/rev/([^/]*)/(.*)", new XDocScreen.Factory());
+    Plugin.get().screenRegex("project/([^/]*)/(.*)", new XDocScreen.HeadFactory());
+    Plugin.get()
+        .screenRegex(
+            "c/([^/]*)/([0-9]+(\\.{2}[0-9]+)?)/(.*),unified", new XDocUnifiedDiffScreen.Factory());
+    Plugin.get()
+        .screenRegex(
+            "c/([^/]*)/([0-9]+(\\.{2}[0-9]+)?)/(.*)", new XDocSideBySideDiffScreen.Factory());
   }
 
-  public static String getSideBySideDiffUrl(String changeId,
-      Integer patchSetIdA, int patchSetIdB, String fileName) {
+  public static String getSideBySideDiffUrl(
+      String changeId, Integer patchSetIdA, int patchSetIdB, String fileName) {
     StringBuilder url = new StringBuilder();
     url.append("/c/");
     url.append(changeId);
@@ -50,14 +50,13 @@ public class XDocsPlugin extends PluginEntryPoint {
     return url.toString();
   }
 
-  public static String getUnifiedDiffUrl(String changeId, Integer patchSetIdA,
-      int patchSetIdB, String fileName) {
-    return getSideBySideDiffUrl(changeId, patchSetIdA, patchSetIdB, fileName)
-        + ",unified";
+  public static String getUnifiedDiffUrl(
+      String changeId, Integer patchSetIdA, int patchSetIdB, String fileName) {
+    return getSideBySideDiffUrl(changeId, patchSetIdA, patchSetIdB, fileName) + ",unified";
   }
 
-  public static String getSideBySidePreviewDiffUrl(String changeId,
-      Integer patchSetIdA, int patchSetIdB, String fileName) {
+  public static String getSideBySidePreviewDiffUrl(
+      String changeId, Integer patchSetIdA, int patchSetIdB, String fileName) {
     StringBuilder url = new StringBuilder();
     url.append("/x/");
     url.append(Plugin.get().getPluginName());
@@ -65,9 +64,8 @@ public class XDocsPlugin extends PluginEntryPoint {
     return url.toString();
   }
 
-  public static String getUnifiedPreviewDiffUrl(String changeId,
-      Integer patchSetIdA, int patchSetIdB, String fileName) {
-    return getSideBySidePreviewDiffUrl(changeId, patchSetIdA, patchSetIdB,
-        fileName) + ",unified";
+  public static String getUnifiedPreviewDiffUrl(
+      String changeId, Integer patchSetIdA, int patchSetIdB, String fileName) {
+    return getSideBySidePreviewDiffUrl(changeId, patchSetIdA, patchSetIdB, fileName) + ",unified";
   }
 }

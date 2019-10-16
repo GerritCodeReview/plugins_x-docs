@@ -33,9 +33,9 @@ import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -50,12 +50,14 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatters.FormatterProvider;
-
 import eu.medsea.mimeutil.MimeType;
-
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
@@ -68,18 +70,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @Singleton
 public class XDocServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  public  static final String PATH_PREFIX = "/project/";
+  public static final String PATH_PREFIX = "/project/";
 
   private final String pluginName;
   private final Provider<ReviewDb> db;
@@ -123,8 +118,7 @@ public class XDocServlet extends HttpServlet {
   }
 
   @Override
-  public void service(HttpServletRequest req, HttpServletResponse res)
-      throws IOException {
+  public void service(HttpServletRequest req, HttpServletResponse res) throws IOException {
     try {
       validateRequestMethod(req);
 
@@ -137,23 +131,27 @@ public class XDocServlet extends HttpServlet {
         return;
       }
 
-      MimeType mimeType = fileTypeRegistry.getMimeType(key.file, (byte[])null);
-      mimeType = new MimeType(FileContentUtil.resolveContentType(
-          state, key.file, FileMode.FILE, mimeType.toString()));
+      MimeType mimeType = fileTypeRegistry.getMimeType(key.file, (byte[]) null);
+      mimeType =
+          new MimeType(
+              FileContentUtil.resolveContentType(
+                  state, key.file, FileMode.FILE, mimeType.toString()));
       FormatterProvider formatter = getFormatter(req, key, mimeType);
       validateDiffMode(key);
 
       ProjectControl projectControl = projectControlFactory.controlFor(key.project);
-      String rev = getRevision(
-          key.diffMode == DiffMode.NO_DIFF
-              ? MoreObjects.firstNonNull(key.revision, cfg.getIndexRef())
-              : key.revision,
-          projectControl);
+      String rev =
+          getRevision(
+              key.diffMode == DiffMode.NO_DIFF
+                  ? MoreObjects.firstNonNull(key.revision, cfg.getIndexRef())
+                  : key.revision,
+              projectControl);
       String revB = getRevision(key.revisionB, projectControl);
 
       try (Repository repo = repoManager.openRepository(key.project)) {
         ObjectId revId =
-            resolveRevision(repo,
+            resolveRevision(
+                repo,
                 key.diffMode == DiffMode.NO_DIFF
                     ? MoreObjects.firstNonNull(rev, Constants.HEAD)
                     : rev);
@@ -173,8 +171,7 @@ public class XDocServlet extends HttpServlet {
 
         Resource rsc;
         if (formatter != null) {
-          rsc = docCache.get(formatter, key.project, key.file, revId,
-              revIdB, key.diffMode);
+          rsc = docCache.get(formatter, key.project, key.file, revId, revIdB, key.diffMode);
         } else if (isImage(mimeType)) {
           rsc = getImageResource(repo, key.diffMode, revId, revIdB, key.file);
         } else {
@@ -182,8 +179,8 @@ public class XDocServlet extends HttpServlet {
         }
 
         if (rsc != Resource.NOT_FOUND) {
-          res.setHeader(HttpHeaders.ETAG,
-              computeETag(key.project, revId, key.file, revIdB, key.diffMode));
+          res.setHeader(
+              HttpHeaders.ETAG, computeETag(key.project, revId, key.file, revIdB, key.diffMode));
         }
         if (key.diffMode == DiffMode.NO_DIFF && rev == null) {
           // file was loaded from HEAD, since HEAD is modifiable the document
@@ -195,8 +192,11 @@ public class XDocServlet extends HttpServlet {
         rsc.send(req, res);
         return;
       }
-    } catch (RepositoryNotFoundException | NoSuchProjectException
-        | ResourceNotFoundException | AuthException | RevisionSyntaxException e) {
+    } catch (RepositoryNotFoundException
+        | NoSuchProjectException
+        | ResourceNotFoundException
+        | AuthException
+        | RevisionSyntaxException e) {
       Resource.NOT_FOUND.send(req, res);
     } catch (MethodNotAllowedException e) {
       CacheHeaders.setNotCacheable(res);
@@ -215,11 +215,10 @@ public class XDocServlet extends HttpServlet {
     return path;
   }
 
-  private Resource getImageResource(Repository repo, DiffMode diffMode,
-      ObjectId revId, ObjectId revIdB, String file) {
-    ObjectId id = diffMode == DiffMode.NO_DIFF || diffMode == DiffMode.SIDEBYSIDE_A
-        ? revId
-        : revIdB;
+  private Resource getImageResource(
+      Repository repo, DiffMode diffMode, ObjectId revId, ObjectId revIdB, String file) {
+    ObjectId id =
+        diffMode == DiffMode.NO_DIFF || diffMode == DiffMode.SIDEBYSIDE_A ? revId : revIdB;
     try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(id);
       RevTree tree = commit.getTree();
@@ -255,15 +254,13 @@ public class XDocServlet extends HttpServlet {
     }
   }
 
-  private static void validateDiffMode(ResourceKey key)
-      throws ResourceNotFoundException {
+  private static void validateDiffMode(ResourceKey key) throws ResourceNotFoundException {
     if (key.diffMode != DiffMode.NO_DIFF && (key.revisionB == null)) {
       throw new ResourceNotFoundException();
     }
   }
 
-  private ProjectState getProject(ResourceKey key)
-      throws ResourceNotFoundException {
+  private ProjectState getProject(ResourceKey key) throws ResourceNotFoundException {
     ProjectState state = projectCache.get(key.project);
     if (state == null) {
       throw new ResourceNotFoundException();
@@ -271,8 +268,8 @@ public class XDocServlet extends HttpServlet {
     return state;
   }
 
-  private FormatterProvider getFormatter(HttpServletRequest req,
-      ResourceKey key, MimeType mimeType) throws ResourceNotFoundException {
+  private FormatterProvider getFormatter(HttpServletRequest req, ResourceKey key, MimeType mimeType)
+      throws ResourceNotFoundException {
     FormatterProvider formatter;
     if (req.getParameter("raw") != null) {
       formatter = formatters.getRawFormatter();
@@ -303,9 +300,8 @@ public class XDocServlet extends HttpServlet {
     return "image".equals(mimeType.getMediaType());
   }
 
-  private String getRevision(String revision,
-      ProjectControl projectControl) throws ResourceNotFoundException,
-      AuthException, IOException, PermissionBackendException {
+  private String getRevision(String revision, ProjectControl projectControl)
+      throws ResourceNotFoundException, AuthException, IOException, PermissionBackendException {
     if (revision == null) {
       return null;
     }
@@ -348,8 +344,7 @@ public class XDocServlet extends HttpServlet {
     return revId;
   }
 
-  private void validateCanReadCommit(Repository repo,
-      ProjectControl projectControl, ObjectId revId)
+  private void validateCanReadCommit(Repository repo, ProjectControl projectControl, ObjectId revId)
       throws ResourceNotFoundException, IOException {
     try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revId);
@@ -360,18 +355,17 @@ public class XDocServlet extends HttpServlet {
     }
   }
 
-  private static boolean isResourceNotModified(HttpServletRequest req,
-      ResourceKey key, ObjectId revId, ObjectId revIdB) {
+  private static boolean isResourceNotModified(
+      HttpServletRequest req, ResourceKey key, ObjectId revId, ObjectId revIdB) {
     String receivedETag = req.getHeader(HttpHeaders.IF_NONE_MATCH);
     if (receivedETag != null) {
-      return receivedETag.equals(computeETag(key.project, revId, key.file,
-          revIdB, key.diffMode));
+      return receivedETag.equals(computeETag(key.project, revId, key.file, revIdB, key.diffMode));
     }
     return false;
   }
 
-  private static String computeETag(Project.NameKey project, ObjectId revId,
-      String file, ObjectId revIdB, DiffMode diffMode) {
+  private static String computeETag(
+      Project.NameKey project, ObjectId revId, String file, ObjectId revIdB, DiffMode diffMode) {
     Hasher hasher = Hashing.md5().newHasher();
     hasher.putUnencodedChars(project.get());
     if (revId != null) {
@@ -379,17 +373,16 @@ public class XDocServlet extends HttpServlet {
     }
     hasher.putUnencodedChars(file);
     if (diffMode != DiffMode.NO_DIFF) {
-      hasher.putUnencodedChars(revIdB.getName()).putUnencodedChars(
-          diffMode.name());
+      hasher.putUnencodedChars(revIdB.getName()).putUnencodedChars(diffMode.name());
     }
     return hasher.hash().toString();
   }
 
-  private String getRedirectUrl(HttpServletRequest req, ResourceKey key,
-      XDocProjectConfig cfg) {
+  private String getRedirectUrl(HttpServletRequest req, ResourceKey key, XDocProjectConfig cfg) {
     StringBuilder redirectUrl = new StringBuilder();
-    redirectUrl.append(req.getRequestURL().substring(0,
-        req.getRequestURL().length() - req.getRequestURI().length()));
+    redirectUrl.append(
+        req.getRequestURL()
+            .substring(0, req.getRequestURL().length() - req.getRequestURI().length()));
     redirectUrl.append(req.getContextPath());
     redirectUrl.append(PATH_PREFIX);
     redirectUrl.append(IdString.fromDecoded(key.project.get()).encoded());

@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.inject.Inject;
-
 import com.googlesource.gerrit.plugins.xdocs.formatter.AsciidoctorFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.DocxFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.Formatter;
@@ -36,7 +35,6 @@ import com.googlesource.gerrit.plugins.xdocs.formatter.ImageFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.MarkdownFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.PlainTextFormatter;
 import com.googlesource.gerrit.plugins.xdocs.formatter.ZipFormatter;
-
 import java.util.List;
 
 public class Module extends FactoryModule {
@@ -56,9 +54,7 @@ public class Module extends FactoryModule {
     bind(Formatter.class)
         .annotatedWith(Exports.named(AsciidoctorFormatter.NAME))
         .to(AsciidoctorFormatter.class);
-    bind(Formatter.class)
-        .annotatedWith(Exports.named(DocxFormatter.NAME))
-        .to(DocxFormatter.class);
+    bind(Formatter.class).annotatedWith(Exports.named(DocxFormatter.NAME)).to(DocxFormatter.class);
     bind(Formatter.class)
         .annotatedWith(Exports.named(MarkdownFormatter.NAME))
         .to(MarkdownFormatter.class);
@@ -68,32 +64,29 @@ public class Module extends FactoryModule {
     bind(Formatter.class)
         .annotatedWith(Exports.named(PlainTextFormatter.NAME))
         .to(PlainTextFormatter.class);
-    bind(Formatter.class)
-        .annotatedWith(Exports.named(ZipFormatter.NAME))
-        .to(ZipFormatter.class);
+    bind(Formatter.class).annotatedWith(Exports.named(ZipFormatter.NAME)).to(ZipFormatter.class);
 
-    DynamicSet.bind(binder(), ProjectWebLink.class)
-        .to(XDocWebLink.class);
-    DynamicSet.bind(binder(), BranchWebLink.class)
-        .to(XDocWebLink.class);
-    DynamicSet.bind(binder(), FileWebLink.class)
-        .to(XDocWebLink.class);
-    DynamicSet.bind(binder(), DiffWebLink.class)
-        .to(SideBySideDiffPreviewWebLink.class);
-    DynamicSet.bind(binder(), DiffWebLink.class)
-        .to(UnifiedDiffPreviewWebLink.class);
+    DynamicSet.bind(binder(), ProjectWebLink.class).to(XDocWebLink.class);
+    DynamicSet.bind(binder(), BranchWebLink.class).to(XDocWebLink.class);
+    DynamicSet.bind(binder(), FileWebLink.class).to(XDocWebLink.class);
+    DynamicSet.bind(binder(), DiffWebLink.class).to(SideBySideDiffPreviewWebLink.class);
+    DynamicSet.bind(binder(), DiffWebLink.class).to(UnifiedDiffPreviewWebLink.class);
 
-    DynamicSet.bind(binder(), TopMenu.class).toInstance(new TopMenu() {
-      @Override
-      public List<MenuEntry> getEntries() {
-        StringBuilder url = new StringBuilder();
-        url.append("/plugins/");
-        url.append(pluginName);
-        url.append(XDocServlet.PATH_PREFIX);
-        url.append("${projectName}");
-        return Lists.newArrayList(new MenuEntry(GerritTopMenu.PROJECTS,
-            Lists.newArrayList(new MenuItem("Readme", url.toString()))));
-      }
-    });
+    DynamicSet.bind(binder(), TopMenu.class)
+        .toInstance(
+            new TopMenu() {
+              @Override
+              public List<MenuEntry> getEntries() {
+                StringBuilder url = new StringBuilder();
+                url.append("/plugins/");
+                url.append(pluginName);
+                url.append(XDocServlet.PATH_PREFIX);
+                url.append("${projectName}");
+                return Lists.newArrayList(
+                    new MenuEntry(
+                        GerritTopMenu.PROJECTS,
+                        Lists.newArrayList(new MenuItem("Readme", url.toString()))));
+              }
+            });
   }
 }

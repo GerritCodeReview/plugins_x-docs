@@ -15,10 +15,8 @@
 package com.googlesource.gerrit.plugins.xdocs;
 
 import com.google.common.base.MoreObjects;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 public class ConfigSection {
   private final Config cfg;
@@ -47,8 +45,7 @@ public class ConfigSection {
     if (defaultValue == null) {
       return cfg.getString(section, subsection, name);
     } else {
-      return MoreObjects.firstNonNull(cfg.getString(section, subsection, name),
-          defaultValue);
+      return MoreObjects.firstNonNull(cfg.getString(section, subsection, name), defaultValue);
     }
   }
 

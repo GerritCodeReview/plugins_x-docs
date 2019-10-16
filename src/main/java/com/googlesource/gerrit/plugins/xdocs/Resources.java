@@ -16,35 +16,33 @@ package com.googlesource.gerrit.plugins.xdocs;
 
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gwtexpui.server.CacheHeaders;
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class Resources {
-  public static final Resource METHOD_NOT_ALLOWED = new Resource() {
-    private static final long serialVersionUID = 1L;
+  public static final Resource METHOD_NOT_ALLOWED =
+      new Resource() {
+        private static final long serialVersionUID = 1L;
 
-    @Override
-    public int weigh() {
-      return 0;
-    }
+        @Override
+        public int weigh() {
+          return 0;
+        }
 
-    @Override
-    public void send(HttpServletRequest req, HttpServletResponse res)
-        throws IOException {
-      CacheHeaders.setNotCacheable(res);
-      res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
+        @Override
+        public void send(HttpServletRequest req, HttpServletResponse res) throws IOException {
+          CacheHeaders.setNotCacheable(res);
+          res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
 
-    @Override
-    public boolean isUnchanged(long latestModifiedDate) {
-      return false;
-    }
+        @Override
+        public boolean isUnchanged(long latestModifiedDate) {
+          return false;
+        }
 
-    protected Object readResolve() {
-      return METHOD_NOT_ALLOWED;
-    }
-  };
+        protected Object readResolve() {
+          return METHOD_NOT_ALLOWED;
+        }
+      };
 }

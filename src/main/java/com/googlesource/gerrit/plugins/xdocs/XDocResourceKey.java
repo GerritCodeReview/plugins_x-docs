@@ -17,10 +17,8 @@ package com.googlesource.gerrit.plugins.xdocs;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.reviewdb.client.Project;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.util.Objects;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class XDocResourceKey {
   private final String formatter;
@@ -32,9 +30,15 @@ public class XDocResourceKey {
   private final ObjectId revIdB;
   private final DiffMode diffMode;
 
-  XDocResourceKey(String formatter, Project.NameKey project, String r,
-      ObjectId revId, ObjectId metaConfigRevId, String parentsHash,
-      ObjectId revIdB, DiffMode diffMode) {
+  XDocResourceKey(
+      String formatter,
+      Project.NameKey project,
+      String r,
+      ObjectId revId,
+      ObjectId metaConfigRevId,
+      String parentsHash,
+      ObjectId revIdB,
+      DiffMode diffMode) {
     this.formatter = formatter;
     this.project = project;
     this.resource = r;
@@ -71,8 +75,8 @@ public class XDocResourceKey {
 
   @Override
   public int hashCode() {
-    return Objects.hash(formatter, project, resource, revId, metaConfigRevId,
-        parentsHash, revIdB, diffMode);
+    return Objects.hash(
+        formatter, project, resource, revId, metaConfigRevId, parentsHash, revIdB, diffMode);
   }
 
   @Override
@@ -145,9 +149,15 @@ public class XDocResourceKey {
     if (s.length > 7) {
       diffMode = s[7];
     }
-    return new XDocResourceKey(formatter, new Project.NameKey(project), file,
-        toObjectId(revision), toObjectId(metaConfigRevision), parentsHash,
-        toObjectId(revisionB), DiffMode.valueOf(diffMode));
+    return new XDocResourceKey(
+        formatter,
+        new Project.NameKey(project),
+        file,
+        toObjectId(revision),
+        toObjectId(metaConfigRevision),
+        parentsHash,
+        toObjectId(revisionB),
+        DiffMode.valueOf(diffMode));
   }
 
   private static ObjectId toObjectId(String id) {

@@ -24,8 +24,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class XDocApi {
-  public static String getUrl(String projectName, String revision,
-      String path) {
+  public static String getUrl(String projectName, String revision, String path) {
     StringBuilder url = new StringBuilder();
     url.append("plugins/");
     url.append(Plugin.get().getName());
@@ -41,27 +40,27 @@ public class XDocApi {
     return url.toString();
   }
 
-  public static void checkHtml(String url,
-      final AsyncCallback<VoidResult> callback) {
+  public static void checkHtml(String url, final AsyncCallback<VoidResult> callback) {
     RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
     try {
-      builder.sendRequest(null, new RequestCallback() {
-        @Override
-        public void onResponseReceived(Request request, Response response) {
-          int status = response.getStatusCode();
-          if (200 <= status && status < 300) {
-            callback.onSuccess(VoidResult.create());
-          } else {
-            callback.onFailure(new RequestException(status + " "
-                + response.getStatusText()));
-          }
-        }
+      builder.sendRequest(
+          null,
+          new RequestCallback() {
+            @Override
+            public void onResponseReceived(Request request, Response response) {
+              int status = response.getStatusCode();
+              if (200 <= status && status < 300) {
+                callback.onSuccess(VoidResult.create());
+              } else {
+                callback.onFailure(new RequestException(status + " " + response.getStatusText()));
+              }
+            }
 
-        @Override
-        public void onError(Request request, Throwable caught) {
-          callback.onFailure(caught);
-        }
-      });
+            @Override
+            public void onError(Request request, Throwable caught) {
+              callback.onFailure(caught);
+            }
+          });
     } catch (RequestException e) {
       callback.onFailure(e);
     }

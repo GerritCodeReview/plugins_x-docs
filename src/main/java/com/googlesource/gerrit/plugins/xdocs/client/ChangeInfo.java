@@ -19,19 +19,26 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-
 import java.util.Collections;
 import java.util.Comparator;
 
 public class ChangeInfo extends JavaScriptObject {
   public final native String project() /*-{ return this.project; }-*/;
+
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
+
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
+
   public final native int _number() /*-{ return this._number; }-*/;
+
   private final native String statusRaw() /*-{ return this.status; }-*/;
+
   public final native String current_revision() /*-{ return this.current_revision; }-*/;
+
   public final native void set_edit(EditInfo edit) /*-{ this.edit = edit; }-*/;
+
   public final native EditInfo edit() /*-{ return this.edit; }-*/;
+
   public final native boolean has_edit() /*-{ return this.hasOwnProperty('edit') }-*/;
 
   public final ChangeStatus getStatus() {
@@ -47,8 +54,7 @@ public class ChangeInfo extends JavaScriptObject {
     }
   }
 
-  protected ChangeInfo() {
-  }
+  protected ChangeInfo() {}
 
   public static class RevisionInfo extends JavaScriptObject {
     public static RevisionInfo fromEdit(EditInfo edit) {
@@ -65,10 +71,15 @@ public class ChangeInfo extends JavaScriptObject {
     }-*/;
 
     public final native int _number() /*-{ return this._number; }-*/;
+
     public final native String name() /*-{ return this.name; }-*/;
+
     public final native String ref() /*-{ return this.ref; }-*/;
+
     public final native boolean is_edit() /*-{ return this._number == 0; }-*/;
+
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
+
     public final native String edit_base() /*-{ return this.edit_base; }-*/;
 
     public static int findEditParent(JsArray<RevisionInfo> list) {
@@ -93,26 +104,26 @@ public class ChangeInfo extends JavaScriptObject {
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
       final int editParent = findEditParent(list);
-      Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
-        @Override
-        public int compare(RevisionInfo a, RevisionInfo b) {
-          return num(a) - num(b);
-        }
+      Collections.sort(
+          Natives.asList(list),
+          new Comparator<RevisionInfo>() {
+            @Override
+            public int compare(RevisionInfo a, RevisionInfo b) {
+              return num(a) - num(b);
+            }
 
-        private int num(RevisionInfo r) {
-          return !r.is_edit() ? 2 * (r._number() - 1) + 1 : 2 * editParent;
-        }
-      });
+            private int num(RevisionInfo r) {
+              return !r.is_edit() ? 2 * (r._number() - 1) + 1 : 2 * editParent;
+            }
+          });
     }
 
-    protected RevisionInfo () {
-    }
+    protected RevisionInfo() {}
   }
 
   public static class EditInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
 
-    protected EditInfo() {
-    }
+    protected EditInfo() {}
   }
 }

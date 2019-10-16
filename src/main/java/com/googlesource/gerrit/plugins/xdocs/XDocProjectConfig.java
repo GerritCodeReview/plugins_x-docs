@@ -20,7 +20,6 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 
@@ -37,20 +36,20 @@ public class XDocProjectConfig {
   private final Config cfg;
 
   @Inject
-  XDocProjectConfig(@PluginName String pluginName, PluginConfigFactory cfgFactory,
+  XDocProjectConfig(
+      @PluginName String pluginName,
+      PluginConfigFactory cfgFactory,
       @Assisted ProjectState project) {
     this.cfg = cfgFactory.getProjectPluginConfigWithInheritance(project, pluginName);
   }
 
   String getIndexRef() {
     return MoreObjects.firstNonNull(
-        cfg.getString(SECTION_WEB, null, KEY_INDEX_REF),
-        Constants.HEAD);
+        cfg.getString(SECTION_WEB, null, KEY_INDEX_REF), Constants.HEAD);
   }
 
   String getIndexFile() {
     return MoreObjects.firstNonNull(
-        cfg.getString(SECTION_WEB, null, KEY_INDEX_FILE),
-        DEFAULT_INDEX_FILE);
+        cfg.getString(SECTION_WEB, null, KEY_INDEX_FILE), DEFAULT_INDEX_FILE);
   }
 }

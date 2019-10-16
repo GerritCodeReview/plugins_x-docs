@@ -17,8 +17,7 @@ package com.googlesource.gerrit.plugins.xdocs.client;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public final class VoidResult extends JavaScriptObject {
-  protected VoidResult() {
-  }
+  protected VoidResult() {}
 
   public static VoidResult create() {
     return createObject().cast();

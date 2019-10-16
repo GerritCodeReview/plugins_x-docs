@@ -18,14 +18,12 @@ import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class HtmlBuilder {
   private final DateFormat rfc2822DateFormatter;
@@ -33,10 +31,8 @@ public class HtmlBuilder {
 
   @Inject
   HtmlBuilder(@GerritPersonIdent PersonIdent gerritIdent) {
-    rfc2822DateFormatter =
-        new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
-    rfc2822DateFormatter.setCalendar(Calendar.getInstance(
-        gerritIdent.getTimeZone(), Locale.US));
+    rfc2822DateFormatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+    rfc2822DateFormatter.setCalendar(Calendar.getInstance(gerritIdent.getTimeZone(), Locale.US));
   }
 
   public HtmlBuilder startDocument() {
@@ -105,12 +101,7 @@ public class HtmlBuilder {
   }
 
   public HtmlBuilder open(String tag, String styleName) {
-    html.append("<")
-        .append(tag)
-        .append(" ")
-        .append("class=")
-        .append(styleName)
-        .append(">");
+    html.append("<").append(tag).append(" ").append("class=").append(styleName).append(">");
     return this;
   }
 

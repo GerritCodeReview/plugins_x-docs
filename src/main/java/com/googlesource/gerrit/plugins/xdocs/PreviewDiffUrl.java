@@ -25,8 +25,7 @@ public class PreviewDiffUrl {
     this.pluginName = pluginName;
   }
 
-  public String getSideBySideUrl(int changeId, Integer patchSetIdA,
-      int patchSetIdB, String path) {
+  public String getSideBySideUrl(int changeId, Integer patchSetIdA, int patchSetIdB, String path) {
     return getUrl(changeId, patchSetIdA, patchSetIdB, path, false);
   }
 
@@ -34,8 +33,7 @@ public class PreviewDiffUrl {
     return "plugins/" + pluginName + "/static/sideBySideDiffPreview.png";
   }
 
-  public String getUnifiedUrl(int changeId, Integer patchSetIdA,
-      int patchSetIdB, String path) {
+  public String getUnifiedUrl(int changeId, Integer patchSetIdA, int patchSetIdB, String path) {
     return getUrl(changeId, patchSetIdA, patchSetIdB, path, true);
   }
 
@@ -43,8 +41,8 @@ public class PreviewDiffUrl {
     return "plugins/" + pluginName + "/static/unifiedDiffPreview.png";
   }
 
-  private String getUrl(int changeId, Integer patchSetIdA, int patchSetIdB,
-      String path, boolean unified) {
+  private String getUrl(
+      int changeId, Integer patchSetIdA, int patchSetIdB, String path, boolean unified) {
     StringBuilder url = new StringBuilder();
     url.append("#/x/");
     url.append(pluginName);
