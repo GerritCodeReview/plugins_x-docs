@@ -15,8 +15,8 @@
 package com.googlesource.gerrit.plugins.xdocs;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.reviewdb.client.Project;
 import java.util.Objects;
 import org.eclipse.jgit.lib.ObjectId;
 

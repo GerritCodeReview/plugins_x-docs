@@ -23,9 +23,9 @@ import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.KEY_PRIO;
 import static com.googlesource.gerrit.plugins.xdocs.XDocGlobalConfig.SECTION_FORMATTER;
 
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.mime.FileTypeRegistry;

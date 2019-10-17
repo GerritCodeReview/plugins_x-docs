@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.xdocs;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.Url;
@@ -21,7 +22,6 @@ import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.httpd.resources.Resource;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
