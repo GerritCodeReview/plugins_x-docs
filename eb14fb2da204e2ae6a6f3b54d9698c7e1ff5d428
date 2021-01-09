@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ec2c30f_235dfca6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125295
+      },
+      "writtenOn": "2021-01-09T12:04:30Z",
+      "side": 1,
+      "message": "it is good think like I think",
+      "revId": "eb14fb2da204e2ae6a6f3b54d9698c7e1ff5d428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
